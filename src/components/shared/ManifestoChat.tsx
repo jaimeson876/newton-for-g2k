@@ -270,17 +270,18 @@ export default function ManifestoChat() {
                           background: "var(--color-brand-vivid)",
                           color: "#fff",
                           fontFamily: "var(--font-sans)",
-                          fontWeight: 500,
+                          fontWeight: 600,
                           fontSize: "0.83rem",
-                          lineHeight: 1.55,
+                          lineHeight: 1.5,
                         }
                       : {
                           background: "rgba(255,255,255,0.06)",
-                          color: "rgba(255,255,255,0.85)",
+                          color: "rgba(255,255,255,0.92)",
                           fontFamily: "var(--font-sans)",
-                          fontWeight: 300,
+                          fontWeight: 500,
                           fontSize: "0.83rem",
                           lineHeight: 1.65,
+                          whiteSpace: "pre-line",
                         }
                   }
                 >
@@ -296,11 +297,12 @@ export default function ManifestoChat() {
                   className="max-w-[85%] px-4 py-2.5 rounded-2xl"
                   style={{
                     background: "rgba(255,255,255,0.06)",
-                    color: "rgba(255,255,255,0.85)",
+                    color: "rgba(255,255,255,0.92)",
                     fontFamily: "var(--font-sans)",
-                    fontWeight: 300,
+                    fontWeight: 500,
                     fontSize: "0.83rem",
                     lineHeight: 1.65,
+                    whiteSpace: "pre-line",
                   }}
                 >
                   {streamingText || (
