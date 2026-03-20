@@ -496,5 +496,6 @@ export const navItems = [
     ],
   },
   { label: "Message to G2K", href: "/message-to-g2k" },
+  { label: "Reach Out", href: "/reach-out" },
   { label: "Full Manifesto", href: "/manifesto" },
 ];
