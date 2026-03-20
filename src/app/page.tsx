@@ -487,12 +487,28 @@ export default function Home() {
       {/* ── MISSION ─────────────────────────────────────────────── */}
       <section
         className="relative py-20 md:py-32 overflow-hidden"
-        style={{ background: "var(--color-brand-900)", zIndex: 1 }}
+        style={{ background: "var(--color-brand-900)" }}
       >
         {/* Arrow motif — small, bottom-left */}
         <div className="absolute bottom-0 left-0 pointer-events-none select-none opacity-[0.04]">
           <ArrowMotif size={320} color="var(--color-brand-vivid)" scrollReveal={false} />
         </div>
+        {/* Wave — right side, rotated vertical, subtle */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/images/wave-divider.svg"
+          alt=""
+          aria-hidden="true"
+          className="absolute pointer-events-none select-none"
+          style={{
+            right: 0,
+            top: "50%",
+            width: "520px",
+            transform: "translateY(-50%) rotate(90deg) translateX(38%)",
+            opacity: 0.07,
+            animation: "wave-drift 22s ease-in-out infinite alternate",
+          }}
+        />
 
         <div className="container-site relative z-10">
           <div className="max-w-3xl mx-auto text-center space-y-8 scroll-reveal">
@@ -539,32 +555,28 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Wave 1: sits on top of MISSION's bottom edge, hidden under PILLARS' top edge */}
-      <div
-        className="relative w-full pointer-events-none select-none"
-        style={{ height: "220px", marginTop: "-110px", marginBottom: "-110px", overflow: "hidden", zIndex: 3 }}
-        aria-hidden="true"
+      {/* ── PILLARS ─────────────────────────────────────────────── */}
+      <section
+        ref={pillarsRef}
+        className="relative py-20 md:py-32 overflow-hidden"
+        style={{ background: "var(--color-surface)" }}
       >
+        {/* Wave — left side, rotated vertical, subtle */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src="/images/wave-divider.svg"
           alt=""
+          aria-hidden="true"
+          className="absolute pointer-events-none select-none"
           style={{
-            position: "absolute",
-            left: "50%",
+            left: 0,
             top: "50%",
-            width: "220%",
-            animation: "wave-drift 20s ease-in-out infinite alternate",
+            width: "520px",
+            transform: "translateY(-50%) rotate(-90deg) translateX(-38%)",
+            opacity: 0.05,
+            animation: "wave-drift-flip 26s ease-in-out infinite alternate-reverse",
           }}
         />
-      </div>
-
-      {/* ── PILLARS ─────────────────────────────────────────────── */}
-      <section
-        ref={pillarsRef}
-        className="relative py-20 md:py-32"
-        style={{ background: "var(--color-surface)", zIndex: 5 }}
-      >
         <div className="container-site">
           <div className="text-center mb-14 scroll-reveal">
             <span className="badge-green">The Plan</span>
@@ -742,30 +754,10 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Wave 2: flipped, sits on top of PILLARS' bottom edge, hidden under ARROW section */}
-      <div
-        className="relative w-full pointer-events-none select-none"
-        style={{ height: "180px", marginTop: "-90px", marginBottom: "-90px", overflow: "hidden", zIndex: 7 }}
-        aria-hidden="true"
-      >
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src="/images/wave-divider.svg"
-          alt=""
-          style={{
-            position: "absolute",
-            left: "50%",
-            top: "50%",
-            width: "220%",
-            animation: "wave-drift-flip 24s ease-in-out infinite alternate-reverse",
-          }}
-        />
-      </div>
-
       {/* ── ARROW FEATURE DIVIDER ───────────────────────────────── */}
       <div
         className="relative py-16 overflow-hidden"
-        style={{ background: "var(--color-brand-800)", zIndex: 9 }}
+        style={{ background: "var(--color-brand-800)" }}
       >
         {/* Large centered arrow motif */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none">
