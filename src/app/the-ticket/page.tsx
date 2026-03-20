@@ -210,15 +210,46 @@ export default function TheTicketPage() {
                 {/* Float inner — GSAP controls y on this independently */}
                 <div className="float-inner w-full h-full">
 
-                  {/* Card face */}
+                  {/* Card face — pointer tracking sets --px, --py, --holo-o */}
                   <div
-                    className="w-full h-full rounded-2xl overflow-hidden relative"
+                    className="card-face w-full h-full rounded-2xl overflow-hidden relative"
                     style={{
                       background: "linear-gradient(160deg, #0d1f10 0%, var(--color-brand-950) 100%)",
                       border: `1px solid ${i === activeIdx ? "rgba(29,184,75,0.45)" : "rgba(29,184,75,0.12)"}`,
                       boxShadow: i === activeIdx
                         ? "0 32px 80px rgba(0,0,0,0.75), 0 0 48px rgba(29,184,75,0.18)"
                         : "0 16px 48px rgba(0,0,0,0.55)",
+                    }}
+                    onMouseMove={(e) => {
+                      const el = e.currentTarget;
+                      const rect = el.getBoundingClientRect();
+                      const px = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
+                      const py = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
+                      el.style.setProperty("--px", px.toFixed(3));
+                      el.style.setProperty("--py", py.toFixed(3));
+                      el.style.setProperty("--holo-o", "1");
+                    }}
+                    onMouseLeave={(e) => {
+                      const el = e.currentTarget;
+                      el.style.setProperty("--px", "0");
+                      el.style.setProperty("--py", "0");
+                      el.style.setProperty("--holo-o", "0");
+                    }}
+                    onTouchMove={(e) => {
+                      const touch = e.touches[0];
+                      const el = e.currentTarget;
+                      const rect = el.getBoundingClientRect();
+                      const px = ((touch.clientX - rect.left) / rect.width - 0.5) * 2;
+                      const py = ((touch.clientY - rect.top) / rect.height - 0.5) * 2;
+                      el.style.setProperty("--px", px.toFixed(3));
+                      el.style.setProperty("--py", py.toFixed(3));
+                      el.style.setProperty("--holo-o", "1");
+                    }}
+                    onTouchEnd={(e) => {
+                      const el = e.currentTarget;
+                      el.style.setProperty("--px", "0");
+                      el.style.setProperty("--py", "0");
+                      el.style.setProperty("--holo-o", "0");
                     }}
                   >
                     {/* Poster image — drop files at public/images/posters/ */}
@@ -230,16 +261,22 @@ export default function TheTicketPage() {
                       onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
                     />
 
-                    {/* Always-on gradient overlay so text reads even without image */}
+                    {/* Base gradient overlay — ensures text legibility */}
                     <div
                       className="absolute inset-0"
                       style={{
-                        background: "linear-gradient(to top, rgba(3,12,5,0.97) 0%, rgba(3,12,5,0.45) 55%, rgba(3,12,5,0.1) 100%)",
+                        background: "linear-gradient(to top, rgba(3,12,5,0.97) 0%, rgba(3,12,5,0.4) 52%, rgba(3,12,5,0.08) 100%)",
                       }}
                     />
 
-                    {/* Holo shimmer — subtle prismatic highlight on all cards */}
-                    <div className="holo-shimmer" />
+                    {/* Holographic refraction — dual-radial, color-dodge, pointer-driven */}
+                    <div className="card-refraction" />
+
+                    {/* Spotlight — follows pointer, overlay blend */}
+                    <div className="card-spotlight" />
+
+                    {/* Ambient shimmer strip — always-on base layer */}
+                    <div className="holo-shimmer" style={{ opacity: 0.5 }} />
 
                     {/* Role badge — top left */}
                     <div className="absolute top-4 left-4">

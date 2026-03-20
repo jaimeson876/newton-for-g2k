@@ -293,6 +293,58 @@ h1, h2, h3, h4, h5, h6 {
   mix-blend-mode: screen;
 }
 
+/* ─── Pointer-responsive holographic card (Jhey / trading card) ── */
+
+/* Tilt — applied to card face inner div, not the GSAP outer */
+.card-face {
+  transform:
+    rotateX(calc(var(--py, 0) * -12deg))
+    rotateY(calc(var(--px, 0) * 12deg));
+  transition: transform 0.12s linear;
+  will-change: transform;
+}
+
+/* Dual-radial holographic refraction — color-dodge blend */
+.card-refraction {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      circle at calc(50% + var(--px, 0) * 80%) calc(45% + var(--py, 0) * 60%),
+      hsla(5,  100%, 78%, 0.65),
+      hsla(85, 100%, 62%, 0.45) 20%,
+      hsla(200, 90%, 68%, 0.35) 38%,
+      transparent 56%
+    ),
+    radial-gradient(
+      circle at calc(58% + var(--px, 0) * -55%) calc(52% + var(--py, 0) * 65%),
+      hsla(280, 88%, 72%, 0.4),
+      hsla(345, 100%, 68%, 0.3) 22%,
+      transparent 48%
+    );
+  mix-blend-mode: color-dodge;
+  opacity: calc(0.18 + var(--holo-o, 0) * 0.65);
+  transition: opacity 0.5s ease;
+}
+
+/* Moving spotlight — overlay blend */
+.card-spotlight {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: radial-gradient(
+    circle at calc(50% + var(--px, 0) * 110%) calc(50% + var(--py, 0) * 90%),
+    rgba(255, 255, 255, 0.13) 0%,
+    transparent 52%
+  );
+  mix-blend-mode: overlay;
+  opacity: var(--holo-o, 0);
+  transition: opacity 0.5s ease;
+}
+
 /* ─── Noise texture overlay ────────────────────────────────────── */
 .noise-overlay::after {
   content: '';
