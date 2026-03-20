@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import Script from "next/script";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
@@ -47,6 +48,22 @@ export default function RootLayout({
           <ManifestoChat />
         </SmoothScroll>
       </body>
+      {/* Netlify Identity widget — intercepts invite/recovery tokens in the URL hash */}
+      <Script
+        src="https://identity.netlify.com/v1/netlify-identity-widget.js"
+        strategy="afterInteractive"
+      />
+      <Script id="netlify-identity-redirect" strategy="afterInteractive">{`
+        if (window.netlifyIdentity) {
+          window.netlifyIdentity.on("init", function(user) {
+            if (!user) {
+              window.netlifyIdentity.on("login", function() {
+                document.location.href = "/admin/";
+              });
+            }
+          });
+        }
+      `}</Script>
       {/* Google Analytics — set NEXT_PUBLIC_GA_MEASUREMENT_ID in Netlify env vars */}
       {GA_ID && <GoogleAnalytics gaId={GA_ID} />}
     </html>
