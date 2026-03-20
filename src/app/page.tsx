@@ -305,43 +305,69 @@ export default function Home() {
       </section>
 
       {/* ── MARQUEE ─────────────────────────────────────────────── */}
+      {/* Strip 1 — green, runs left */}
       <div
-        className="overflow-hidden py-4 border-y"
-        style={{
-          background: "var(--color-brand-vivid)",
-          borderColor: "var(--color-brand-500)",
-        }}
+        className="overflow-hidden py-3.5"
+        style={{ background: "var(--color-brand-vivid)" }}
       >
         <div className="marquee-track">
           {[...marqueeItems, ...marqueeItems].map((item, i) => (
             <span
               key={i}
-              className="shrink-0 px-10 text-white"
+              className="shrink-0 text-white"
               style={{
-                fontFamily: "var(--font-condensed)",
-                fontWeight: 700,
-                fontSize: "0.78rem",
-                letterSpacing: "0.2em",
+                fontFamily: "var(--font-display)",
+                fontWeight: 900,
+                fontSize: "1.05rem",
+                letterSpacing: "-0.01em",
                 textTransform: "uppercase",
+                paddingInline: "2.5rem",
               }}
             >
               {item}
-              <span className="mx-8 opacity-50">◆</span>
+              <span className="mx-6 opacity-40" style={{ fontSize: "0.5rem", verticalAlign: "middle" }}>▶</span>
+            </span>
+          ))}
+        </div>
+      </div>
+      {/* Strip 2 — dark, runs right */}
+      <div
+        className="overflow-hidden py-3"
+        style={{ background: "var(--color-brand-950)", borderBottom: "1px solid rgba(29,184,75,0.15)" }}
+      >
+        <div className="marquee-track-reverse">
+          {[...marqueeItems, ...marqueeItems].map((item, i) => (
+            <span
+              key={i}
+              className="shrink-0"
+              style={{
+                fontFamily: "var(--font-display)",
+                fontWeight: 700,
+                fontSize: "0.8rem",
+                letterSpacing: "0.08em",
+                textTransform: "uppercase",
+                color: "rgba(29,184,75,0.55)",
+                paddingInline: "2.5rem",
+              }}
+            >
+              {item}
+              <span className="mx-6 opacity-40" style={{ fontSize: "0.45rem", verticalAlign: "middle" }}>◀</span>
             </span>
           ))}
         </div>
       </div>
 
       {/* ── STATS ───────────────────────────────────────────────── */}
-      <section className="py-20 md:py-28 bg-white">
+      <section className="py-20 md:py-28" style={{ background: "var(--color-brand-950)" }}>
         <div className="container-site">
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-0 rounded-3xl overflow-hidden border border-[var(--color-border)] shadow-sm">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-0 rounded-3xl overflow-hidden" style={{ border: "1px solid rgba(29,184,75,0.15)" }}>
             {stats.map((s, i) => (
               <div
                 key={i}
                 className="px-10 py-12 text-center relative"
                 style={{
-                  borderRight: i < stats.length - 1 ? "1px solid var(--color-border)" : "none",
+                  borderRight: i < stats.length - 1 ? "1px solid rgba(29,184,75,0.12)" : "none",
+                  background: i % 2 === 1 ? "rgba(29,184,75,0.04)" : "transparent",
                 }}
               >
                 <div
@@ -351,7 +377,7 @@ export default function Home() {
                   <AnimatedCounter
                     value={s.value}
                     suffix={s.suffix}
-                    className="text-[var(--color-brand-700)]"
+                    className="text-[var(--color-brand-vivid)]"
                   />
                 </div>
                 <p
@@ -359,7 +385,7 @@ export default function Home() {
                     fontFamily: "var(--font-sans)",
                     fontWeight: 400,
                     fontSize: "0.8rem",
-                    color: "var(--color-ink-muted)",
+                    color: "rgba(255,255,255,0.4)",
                     letterSpacing: "0.08em",
                     textTransform: "uppercase",
                   }}
@@ -372,13 +398,13 @@ export default function Home() {
 
           {/* Intro blurb */}
           <div className="mt-16 max-w-2xl mx-auto text-center scroll-reveal">
-            <div className="section-divider mx-auto" />
+            <div className="section-divider mx-auto" style={{ background: "rgba(29,184,75,0.3)" }} />
             <p
               style={{
                 fontFamily: "var(--font-sans)",
                 fontWeight: 300,
                 fontSize: "clamp(1rem, 2.2vw, 1.2rem)",
-                color: "var(--color-ink)",
+                color: "rgba(255,255,255,0.65)",
                 lineHeight: 1.75,
               }}
             >
@@ -387,7 +413,7 @@ export default function Home() {
             <Link
               href="/the-candidate"
               className="group inline-flex items-center gap-2 mt-6 font-bold transition-all"
-              style={{ color: "var(--color-brand-700)", fontFamily: "var(--font-sans)", fontWeight: 700 }}
+              style={{ color: "var(--color-brand-vivid)", fontFamily: "var(--font-sans)", fontWeight: 700 }}
             >
               Learn more about Newton
               <ArrowRight size={15} className="group-hover:translate-x-1 transition-transform" />
