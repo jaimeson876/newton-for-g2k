@@ -441,11 +441,11 @@ export default function GalleryPage() {
                 <img
                   src={`/images/gallery/photos/${photo.src}`}
                   alt={`Campaign photo ${i + 1}`}
-                  className="absolute inset-0 w-full h-full group-hover:scale-[1.04]"
+                  className="absolute inset-0 w-full h-full"
                   style={{
                     objectFit: "cover",
                     opacity: 0,
-                    transition: "opacity 0.55s ease, transform 0.75s cubic-bezier(0.22, 1, 0.36, 1)",
+                    transition: "opacity 0.55s ease",
                   }}
                   loading="lazy"
                   onLoad={(e) => {
