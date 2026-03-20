@@ -1,248 +1,752 @@
+"use client";
+
+import { useRef, useEffect } from "react";
 import Link from "next/link";
-import { ArrowRight, Users, BookOpen, DollarSign, FileText } from "lucide-react";
+import { ArrowRight, FileText } from "lucide-react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import ArrowMotif from "@/components/shared/ArrowMotif";
+import AnimatedCounter from "@/components/shared/AnimatedCounter";
 import { candidate, mission, pillar1, pillar2, pillar3, messageToG2K } from "@/content";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const pillars = [
   {
     number: 1,
+    label: "CHAPTER & MEMBER DEVELOPMENT",
     heading: pillar1.heading,
     href: `/plan/${pillar1.id}`,
-    icon: <Users size={24} />,
-    preview:
-      "Transform Chapter meetings into high-level networking hubs. Build the premier credential for young professionals.",
+    tagline: "Transform every chapter into a professional powerhouse.",
+    accent: "var(--color-brand-vivid)",
   },
   {
     number: 2,
+    label: "NATIONAL POLICY & THOUGHT LEADERSHIP",
     heading: pillar2.heading,
     href: `/plan/${pillar2.id}`,
-    icon: <BookOpen size={24} />,
-    preview:
-      "Bridge the gap between governance and the people. Elevate the conversation and edify our fellow citizens.",
+    tagline: "Bridge the gap between governance and the people.",
+    accent: "var(--color-gold-400)",
   },
   {
     number: 3,
+    label: "SUSTAINABLE FINANCING",
     heading: pillar3.heading,
     href: `/plan/${pillar3.id}`,
-    icon: <DollarSign size={24} />,
-    preview:
-      "Build an organisation that is financially self-sufficient. Fund our future through corporate discipline.",
+    tagline: "Build an organisation that funds its own future.",
+    accent: "var(--color-brand-300)",
   },
 ];
 
+const stats = [
+  { value: 5, suffix: "+", label: "Years Ministerial Advisor" },
+  { value: 2018, suffix: "", label: "G2K Member Since" },
+  { value: 2, suffix: "", label: "National Forums Delivered" },
+];
+
+const marqueeItems = [
+  "Newton for G2K",
+  "Chapter Development",
+  "Thought Leadership",
+  "Sustainable Financing",
+  "Newton is Your Solution",
+  "G2K 2026",
+];
+
 export default function Home() {
+  const heroRef = useRef<HTMLElement>(null);
+  const heroTextRef = useRef<HTMLDivElement>(null);
+  const heroArrowRef = useRef<HTMLDivElement>(null);
+  const pillarsRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      // ── Hero entrance timeline ─────────────────────────────────
+      if (heroTextRef.current) {
+        const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+        tl.fromTo(
+          ".hero-badge",
+          { opacity: 0, y: 20 },
+          { opacity: 1, y: 0, duration: 0.7 }
+        )
+          .fromTo(
+            ".hero-line-1",
+            { opacity: 0, x: -60 },
+            { opacity: 1, x: 0, duration: 0.9 },
+            "-=0.3"
+          )
+          .fromTo(
+            ".hero-line-2",
+            { opacity: 0, x: -60 },
+            { opacity: 1, x: 0, duration: 0.9 },
+            "-=0.6"
+          )
+          .fromTo(
+            ".hero-sub",
+            { opacity: 0, y: 16 },
+            { opacity: 1, y: 0, duration: 0.7 },
+            "-=0.4"
+          )
+          .fromTo(
+            ".hero-ctas",
+            { opacity: 0, y: 20 },
+            { opacity: 1, y: 0, duration: 0.7 },
+            "-=0.3"
+          );
+      }
+
+      // ── Arrow motif parallax ───────────────────────────────────
+      if (heroArrowRef.current) {
+        gsap.fromTo(
+          heroArrowRef.current,
+          { y: 0, opacity: 0, scale: 0.85 },
+          {
+            y: 0,
+            opacity: 1,
+            scale: 1,
+            duration: 1.4,
+            ease: "power2.out",
+            delay: 0.5,
+          }
+        );
+        ScrollTrigger.create({
+          trigger: heroRef.current,
+          start: "top top",
+          end: "bottom top",
+          scrub: 1.2,
+          onUpdate: (self) => {
+            gsap.set(heroArrowRef.current, {
+              y: self.progress * 120,
+              rotation: self.progress * -8,
+            });
+          },
+        });
+      }
+
+      // ── Pillar cards stagger ───────────────────────────────────
+      if (pillarsRef.current) {
+        gsap.fromTo(
+          ".pillar-card",
+          { opacity: 0, y: 48, scale: 0.96 },
+          {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            duration: 0.7,
+            ease: "power3.out",
+            stagger: 0.15,
+            scrollTrigger: {
+              trigger: pillarsRef.current,
+              start: "top 78%",
+              once: true,
+            },
+          }
+        );
+      }
+
+      // ── Section text reveals ───────────────────────────────────
+      gsap.utils.toArray<Element>(".scroll-reveal").forEach((el) => {
+        gsap.fromTo(
+          el,
+          { opacity: 0, y: 40 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: el,
+              start: "top 82%",
+              once: true,
+            },
+          }
+        );
+      });
+    });
+
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <div>
-      {/* ── Hero ─────────────────────────────────────────────────── */}
-      <section className="relative min-h-[92vh] flex items-center bg-[var(--color-brand-900)] overflow-hidden">
-        {/* Geometric background */}
-        <div className="absolute inset-0 pointer-events-none overflow-hidden">
-          <div className="absolute top-0 right-0 w-1/2 h-full bg-[var(--color-brand-800)] opacity-50" />
-          <div className="absolute bottom-0 left-0 w-96 h-96 rounded-full bg-[var(--color-brand-800)] -translate-x-1/2 translate-y-1/2 opacity-20" />
-          {/* Gold accent dashes */}
-          <div className="absolute top-12 right-[8%] flex flex-col gap-3 opacity-50">
-            {[80, 64, 48, 36, 24, 14].map((w, i) => (
-              <div
-                key={i}
-                className="h-1.5 bg-[var(--color-gold-400)] rounded-full"
-                style={{ width: `${w}px` }}
-              />
-            ))}
-          </div>
-          <div className="absolute bottom-16 left-[5%] flex flex-col gap-3 opacity-20">
-            {[40, 32, 24, 16].map((w, i) => (
-              <div
-                key={i}
-                className="h-1.5 bg-[var(--color-gold-400)] rounded-full"
-                style={{ width: `${w}px` }}
-              />
-            ))}
-          </div>
+    <div className="overflow-x-hidden">
+      {/* ── HERO ────────────────────────────────────────────────── */}
+      <section
+        ref={heroRef}
+        className="relative min-h-screen flex items-center bg-[var(--color-brand-950)] overflow-hidden"
+      >
+        {/* Radial glow */}
+        <div
+          className="absolute pointer-events-none"
+          style={{
+            top: "10%",
+            left: "-5%",
+            width: "55vw",
+            height: "55vw",
+            background: "radial-gradient(ellipse at center, rgba(29,184,75,0.13) 0%, transparent 70%)",
+          }}
+        />
+        {/* Second glow — right */}
+        <div
+          className="absolute pointer-events-none"
+          style={{
+            bottom: "0",
+            right: "-10%",
+            width: "40vw",
+            height: "40vw",
+            background: "radial-gradient(ellipse at center, rgba(29,184,75,0.07) 0%, transparent 70%)",
+          }}
+        />
+
+        {/* Arrow motif — large decorative right background */}
+        <div
+          ref={heroArrowRef}
+          className="absolute right-0 top-0 pointer-events-none select-none"
+          style={{ opacity: 0 }}
+        >
+          <ArrowMotif
+            size={680}
+            color="var(--color-brand-vivid)"
+            opacity={0.07}
+            className="translate-x-1/4 -translate-y-1/4"
+          />
         </div>
 
-        <div className="container-site relative z-10 py-20 md:py-28">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            {/* Text content */}
-            <div className="space-y-6">
+        <div className="container-site relative z-10 py-28 md:py-36">
+          <div ref={heroTextRef} className="max-w-4xl">
+            <div className="hero-badge mb-6 opacity-0">
               <span className="badge-green">G2K Presidential Candidate 2026</span>
-              <h1 className="text-5xl md:text-6xl lg:text-7xl font-black text-white leading-none tracking-tight">
-                NEWTON IS
-                <br />
-                <span className="text-[var(--color-gold-400)]">YOUR SOLUTION</span>
-              </h1>
-              <p className="text-white/80 text-lg md:text-xl font-semibold tracking-wide uppercase">
+            </div>
+
+            <h1
+              className="hero-line-1 opacity-0 text-white leading-none mb-0"
+              style={{
+                fontFamily: "var(--font-display)",
+                fontSize: "clamp(3.5rem, 10vw, 8rem)",
+                fontWeight: 900,
+                letterSpacing: "-0.03em",
+              }}
+            >
+              NEWTON
+            </h1>
+            <h1
+              className="hero-line-2 opacity-0 leading-none mb-8"
+              style={{
+                fontFamily: "var(--font-display)",
+                fontSize: "clamp(3.5rem, 10vw, 8rem)",
+                fontWeight: 900,
+                letterSpacing: "-0.03em",
+                color: "var(--color-brand-vivid)",
+              }}
+            >
+              IS YOUR SOLUTION
+            </h1>
+
+            <div className="hero-sub opacity-0 space-y-3 mb-10">
+              <p
+                style={{
+                  fontFamily: "var(--font-sans)",
+                  fontWeight: 600,
+                  fontSize: "clamp(0.9rem, 2vw, 1.1rem)",
+                  color: "rgba(255,255,255,0.55)",
+                  letterSpacing: "0.22em",
+                  textTransform: "uppercase",
+                }}
+              >
                 {candidate.subtagline}
               </p>
-              <p className="text-white/60 italic text-base md:text-lg">{candidate.era}</p>
-              <div className="flex flex-col sm:flex-row gap-3 pt-2">
-                <Link
-                  href="/the-candidate"
-                  className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-[var(--color-gold-400)] text-[var(--color-brand-900)] font-bold rounded-lg hover:bg-[var(--color-gold-300)] transition-colors"
-                >
-                  Meet Newton <ArrowRight size={16} />
-                </Link>
-                <Link
-                  href="/manifesto"
-                  className="inline-flex items-center justify-center gap-2 px-6 py-3 border-2 border-white/40 text-white font-bold rounded-lg hover:border-white hover:bg-white/5 transition-colors"
-                >
-                  <FileText size={16} /> Read the Manifesto
-                </Link>
-              </div>
+              <p
+                style={{
+                  fontFamily: "var(--font-sans)",
+                  fontWeight: 300,
+                  fontStyle: "italic",
+                  fontSize: "clamp(0.85rem, 1.8vw, 1rem)",
+                  color: "rgba(255,255,255,0.35)",
+                }}
+              >
+                {candidate.era}
+              </p>
             </div>
 
-            {/* Portrait area */}
-            <div className="flex justify-center lg:justify-end">
-              <div className="relative w-72 h-96 md:w-80 md:h-[26rem] lg:w-96 lg:h-[30rem]">
-                <div className="absolute inset-0 rounded-2xl bg-[var(--color-brand-700)] overflow-hidden border-4 border-[var(--color-gold-400)]/30 flex items-center justify-center">
-                  {/* Image will be placed here — replace div with next/image */}
-                  <div className="text-center space-y-3 p-6">
-                    <div className="w-28 h-28 rounded-full bg-[var(--color-brand-500)] mx-auto flex items-center justify-center">
-                      <span className="text-white font-black text-3xl">NH</span>
-                    </div>
-                    <p className="text-white font-bold text-lg">Newton Harris</p>
-                    <p className="text-white/50 text-xs">
-                      [Replace with candidate portrait]
-                    </p>
-                  </div>
-                </div>
-                <div className="absolute -bottom-4 -left-4 bg-[var(--color-gold-400)] text-[var(--color-brand-900)] px-4 py-2 rounded-lg font-black text-sm uppercase tracking-wide shadow-lg">
-                  VP International Relations
-                </div>
-              </div>
+            <div className="hero-ctas opacity-0 flex flex-wrap gap-3">
+              <Link
+                href="/the-candidate"
+                className="group inline-flex items-center gap-2.5 px-7 py-3.5 rounded-2xl font-bold text-sm transition-all duration-300"
+                style={{
+                  background: "var(--color-gold-400)",
+                  color: "var(--color-brand-900)",
+                  fontFamily: "var(--font-sans)",
+                  fontWeight: 700,
+                }}
+              >
+                Meet Newton
+                <ArrowRight size={15} className="group-hover:translate-x-1 transition-transform" />
+              </Link>
+              <Link
+                href="/manifesto"
+                className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-2xl font-bold text-sm border-2 transition-all duration-300"
+                style={{
+                  borderColor: "rgba(255,255,255,0.2)",
+                  color: "rgba(255,255,255,0.75)",
+                  fontFamily: "var(--font-sans)",
+                  fontWeight: 600,
+                }}
+              >
+                <FileText size={15} /> Read the Manifesto
+              </Link>
             </div>
           </div>
         </div>
+
+        {/* Bottom fade */}
+        <div
+          className="absolute bottom-0 left-0 right-0 h-32 pointer-events-none"
+          style={{ background: "linear-gradient(to bottom, transparent, var(--color-brand-950))" }}
+        />
       </section>
 
-      {/* ── Stats strip ──────────────────────────────────────────── */}
-      <section className="py-14 md:py-20 bg-white">
+      {/* ── MARQUEE ─────────────────────────────────────────────── */}
+      <div
+        className="overflow-hidden py-4 border-y"
+        style={{
+          background: "var(--color-brand-vivid)",
+          borderColor: "var(--color-brand-500)",
+        }}
+      >
+        <div className="marquee-track">
+          {[...marqueeItems, ...marqueeItems].map((item, i) => (
+            <span
+              key={i}
+              className="shrink-0 px-10 text-white"
+              style={{
+                fontFamily: "var(--font-condensed)",
+                fontWeight: 700,
+                fontSize: "0.78rem",
+                letterSpacing: "0.2em",
+                textTransform: "uppercase",
+              }}
+            >
+              {item}
+              <span className="mx-8 opacity-50">◆</span>
+            </span>
+          ))}
+        </div>
+      </div>
+
+      {/* ── STATS ───────────────────────────────────────────────── */}
+      <section className="py-20 md:py-28 bg-white">
         <div className="container-site">
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-px bg-[var(--color-border)] rounded-2xl overflow-hidden border border-[var(--color-border)]">
-            {[
-              { label: "Years as Ministerial Advisor", value: "5+" },
-              { label: "G2K Member Since", value: "2018" },
-              { label: "National Forums Delivered", value: "2" },
-            ].map((stat) => (
-              <div key={stat.label} className="bg-white px-8 py-8 text-center">
-                <p className="text-4xl md:text-5xl font-black text-[var(--color-brand-700)]">
-                  {stat.value}
-                </p>
-                <p className="text-[var(--color-ink-muted)] text-sm mt-1 font-medium">
-                  {stat.label}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-0 rounded-3xl overflow-hidden border border-[var(--color-border)] shadow-sm">
+            {stats.map((s, i) => (
+              <div
+                key={i}
+                className="px-10 py-12 text-center relative"
+                style={{
+                  borderRight: i < stats.length - 1 ? "1px solid var(--color-border)" : "none",
+                }}
+              >
+                <div
+                  className="text-5xl md:text-6xl mb-2"
+                  style={{ fontFamily: "var(--font-display)", fontWeight: 900 }}
+                >
+                  <AnimatedCounter
+                    value={s.value}
+                    suffix={s.suffix}
+                    className="text-[var(--color-brand-700)]"
+                  />
+                </div>
+                <p
+                  style={{
+                    fontFamily: "var(--font-sans)",
+                    fontWeight: 400,
+                    fontSize: "0.8rem",
+                    color: "var(--color-ink-muted)",
+                    letterSpacing: "0.08em",
+                    textTransform: "uppercase",
+                  }}
+                >
+                  {s.label}
                 </p>
               </div>
             ))}
           </div>
 
-          <div className="mt-14 max-w-3xl mx-auto text-center">
+          {/* Intro blurb */}
+          <div className="mt-16 max-w-2xl mx-auto text-center scroll-reveal">
             <div className="section-divider mx-auto" />
-            <p className="text-[var(--color-ink)] text-lg md:text-xl leading-relaxed">
+            <p
+              style={{
+                fontFamily: "var(--font-sans)",
+                fontWeight: 300,
+                fontSize: "clamp(1rem, 2.2vw, 1.2rem)",
+                color: "var(--color-ink)",
+                lineHeight: 1.75,
+              }}
+            >
               {candidate.intro}
             </p>
             <Link
               href="/the-candidate"
-              className="inline-flex items-center gap-2 mt-6 text-[var(--color-brand-700)] font-bold hover:gap-3 transition-all"
+              className="group inline-flex items-center gap-2 mt-6 font-bold transition-all"
+              style={{ color: "var(--color-brand-700)", fontFamily: "var(--font-sans)", fontWeight: 700 }}
             >
-              Learn more about Newton <ArrowRight size={16} />
+              Learn more about Newton
+              <ArrowRight size={15} className="group-hover:translate-x-1 transition-transform" />
             </Link>
           </div>
         </div>
       </section>
 
-      {/* ── Mission excerpt ───────────────────────────────────────── */}
-      <section className="py-16 md:py-24 bg-[var(--color-brand-900)]">
-        <div className="container-site">
-          <div className="max-w-3xl mx-auto text-center space-y-6">
+      {/* ── MISSION ─────────────────────────────────────────────── */}
+      <section
+        className="relative py-20 md:py-32 overflow-hidden"
+        style={{ background: "var(--color-brand-900)" }}
+      >
+        {/* Arrow motif — small, bottom-left */}
+        <div className="absolute bottom-0 left-0 pointer-events-none select-none opacity-[0.04]">
+          <ArrowMotif size={320} color="var(--color-brand-vivid)" scrollReveal={false} />
+        </div>
+
+        <div className="container-site relative z-10">
+          <div className="max-w-3xl mx-auto text-center space-y-8 scroll-reveal">
             <span className="badge-green">My Mission</span>
-            <p className="text-white text-lg md:text-xl leading-relaxed">{mission.body}</p>
-            <div className="inline-block mt-4 px-6 py-3 bg-[var(--color-gold-400)] text-[var(--color-brand-900)] font-black text-xl md:text-2xl rounded-lg tracking-tight">
-              {mission.keyCommitment}
-            </div>
-            <div className="pt-2">
-              <Link
-                href="/mission"
-                className="inline-flex items-center gap-2 text-white/70 hover:text-white font-semibold transition-colors"
+
+            <p
+              style={{
+                fontFamily: "var(--font-sans)",
+                fontWeight: 300,
+                fontSize: "clamp(1.05rem, 2.5vw, 1.3rem)",
+                color: "rgba(255,255,255,0.72)",
+                lineHeight: 1.8,
+              }}
+            >
+              {mission.body}
+            </p>
+
+            <div
+              className="inline-block px-8 py-4 rounded-2xl"
+              style={{ background: "rgba(245,197,24,0.1)", border: "1.5px solid var(--color-gold-400)" }}
+            >
+              <p
+                style={{
+                  fontFamily: "var(--font-display)",
+                  fontWeight: 900,
+                  fontSize: "clamp(1.1rem, 3vw, 1.6rem)",
+                  color: "var(--color-gold-400)",
+                  letterSpacing: "-0.01em",
+                }}
               >
-                Read the full mission statement <ArrowRight size={16} />
-              </Link>
+                {mission.keyCommitment}
+              </p>
             </div>
+
+            <Link
+              href="/mission"
+              className="group inline-flex items-center gap-2 font-semibold transition-all"
+              style={{ color: "rgba(255,255,255,0.5)", fontFamily: "var(--font-sans)" }}
+            >
+              Read the full mission statement
+              <ArrowRight size={15} className="group-hover:translate-x-1 transition-transform" />
+            </Link>
           </div>
         </div>
       </section>
 
-      {/* ── Three Pillars ─────────────────────────────────────────── */}
-      <section className="py-16 md:py-24 bg-[var(--color-surface)]">
+      {/* ── PILLARS ─────────────────────────────────────────────── */}
+      <section
+        ref={pillarsRef}
+        className="py-20 md:py-32"
+        style={{ background: "var(--color-surface)" }}
+      >
         <div className="container-site">
-          <div className="text-center mb-12 space-y-3">
+          <div className="text-center mb-14 scroll-reveal">
             <span className="badge-green">The Plan</span>
-            <h2 className="text-3xl md:text-4xl font-black text-[var(--color-brand-900)]">
-              Three Pillars. One Direction.
+            <h2
+              className="mt-4"
+              style={{
+                fontFamily: "var(--font-display)",
+                fontWeight: 900,
+                fontSize: "clamp(2rem, 5vw, 3.5rem)",
+                color: "var(--color-brand-900)",
+                letterSpacing: "-0.03em",
+              }}
+            >
+              Three Pillars.
+              <br />
+              <span style={{ color: "var(--color-brand-vivid)" }}>One Direction.</span>
             </h2>
-            <p className="text-[var(--color-ink-muted)] max-w-xl mx-auto">
-              A comprehensive framework to transform G2K into a professional policy powerhouse.
-            </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             {pillars.map((pillar) => (
               <Link
                 key={pillar.number}
                 href={pillar.href}
-                className="group relative bg-white rounded-2xl p-7 border border-[var(--color-border)] hover:border-[var(--color-brand-400)] hover:shadow-xl transition-all duration-300 flex flex-col"
+                className="pillar-card group relative flex flex-col rounded-3xl p-8 overflow-hidden transition-all duration-400 opacity-0"
+                style={{
+                  background: "white",
+                  border: "1.5px solid var(--color-border)",
+                  boxShadow: "0 1px 3px rgba(0,0,0,0.04)",
+                }}
+                onMouseEnter={(e) => {
+                  gsap.to(e.currentTarget, {
+                    y: -6,
+                    boxShadow: "0 20px 48px rgba(0,0,0,0.12)",
+                    borderColor: pillar.accent,
+                    duration: 0.3,
+                    ease: "power2.out",
+                  });
+                  gsap.to(e.currentTarget.querySelector(".pillar-num"), {
+                    scale: 1.05,
+                    duration: 0.3,
+                    ease: "back.out(2)",
+                  });
+                  gsap.to(e.currentTarget.querySelector(".pillar-arrow"), {
+                    x: 6,
+                    opacity: 1,
+                    duration: 0.3,
+                  });
+                }}
+                onMouseLeave={(e) => {
+                  gsap.to(e.currentTarget, {
+                    y: 0,
+                    boxShadow: "0 1px 3px rgba(0,0,0,0.04)",
+                    borderColor: "var(--color-border)",
+                    duration: 0.4,
+                    ease: "power2.out",
+                  });
+                  gsap.to(e.currentTarget.querySelector(".pillar-num"), {
+                    scale: 1,
+                    duration: 0.4,
+                    ease: "back.out(1.5)",
+                  });
+                  gsap.to(e.currentTarget.querySelector(".pillar-arrow"), {
+                    x: 0,
+                    opacity: 0.5,
+                    duration: 0.3,
+                  });
+                }}
               >
-                <div className="w-12 h-12 rounded-xl bg-[var(--color-brand-900)] text-white flex items-center justify-center font-black text-lg mb-5 group-hover:bg-[var(--color-brand-700)] transition-colors">
+                {/* Pillar number */}
+                <div
+                  className="pillar-num w-14 h-14 rounded-2xl flex items-center justify-center text-white mb-6"
+                  style={{
+                    background: "var(--color-brand-900)",
+                    fontFamily: "var(--font-display)",
+                    fontWeight: 900,
+                    fontSize: "1.4rem",
+                  }}
+                >
                   {pillar.number}
                 </div>
-                <div className="text-[var(--color-brand-600)] mb-3">{pillar.icon}</div>
-                <h3 className="text-lg font-black text-[var(--color-brand-900)] mb-3 leading-tight">
-                  Pillar {pillar.number}: {pillar.heading}
-                </h3>
-                <p className="text-[var(--color-ink-muted)] text-sm leading-relaxed flex-1">
-                  {pillar.preview}
+
+                {/* Label */}
+                <p
+                  style={{
+                    fontFamily: "var(--font-condensed)",
+                    fontWeight: 700,
+                    fontSize: "0.65rem",
+                    letterSpacing: "0.2em",
+                    textTransform: "uppercase",
+                    color: "var(--color-ink-muted)",
+                    marginBottom: "0.5rem",
+                  }}
+                >
+                  {pillar.label}
                 </p>
-                <div className="mt-5 flex items-center gap-2 text-[var(--color-brand-700)] font-semibold text-sm group-hover:gap-3 transition-all">
-                  Explore Pillar {pillar.number} <ArrowRight size={14} />
+
+                {/* Heading */}
+                <h3
+                  className="mb-3 flex-1"
+                  style={{
+                    fontFamily: "var(--font-display)",
+                    fontWeight: 900,
+                    fontSize: "clamp(1.1rem, 2.2vw, 1.4rem)",
+                    color: "var(--color-brand-900)",
+                    letterSpacing: "-0.02em",
+                    lineHeight: 1.15,
+                  }}
+                >
+                  {pillar.heading}
+                </h3>
+
+                <p
+                  className="mb-6"
+                  style={{
+                    fontFamily: "var(--font-sans)",
+                    fontWeight: 300,
+                    fontSize: "0.9rem",
+                    color: "var(--color-ink-muted)",
+                    lineHeight: 1.7,
+                  }}
+                >
+                  {pillar.tagline}
+                </p>
+
+                <div
+                  className="pillar-arrow inline-flex items-center gap-2 font-bold text-sm"
+                  style={{
+                    fontFamily: "var(--font-sans)",
+                    fontWeight: 700,
+                    color: pillar.accent,
+                    opacity: 0.5,
+                  }}
+                >
+                  Explore Pillar {pillar.number} <ArrowRight size={13} />
                 </div>
-                <div className="absolute bottom-0 left-0 right-0 h-1 bg-[var(--color-gold-400)] rounded-b-2xl opacity-0 group-hover:opacity-100 transition-opacity" />
+
+                {/* Bottom accent line */}
+                <div
+                  className="absolute bottom-0 left-0 right-0 h-[3px] rounded-b-3xl"
+                  style={{ background: pillar.accent, opacity: 0.3 }}
+                />
               </Link>
             ))}
           </div>
 
-          <div className="text-center mt-10">
+          <div className="text-center mt-10 scroll-reveal">
             <Link
               href="/plan"
-              className="inline-flex items-center gap-2 px-6 py-3 border-2 border-[var(--color-brand-700)] text-[var(--color-brand-700)] font-bold rounded-lg hover:bg-[var(--color-brand-700)] hover:text-white transition-colors"
+              className="group inline-flex items-center gap-2.5 px-7 py-3.5 rounded-2xl font-bold text-sm border-2 transition-all duration-300"
+              style={{
+                borderColor: "var(--color-brand-700)",
+                color: "var(--color-brand-700)",
+                fontFamily: "var(--font-sans)",
+                fontWeight: 700,
+              }}
+              onMouseEnter={(e) => {
+                gsap.to(e.currentTarget, {
+                  background: "var(--color-brand-700)",
+                  color: "#fff",
+                  duration: 0.25,
+                });
+              }}
+              onMouseLeave={(e) => {
+                gsap.to(e.currentTarget, {
+                  background: "transparent",
+                  color: "var(--color-brand-700)",
+                  duration: 0.25,
+                });
+              }}
             >
-              View the Full Plan <ArrowRight size={16} />
+              View the Full Plan <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
             </Link>
           </div>
         </div>
       </section>
 
-      {/* ── Closing message strip ─────────────────────────────────── */}
-      <section className="py-16 md:py-20 bg-[var(--color-brand-950)]">
-        <div className="container-site text-center space-y-4 max-w-2xl mx-auto">
-          <p className="text-white/80 text-lg md:text-xl leading-relaxed italic">
-            &ldquo;{messageToG2K.paragraphs[0]}&rdquo;
+      {/* ── ARROW FEATURE DIVIDER ───────────────────────────────── */}
+      <div
+        className="relative py-16 overflow-hidden"
+        style={{ background: "var(--color-brand-800)" }}
+      >
+        {/* Large centered arrow motif */}
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none">
+          <ArrowMotif
+            size={500}
+            color="var(--color-brand-vivid)"
+            opacity={0.06}
+            scrollReveal
+            stagger={0.005}
+          />
+        </div>
+        <div className="container-site relative z-10 text-center scroll-reveal">
+          <p
+            style={{
+              fontFamily: "var(--font-display)",
+              fontWeight: 900,
+              fontSize: "clamp(1.2rem, 3.5vw, 2rem)",
+              color: "rgba(255,255,255,0.9)",
+              letterSpacing: "-0.02em",
+            }}
+          >
+            The G2K Presidency is{" "}
+            <span style={{ color: "var(--color-brand-vivid)" }}>an operational post,</span>
+            <br className="hidden sm:block" />
+            {" "}not a symbolic milestone.
           </p>
-          <p className="text-[var(--color-gold-400)] font-black text-2xl md:text-3xl">
-            Newton is your solution.
-          </p>
-          <p className="text-white/60 font-bold tracking-widest uppercase text-sm">
-            {messageToG2K.closingTagline}
-          </p>
-          <div className="flex flex-col sm:flex-row gap-3 justify-center pt-4">
-            <Link
-              href="/message-to-g2k"
-              className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-[var(--color-gold-400)] text-[var(--color-brand-900)] font-bold rounded-lg hover:bg-[var(--color-gold-300)] transition-colors"
+        </div>
+      </div>
+
+      {/* ── CLOSING MESSAGE ─────────────────────────────────────── */}
+      <section
+        className="relative py-20 md:py-32 overflow-hidden"
+        style={{ background: "var(--color-brand-950)" }}
+      >
+        {/* Arrow motif — corner watermark */}
+        <div
+          className="absolute top-0 right-0 pointer-events-none select-none"
+          style={{ opacity: 0.035 }}
+        >
+          <ArrowMotif size={360} color="var(--color-gold-400)" interactive />
+        </div>
+
+        <div className="container-site relative z-10">
+          <div className="max-w-2xl mx-auto text-center space-y-6 scroll-reveal">
+            <p
+              style={{
+                fontFamily: "var(--font-sans)",
+                fontWeight: 300,
+                fontStyle: "italic",
+                fontSize: "clamp(1rem, 2.2vw, 1.2rem)",
+                color: "rgba(255,255,255,0.6)",
+                lineHeight: 1.8,
+              }}
             >
-              Read the Message to G2K <ArrowRight size={16} />
-            </Link>
-            <Link
-              href="/manifesto"
-              className="inline-flex items-center justify-center gap-2 px-6 py-3 border border-white/30 text-white font-bold rounded-lg hover:bg-white/5 transition-colors"
+              &ldquo;{messageToG2K.paragraphs[0]}&rdquo;
+            </p>
+
+            <p
+              style={{
+                fontFamily: "var(--font-display)",
+                fontWeight: 900,
+                fontSize: "clamp(1.5rem, 4vw, 2.5rem)",
+                color: "var(--color-gold-400)",
+                letterSpacing: "-0.02em",
+              }}
             >
-              <FileText size={16} /> Full Manifesto
-            </Link>
+              Newton is your solution.
+            </p>
+
+            <p
+              style={{
+                fontFamily: "var(--font-condensed)",
+                fontWeight: 700,
+                fontSize: "0.7rem",
+                letterSpacing: "0.3em",
+                textTransform: "uppercase",
+                color: "rgba(255,255,255,0.35)",
+              }}
+            >
+              {messageToG2K.closingTagline}
+            </p>
+
+            <div className="flex flex-col sm:flex-row gap-3 justify-center pt-4">
+              <Link
+                href="/message-to-g2k"
+                className="group inline-flex items-center justify-center gap-2.5 px-7 py-3.5 rounded-2xl font-bold text-sm transition-all"
+                style={{
+                  background: "var(--color-gold-400)",
+                  color: "var(--color-brand-900)",
+                  fontFamily: "var(--font-sans)",
+                  fontWeight: 700,
+                }}
+              >
+                Read the Message to G2K
+                <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+              </Link>
+              <Link
+                href="/manifesto"
+                className="inline-flex items-center justify-center gap-2.5 px-7 py-3.5 rounded-2xl font-bold text-sm border transition-all"
+                style={{
+                  borderColor: "rgba(255,255,255,0.15)",
+                  color: "rgba(255,255,255,0.65)",
+                  fontFamily: "var(--font-sans)",
+                  fontWeight: 600,
+                }}
+              >
+                <FileText size={14} /> Full Manifesto
+              </Link>
+            </div>
           </div>
         </div>
       </section>

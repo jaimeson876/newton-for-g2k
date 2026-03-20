@@ -114,7 +114,39 @@ npm run lint      # ESLint
 - Images: use `next/image` with `fill` + `sizes` for all photos
 - Hero image: add `priority` prop to above-fold image
 - PDF: served from `/public` — no JS required, native browser rendering
-- Animation: use Framer Motion only for meaningful transitions
+- Animation: use GSAP for scroll-driven entrance, counters, hover effects
+
+## Design System (Phase 2 — implemented)
+
+> **Enter design context**: run `/design-mode` to load the full design brief.
+
+### Fonts
+| Token | Family | Weights | Usage |
+|-------|--------|---------|-------|
+| `var(--font-display)` | Nersans Two Slant | 400–900 | All headings h1–h3 |
+| `var(--font-sans)` | Aloevera Display | 100–900 + italics | Body, UI, paragraphs |
+| `var(--font-condensed)` | Aloevera Condensed | 400, 700, 900 | Labels, badges, tags |
+
+Weight strategy: 300 body · 600–700 emphasis · 800–900 display statements
+
+### Animation Stack
+- **GSAP + ScrollTrigger** — scroll entrances, counters, parallax, hover effects
+- All GSAP inside `useEffect` with `gsap.context()` cleanup
+- `"use client"` required on all animated components
+
+### Key Design Components
+| Component | Path |
+|-----------|------|
+| `ArrowMotif` | `src/components/shared/ArrowMotif.tsx` — brand SVG, GSAP interactive + scroll reveal |
+| `AnimatedCounter` | `src/components/shared/AnimatedCounter.tsx` |
+| `ScrollReveal` | `src/components/shared/ScrollReveal.tsx` |
+| `CustomCursor` | `src/components/shared/CustomCursor.tsx` |
+
+### Arrow Motif Usage
+- Max 2–3 per page (background only — opacity 0.04–0.09)
+- Hero: large (600–700px), right edge, parallax scroll
+- Section dividers: centered, medium (400–500px), `scrollReveal`
+- CTA/footer corners: small (280–360px), `interactive`
 
 ## What's Not Yet Built (Phase 2)
 - [ ] Actual candidate/campaign photos in galleries

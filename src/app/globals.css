@@ -1,19 +1,47 @@
 @import "tailwindcss";
 
+/* ─── Aloevera Display — full family ───────────────────────────── */
+@font-face { font-family:'Aloevera'; src:url('/fonts/AloeveraDisplay-Thin.otf') format('opentype'); font-weight:100; font-style:normal; font-display:swap; }
+@font-face { font-family:'Aloevera'; src:url('/fonts/AloeveraDisplay-ThinItalic.otf') format('opentype'); font-weight:100; font-style:italic; font-display:swap; }
+@font-face { font-family:'Aloevera'; src:url('/fonts/AloeveraDisplay-ExtraLight.otf') format('opentype'); font-weight:200; font-style:normal; font-display:swap; }
+@font-face { font-family:'Aloevera'; src:url('/fonts/AloeveraDisplay-ExtraLightItalic.otf') format('opentype'); font-weight:200; font-style:italic; font-display:swap; }
+@font-face { font-family:'Aloevera'; src:url('/fonts/AloeveraDisplay-Light.otf') format('opentype'); font-weight:300; font-style:normal; font-display:swap; }
+@font-face { font-family:'Aloevera'; src:url('/fonts/AloeveraDisplay-Lightitalic.otf') format('opentype'); font-weight:300; font-style:italic; font-display:swap; }
+@font-face { font-family:'Aloevera'; src:url('/fonts/AloeveraDisplay-Regular.otf') format('opentype'); font-weight:400; font-style:normal; font-display:swap; }
+@font-face { font-family:'Aloevera'; src:url('/fonts/AloeveraDisplay-RegularItalic.otf') format('opentype'); font-weight:400; font-style:italic; font-display:swap; }
+@font-face { font-family:'Aloevera'; src:url('/fonts/AloeveraDisplay-Medium.otf') format('opentype'); font-weight:500; font-style:normal; font-display:swap; }
+@font-face { font-family:'Aloevera'; src:url('/fonts/AloeveraDisplay-MediumItalic.otf') format('opentype'); font-weight:500; font-style:italic; font-display:swap; }
+@font-face { font-family:'Aloevera'; src:url('/fonts/AloeveraDisplay-SemiBold.otf') format('opentype'); font-weight:600; font-style:normal; font-display:swap; }
+@font-face { font-family:'Aloevera'; src:url('/fonts/AloeveraDisplay-SemiBoldItalic.otf') format('opentype'); font-weight:600; font-style:italic; font-display:swap; }
+@font-face { font-family:'Aloevera'; src:url('/fonts/AloeveraDisplay-Bold.otf') format('opentype'); font-weight:700; font-style:normal; font-display:swap; }
+@font-face { font-family:'Aloevera'; src:url('/fonts/AloeveraDisplay-BoldItalic.otf') format('opentype'); font-weight:700; font-style:italic; font-display:swap; }
+@font-face { font-family:'Aloevera'; src:url('/fonts/AloeveraDisplay-ExtraBold.otf') format('opentype'); font-weight:800; font-style:normal; font-display:swap; }
+@font-face { font-family:'Aloevera'; src:url('/fonts/AloeveraDisplay-ExtraBoldItalic.otf') format('opentype'); font-weight:800; font-style:italic; font-display:swap; }
+@font-face { font-family:'Aloevera'; src:url('/fonts/AloeveraDisplay-Black.otf') format('opentype'); font-weight:900; font-style:normal; font-display:swap; }
+
+/* Aloevera Condensed */
+@font-face { font-family:'AloeveraCondensed'; src:url('/fonts/Aloeveradisplaycondensed-Regular.otf') format('opentype'); font-weight:400; font-style:normal; font-display:swap; }
+@font-face { font-family:'AloeveraCondensed'; src:url('/fonts/Aloeveradisplaycondensed-Bold.otf') format('opentype'); font-weight:700; font-style:normal; font-display:swap; }
+@font-face { font-family:'AloeveraCondensed'; src:url('/fonts/Aloeveradisplaycondensed-Black.otf') format('opentype'); font-weight:900; font-style:normal; font-display:swap; }
+
+/* Nersans Two Slant — display/titles */
+@font-face { font-family:'Nersans'; src:url('/fonts/NersansTwoSlant.ttf') format('truetype'); font-weight:400 900; font-style:normal; font-display:swap; }
+
 /* ─── Brand Tokens ─────────────────────────────────────────────── */
 @theme inline {
-  /* Brand greens (JLP/G2K palette) */
-  --color-brand-950:  #061410;
-  --color-brand-900:  #0D2E1A;
-  --color-brand-800:  #144222;
-  --color-brand-700:  #1B5E2D;
-  --color-brand-600:  #237A3C;
-  --color-brand-500:  #2E9B4F;
-  --color-brand-400:  #3DB866;
-  --color-brand-300:  #65CF88;
-  --color-brand-200:  #9EE3B4;
-  --color-brand-100:  #D3F4E0;
-  --color-brand-50:   #EEF9F2;
+  /* Vivid JLP/G2K greens — matched to poster */
+  --color-brand-950:  #030C05;
+  --color-brand-900:  #081508;
+  --color-brand-800:  #0D2610;
+  --color-brand-700:  #145019;
+  --color-brand-600:  #1A7024;
+  --color-brand-vivid:#1DB84B;   /* ← bright pop green, poster diagonal shapes */
+  --color-brand-500:  #27C955;
+  --color-brand-400:  #45D46A;
+  --color-brand-300:  #78E494;
+  --color-brand-200:  #ADF0BC;
+  --color-brand-100:  #D5F8DE;
+  --color-brand-50:   #ECFBF1;
 
   /* Gold accent */
   --color-gold-600:   #C69000;
@@ -21,31 +49,36 @@
   --color-gold-400:   #F5C518;
   --color-gold-300:   #FFD740;
   --color-gold-200:   #FFE780;
-  --color-gold-100:   #FFF6CC;
 
   /* Neutrals */
-  --color-ink:        #111111;
-  --color-ink-muted:  #555555;
-  --color-surface:    #F8FAF9;
-  --color-border:     #E2E8E5;
+  --color-ink:        #0D0D0D;
+  --color-ink-muted:  #4A4A4A;
+  --color-surface:    #F3F7F4;
+  --color-border:     #DCE8DF;
 
-  /* Typography */
-  --font-sans:        var(--font-geist-sans);
-  --font-mono:        var(--font-geist-mono);
+  /* Typography — Aloevera for all body/ui, Nersans for display */
+  --font-sans:        'Aloevera', system-ui, sans-serif;
+  --font-display:     'Nersans', system-ui, sans-serif;
+  --font-condensed:   'AloeveraCondensed', 'Aloevera', sans-serif;
+  --font-mono:        ui-monospace, monospace;
 
-  /* Background / foreground */
   --color-background: #ffffff;
   --color-foreground: var(--color-ink);
 }
 
 /* ─── Base ─────────────────────────────────────────────────────── */
-*, *::before, *::after {
-  box-sizing: border-box;
-}
+*, *::before, *::after { box-sizing: border-box; }
 
 html {
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* Hide default cursor on non-touch — custom cursor replaces it */
+@media (pointer: fine) {
+  html, * { cursor: none !important; }
 }
 
 body {
@@ -53,76 +86,156 @@ body {
   color: var(--color-foreground);
   font-family: var(--font-sans);
   line-height: 1.6;
+  overflow-x: hidden;
 }
 
-/* ─── Typography Scale ─────────────────────────────────────────── */
+/* ─── Typography ───────────────────────────────────────────────── */
 h1, h2, h3, h4, h5, h6 {
-  line-height: 1.15;
-  font-weight: 800;
-  letter-spacing: -0.02em;
+  font-family: var(--font-display);
+  line-height: 1.05;
+  font-weight: 900;
+  letter-spacing: -0.025em;
 }
 
-/* ─── Utility classes ──────────────────────────────────────────── */
+.font-display   { font-family: var(--font-display) !important; }
+.font-body      { font-family: var(--font-sans) !important; }
+.font-condensed { font-family: var(--font-condensed) !important; }
+
+/* ─── Layout ───────────────────────────────────────────────────── */
 .container-site {
   width: 100%;
   max-width: 1200px;
   margin-inline: auto;
   padding-inline: 1.25rem;
 }
+@media (min-width: 640px)  { .container-site { padding-inline: 2rem; } }
+@media (min-width: 1024px) { .container-site { padding-inline: 3rem; } }
 
-@media (min-width: 640px) {
-  .container-site { padding-inline: 2rem; }
-}
-
-@media (min-width: 1024px) {
-  .container-site { padding-inline: 3rem; }
-}
-
-/* Gold underline accent */
-.accent-underline {
-  position: relative;
-  display: inline-block;
-}
-.accent-underline::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  bottom: -4px;
-  width: 100%;
-  height: 3px;
-  background: var(--color-gold-400);
-  border-radius: 2px;
-}
-
-/* Pill badge */
+/* ─── Badges & utility ─────────────────────────────────────────── */
 .badge-green {
   display: inline-block;
-  padding: 0.25rem 0.75rem;
+  padding: 0.25rem 0.875rem;
   border-radius: 9999px;
-  background: var(--color-brand-700);
-  color: white;
-  font-size: 0.75rem;
+  background: var(--color-brand-vivid);
+  color: #fff;
+  font-size: 0.68rem;
   font-weight: 700;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
+  font-family: var(--font-sans);
 }
 
-/* Section divider */
 .section-divider {
-  width: 3rem;
-  height: 4px;
+  width: 3rem; height: 4px;
   background: var(--color-gold-400);
   border-radius: 2px;
   margin-block: 1.5rem;
 }
 
-/* Focus ring */
+.accent-underline { position: relative; display: inline-block; }
+.accent-underline::after {
+  content: '';
+  position: absolute;
+  left: 0; bottom: -4px;
+  width: 100%; height: 3px;
+  background: var(--color-gold-400);
+  border-radius: 2px;
+}
+
+/* ─── GSAP animation base states ──────────────────────────────── */
+.gsap-reveal       { opacity: 0; transform: translateY(48px); }
+.gsap-reveal-left  { opacity: 0; transform: translateX(-64px); }
+.gsap-reveal-right { opacity: 0; transform: translateX(64px); }
+.gsap-scale-in     { opacity: 0; transform: scale(0.88); }
+.gsap-fade         { opacity: 0; }
+
+/* ─── Custom cursor ────────────────────────────────────────────── */
+.cursor-dot {
+  position: fixed;
+  top: 0; left: 0;
+  width: 7px; height: 7px;
+  background: var(--color-brand-vivid);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  will-change: transform;
+  transition: background 0.15s, transform 0.08s;
+}
+.cursor-ring {
+  position: fixed;
+  top: 0; left: 0;
+  width: 34px; height: 34px;
+  border: 1.5px solid var(--color-brand-vivid);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%, -50%);
+  will-change: transform;
+  transition: width 0.22s ease, height 0.22s ease, border-color 0.2s, opacity 0.2s;
+  opacity: 0.55;
+}
+.cursor-ring.is-hovering {
+  width: 60px; height: 60px;
+  opacity: 0.85;
+  border-color: var(--color-gold-400);
+  border-width: 2px;
+}
+.cursor-ring.is-clicking {
+  width: 24px; height: 24px;
+  opacity: 1;
+  background: rgba(29,184,75,0.12);
+}
+
+/* ─── Focus ring ───────────────────────────────────────────────── */
 *:focus-visible {
   outline: 2px solid var(--color-gold-400);
   outline-offset: 3px;
 }
 
-/* Scrollbar (subtle) */
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: var(--color-brand-200); border-radius: 3px; }
+/* ─── Scrollbar ────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--color-brand-950); }
+::-webkit-scrollbar-thumb { background: var(--color-brand-vivid); border-radius: 2px; }
+
+/* ─── Marquee ──────────────────────────────────────────────────── */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 28s linear infinite;
+}
+.marquee-track:hover { animation-play-state: paused; }
+
+/* ─── Glitch text ──────────────────────────────────────────────── */
+@keyframes glitch-clip-1 {
+  0%,100%{ clip-path: inset(0 0 92% 0); transform: translateX(-3px); }
+  33%    { clip-path: inset(45% 0 42% 0); transform: translateX(3px); }
+  66%    { clip-path: inset(75% 0 12% 0); transform: translateX(-1px); }
+}
+@keyframes glitch-clip-2 {
+  0%,100%{ clip-path: inset(78% 0 8% 0); transform: translateX(3px); }
+  33%    { clip-path: inset(18% 0 68% 0); transform: translateX(-3px); }
+  66%    { clip-path: inset(52% 0 34% 0); transform: translateX(1px); }
+}
+.glitch { position: relative; }
+.glitch::before, .glitch::after {
+  content: attr(data-text);
+  position: absolute; inset: 0;
+  font-family: inherit; font-size: inherit; font-weight: inherit; color: inherit;
+}
+.glitch::before { color: var(--color-brand-vivid); animation: glitch-clip-1 5s infinite; opacity: 0.6; }
+.glitch::after  { color: var(--color-gold-400);    animation: glitch-clip-2 5s infinite; animation-delay:0.4s; opacity:0.45; }
+
+/* ─── Noise texture overlay ────────────────────────────────────── */
+.noise-overlay::after {
+  content: '';
+  position: absolute; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+  border-radius: inherit;
+}
