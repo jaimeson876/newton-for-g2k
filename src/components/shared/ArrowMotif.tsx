@@ -40,10 +40,13 @@ export default function ArrowMotif({
     const polygons = Array.from(svgRef.current.querySelectorAll("polygon"));
     polygonsRef.current = polygons as SVGPolygonElement[];
 
+    // Track only the timeline created by this instance (if any)
+    let tl: gsap.core.Timeline | null = null;
+
     // ── Scroll reveal entrance ──────────────────────────────────────
     if (scrollReveal) {
       gsap.set(polygons, { opacity: 0, scale: 0.7, transformOrigin: "center center" });
-      const tl = gsap.timeline({
+      tl = gsap.timeline({
         scrollTrigger: {
           trigger: svgRef.current,
           start: "top 85%",
@@ -91,12 +94,12 @@ export default function ArrowMotif({
       return () => {
         el.removeEventListener("mouseenter", handleMouseEnter);
         el.removeEventListener("mouseleave", handleMouseLeave);
-        ScrollTrigger.getAll().forEach((t) => t.kill());
+        tl?.kill();
       };
     }
 
     return () => {
-      ScrollTrigger.getAll().forEach((t) => t.kill());
+      tl?.kill();
     };
   }, [interactive, scrollReveal, stagger]);
 
