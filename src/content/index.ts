@@ -485,6 +485,7 @@ export const messageToG2K = {
 export const navItems = [
   { label: "Home", href: "/" },
   { label: "The Candidate", href: "/the-candidate" },
+  { label: "The Ticket", href: "/the-ticket" },
   { label: "Mission", href: "/mission" },
   {
     label: "The Plan",
