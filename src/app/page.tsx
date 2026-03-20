@@ -7,6 +7,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import ArrowMotif from "@/components/shared/ArrowMotif";
 import AnimatedCounter from "@/components/shared/AnimatedCounter";
+import KineticText from "@/components/shared/KineticText";
 import { candidate, mission, pillar1, pillar2, pillar3, messageToG2K } from "@/content";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -62,37 +63,55 @@ export default function Home() {
   useEffect(() => {
     const ctx = gsap.context(() => {
       // ── Hero entrance timeline ─────────────────────────────────
+      // KineticText handles hero-line-1 (delay 0.25) and hero-line-2 (delay 0.65).
+      // hero-sub / hero-ctas are timed to follow the last char reveal (~1.75s total).
       if (heroTextRef.current) {
         const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
-        tl.fromTo(
-          ".hero-badge",
-          { opacity: 0, y: 20 },
-          { opacity: 1, y: 0, duration: 0.7 }
-        )
-          .fromTo(
-            ".hero-line-1",
-            { opacity: 0, x: -60 },
-            { opacity: 1, x: 0, duration: 0.9 },
-            "-=0.3"
-          )
-          .fromTo(
-            ".hero-line-2",
-            { opacity: 0, x: -60 },
-            { opacity: 1, x: 0, duration: 0.9 },
-            "-=0.6"
-          )
-          .fromTo(
-            ".hero-sub",
-            { opacity: 0, y: 16 },
-            { opacity: 1, y: 0, duration: 0.7 },
-            "-=0.4"
-          )
-          .fromTo(
-            ".hero-ctas",
-            { opacity: 0, y: 20 },
-            { opacity: 1, y: 0, duration: 0.7 },
-            "-=0.3"
-          );
+        tl.fromTo(".hero-badge", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.7 })
+          .fromTo(".hero-sub",  { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.7 }, "1.85")
+          .fromTo(".hero-ctas", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.7 }, "-=0.3");
+      }
+
+      // ── Hero mouse drift — chars attract toward cursor ─────────
+      const heroEl = heroRef.current;
+      if (heroEl) {
+        const onMove = (e: MouseEvent) => {
+          const chars = heroEl.querySelectorAll<HTMLElement>(".kchar");
+          chars.forEach((char) => {
+            const rect = char.getBoundingClientRect();
+            const cx = rect.left + rect.width / 2;
+            const cy = rect.top + rect.height / 2;
+            const dx = e.clientX - cx;
+            const dy = e.clientY - cy;
+            const str = Math.max(0, 1 - Math.hypot(dx, dy) / 300);
+            gsap.to(char, {
+              x: dx * str * 0.07,
+              y: dy * str * 0.035,
+              duration: 0.45,
+              ease: "power2.out",
+              overwrite: "auto",
+            });
+          });
+        };
+        const onLeave = () => {
+          const chars = heroEl.querySelectorAll<HTMLElement>(".kchar");
+          gsap.to(chars, {
+            x: 0,
+            y: 0,
+            duration: 0.85,
+            ease: "elastic.out(1, 0.5)",
+            stagger: 0.007,
+            overwrite: "auto",
+          });
+        };
+        heroEl.addEventListener("mousemove", onMove, { passive: true });
+        heroEl.addEventListener("mouseleave", onLeave);
+        // Store cleanup refs on ctx so they're removed via ctx.revert()
+        // (GSAP context doesn't handle DOM listeners, so we track manually)
+        (ctx as { _heroCleanup?: () => void })._heroCleanup = () => {
+          heroEl.removeEventListener("mousemove", onMove);
+          heroEl.removeEventListener("mouseleave", onLeave);
+        };
       }
 
       // ── Arrow motif parallax ───────────────────────────────────
@@ -164,7 +183,10 @@ export default function Home() {
       });
     });
 
-    return () => ctx.revert();
+    return () => {
+      (ctx as { _heroCleanup?: () => void })._heroCleanup?.();
+      ctx.revert();
+    };
   }, []);
 
   return (
@@ -250,19 +272,23 @@ export default function Home() {
               <span className="badge-green">G2K Presidential Candidate 2026</span>
             </div>
 
-            <h1
-              className="hero-line-1 opacity-0 text-white leading-none mb-0"
+            <KineticText
+              text="NEWTON"
+              tag="h1"
+              className="hero-line-1 leading-none mb-0"
               style={{
                 fontFamily: "var(--font-display)",
                 fontSize: "clamp(3.5rem, 10vw, 8rem)",
                 fontWeight: 900,
                 letterSpacing: "-0.03em",
+                color: "#fff",
               }}
-            >
-              NEWTON
-            </h1>
-            <h1
-              className="hero-line-2 opacity-0 leading-none mb-8"
+              delay={0.25}
+            />
+            <KineticText
+              text="IS YOUR SOLUTION"
+              tag="h1"
+              className="hero-line-2 leading-none mb-8"
               style={{
                 fontFamily: "var(--font-display)",
                 fontSize: "clamp(3.5rem, 10vw, 8rem)",
@@ -270,9 +296,8 @@ export default function Home() {
                 letterSpacing: "-0.03em",
                 color: "var(--color-brand-vivid)",
               }}
-            >
-              IS YOUR SOLUTION
-            </h1>
+              delay={0.65}
+            />
 
             <div className="hero-sub opacity-0 space-y-3 mb-10">
               <p
