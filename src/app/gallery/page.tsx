@@ -422,11 +422,11 @@ export default function GalleryPage() {
                 <img
                   src={`/images/gallery/photos/${photo.src}`}
                   alt={`Campaign photo ${i + 1}`}
-                  className="absolute inset-0 w-full h-full group-hover:scale-105"
+                  className="absolute inset-0 w-full h-full group-hover:scale-[1.04]"
                   style={{
                     objectFit: "cover",
                     opacity: 0,
-                    transition: "opacity 0.55s ease, transform 0.7s ease",
+                    transition: "opacity 0.55s ease, transform 0.75s cubic-bezier(0.22, 1, 0.36, 1)",
                   }}
                   loading="lazy"
                   onLoad={(e) => {
@@ -436,26 +436,28 @@ export default function GalleryPage() {
                 {/* Bottom gradient */}
                 <div
                   className="absolute inset-0 pointer-events-none"
-                  style={{ background: "linear-gradient(to top, rgba(3,12,5,0.45) 0%, transparent 55%)" }}
+                  style={{ background: "linear-gradient(to top, rgba(3,12,5,0.5) 0%, transparent 55%)" }}
                 />
                 {/* Expand hint on hover */}
                 <div
-                  className="absolute inset-0 pointer-events-none flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                  style={{ background: "rgba(29,184,75,0.06)" }}
+                  className="absolute inset-0 pointer-events-none flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-[500ms]"
+                  style={{ background: "rgba(29,184,75,0.10)" }}
                 >
                   <div
-                    className="w-9 h-9 rounded-full flex items-center justify-center"
-                    style={{ background: "rgba(29,184,75,0.18)", border: "1px solid rgba(29,184,75,0.4)" }}
+                    className="w-12 h-12 rounded-full flex items-center justify-center"
+                    style={{
+                      background: "rgba(3,12,5,0.65)",
+                      border: "1.5px solid rgba(29,184,75,0.75)",
+                      boxShadow: "0 0 20px rgba(29,184,75,0.3)",
+                    }}
                   >
-                    <svg viewBox="0 0 24 24" fill="none" className="w-4 h-4">
-                      <path d="M8 3H5a2 2 0 00-2 2v3m18 0V5a2 2 0 00-2-2h-3M3 16v3a2 2 0 002 2h3m8 0h3a2 2 0 002-2v-3" stroke="rgba(29,184,75,0.9)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    <svg viewBox="0 0 24 24" fill="none" className="w-5 h-5">
+                      <path d="M8 3H5a2 2 0 00-2 2v3m18 0V5a2 2 0 00-2-2h-3M3 16v3a2 2 0 002 2h3m8 0h3a2 2 0 002-2v-3" stroke="rgba(29,184,75,1)" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"/>
                     </svg>
                   </div>
                 </div>
-                <div
-                  className="absolute inset-0 rounded-xl pointer-events-none"
-                  style={{ border: "1px solid rgba(29,184,75,0.09)" }}
-                />
+                {/* Animated border ring */}
+                <div className="card-border-ring absolute inset-0 rounded-xl pointer-events-none" />
               </div>
             ))}
           </div>

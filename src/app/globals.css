@@ -382,6 +382,18 @@ h1, h2, h3, h4, h5, h6 {
   100% { transform: translateX(-50%); }
 }
 
+/* ─── Gallery photo card hover ────────────────────────────────── */
+.gallery-card .card-border-ring {
+  transition: box-shadow 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+              background  0.55s cubic-bezier(0.22, 1, 0.36, 1);
+  box-shadow: inset 0 0 0 1px rgba(29,184,75,0.09);
+}
+.gallery-card:hover .card-border-ring {
+  box-shadow: inset 0 0 0 2px rgba(29,184,75,0.6),
+              0 0 28px rgba(29,184,75,0.14);
+  background: rgba(29,184,75,0.03);
+}
+
 /* ─── Gallery image shimmer skeleton ──────────────────────────── */
 @keyframes shimmer-slide {
   0%   { background-position: -200% 0; }
