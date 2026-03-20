@@ -88,6 +88,20 @@ export default function Navbar() {
                     ))}
                   </div>
                 </div>
+              ) : item.href === "/reach-out" ? (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className="ml-1 px-4 py-2 rounded-lg text-sm font-bold text-white transition-all hover:scale-105 active:scale-95"
+                  style={{
+                    background: "var(--color-brand-vivid)",
+                    boxShadow: isActive(item.href)
+                      ? "0 0 0 2px #fff, 0 0 20px rgba(29,184,75,0.6)"
+                      : "0 0 16px rgba(29,184,75,0.4)",
+                  }}
+                >
+                  {item.label}
+                </Link>
               ) : (
                 <Link
                   key={item.href}
@@ -165,6 +179,18 @@ export default function Navbar() {
                     </div>
                   )}
                 </div>
+              ) : item.href === "/reach-out" ? (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className="mx-3 py-3.5 rounded-xl text-sm font-bold text-white text-center transition-colors"
+                  style={{
+                    background: "var(--color-brand-vivid)",
+                    boxShadow: "0 0 20px rgba(29,184,75,0.35)",
+                  }}
+                >
+                  {item.label}
+                </Link>
               ) : (
                 <Link
                   key={item.href}
