@@ -813,26 +813,6 @@ export default function Home() {
             <TwitterFeed />
           </div>
 
-          <div className="text-center mt-10 scroll-reveal">
-            <a
-              href="https://x.com/NHarrisJM"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2.5 px-6 py-3 rounded-2xl font-bold text-sm transition-all hover:opacity-85"
-              style={{
-                background: "rgba(255,255,255,0.07)",
-                border: "1px solid rgba(255,255,255,0.12)",
-                color: "rgba(255,255,255,0.7)",
-                fontFamily: "var(--font-sans)",
-                fontWeight: 600,
-              }}
-            >
-              <svg viewBox="0 0 24 24" fill="currentColor" style={{ width: 15, height: 15 }}>
-                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-              </svg>
-              Follow @NHarrisJM
-            </a>
-          </div>
         </div>
       </section>
 
