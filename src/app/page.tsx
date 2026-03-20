@@ -8,7 +8,6 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import ArrowMotif from "@/components/shared/ArrowMotif";
 import AnimatedCounter from "@/components/shared/AnimatedCounter";
 import KineticText from "@/components/shared/KineticText";
-import WaveDivider from "@/components/shared/WaveDivider";
 import TwitterFeed from "@/components/shared/TwitterFeed";
 import { candidate, mission, pillar1, pillar2, pillar3, messageToG2K } from "@/content";
 
@@ -540,13 +539,24 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Wave transition: dark mission section flows into light pillars section */}
-      <div style={{ marginTop: "-2px" }}>
-        <WaveDivider
-          fill="var(--color-brand-950)"
-          bg="var(--color-surface)"
-          height={160}
-          speed="slow"
+      {/* Wave transition: original design asset, bleeds across section boundary */}
+      <div
+        className="relative w-full pointer-events-none select-none"
+        style={{ height: "220px", marginTop: "-110px", marginBottom: "-110px", overflow: "visible", zIndex: 5 }}
+        aria-hidden="true"
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/images/wave-divider.svg"
+          alt=""
+          style={{
+            position: "absolute",
+            left: "50%",
+            top: "50%",
+            width: "160%",
+            minWidth: "1000px",
+            animation: "wave-drift 20s ease-in-out infinite alternate",
+          }}
         />
       </div>
 
@@ -733,13 +743,25 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Wave transition: light pillars section flows into dark feature band */}
-      <div style={{ marginTop: "-2px" }}>
-        <WaveDivider
-          fill="var(--color-surface)"
-          bg="var(--color-brand-800)"
-          height={120}
-          speed="medium"
+      {/* Wave transition: original design asset (mirrored), bleeds across section boundary */}
+      <div
+        className="relative w-full pointer-events-none select-none"
+        style={{ height: "180px", marginTop: "-90px", marginBottom: "-90px", overflow: "visible", zIndex: 5 }}
+        aria-hidden="true"
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/images/wave-divider.svg"
+          alt=""
+          style={{
+            position: "absolute",
+            left: "50%",
+            top: "50%",
+            width: "140%",
+            minWidth: "900px",
+            transform: "translate(-50%, -50%) scaleX(-1)",
+            animation: "wave-drift 24s ease-in-out infinite alternate-reverse",
+          }}
         />
       </div>
 

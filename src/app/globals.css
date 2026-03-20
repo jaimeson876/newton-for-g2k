@@ -372,6 +372,13 @@ h1, h2, h3, h4, h5, h6 {
   transition: opacity 0.5s ease;
 }
 
+/* ─── Original wave-divider gentle float animation ────────────── */
+@keyframes wave-drift {
+  0%   { transform: translate(-50%, -50%) scale(1)     rotate(0deg); }
+  50%  { transform: translate(-49%, -50%) scale(1.012) rotate(0.2deg); }
+  100% { transform: translate(-51%, -50%) scale(1.012) rotate(-0.2deg); }
+}
+
 /* ─── Wave divider scroll animations ──────────────────────────── */
 @keyframes wave-scroll-1 {
   0%   { transform: translateX(0); }

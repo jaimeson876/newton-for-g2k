@@ -75,24 +75,25 @@ const APPEARANCES = [
   { id: 3, outlet: "Nationwide", title: "All Angles Discussion", date: "Coming Soon" },
 ];
 
-const WRITINGS = [
+// Placeholder cards shown when no CMS articles exist yet
+const WRITING_PLACEHOLDERS = [
   {
-    id: 0,
+    slug: null,
     title: "An Open Letter to G2K",
     excerpt: "A direct message from Newton Harris to every delegate, member, and young Jamaican who believes the next chapter belongs to them.",
-    date: "Coming Soon",
+    date: null,
   },
   {
-    id: 1,
+    slug: null,
     title: "On the Future of Jamaican Youth",
     excerpt: "Reflections on the role of organised youth movements in shaping national policy and building a more competitive Jamaica.",
-    date: "Coming Soon",
+    date: null,
   },
   {
-    id: 2,
+    slug: null,
     title: "Why I'm Running",
     excerpt: "The full account of the values, experiences, and sense of duty that brought Newton to this moment of service.",
-    date: "Coming Soon",
+    date: null,
   },
 ];
 
@@ -250,6 +251,24 @@ export default function GalleryPage() {
   const writingsRef = useRef<HTMLDivElement>(null);
 
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+  const [writings, setWritings] = useState(WRITING_PLACEHOLDERS as { slug: string | null; title: string; excerpt: string; date: string | null }[]);
+
+  // Fetch live articles from CMS
+  useEffect(() => {
+    fetch("/api/letters")
+      .then((r) => r.json())
+      .then((data: { slug: string; title: string; excerpt: string; date: string }[]) => {
+        if (Array.isArray(data) && data.length > 0) {
+          setWritings(data.slice(0, 3).map((l) => ({
+            slug: l.slug,
+            title: l.title,
+            excerpt: l.excerpt,
+            date: l.date,
+          })));
+        }
+      })
+      .catch(() => {/* keep placeholders */});
+  }, []);
 
   const openLightbox = useCallback((i: number) => setLightboxIndex(i), []);
   const closeLightbox = useCallback(() => setLightboxIndex(null), []);
@@ -641,9 +660,9 @@ export default function GalleryPage() {
             Open letters, essays, and published writings. Newton in his own words.
           </p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {WRITINGS.map((piece) => (
+            {writings.map((piece, i) => (
               <div
-                key={piece.id}
+                key={piece.slug ?? i}
                 className="writing-card rounded-2xl overflow-hidden relative"
                 style={{
                   background: "rgba(13,31,16,0.45)",
@@ -689,18 +708,30 @@ export default function GalleryPage() {
                   >
                     {piece.excerpt}
                   </p>
-                  <p
-                    className="mt-5"
-                    style={{
-                      fontFamily: "var(--font-sans)",
-                      fontSize: "0.62rem",
-                      letterSpacing: "0.12em",
-                      textTransform: "uppercase",
-                      color: "rgba(245,197,24,0.38)",
-                    }}
-                  >
-                    {piece.date}
-                  </p>
+                  <div className="mt-5 flex items-center justify-between">
+                    <p
+                      style={{
+                        fontFamily: "var(--font-sans)",
+                        fontSize: "0.62rem",
+                        letterSpacing: "0.12em",
+                        textTransform: "uppercase",
+                        color: "rgba(245,197,24,0.38)",
+                      }}
+                    >
+                      {piece.date
+                        ? new Date(piece.date).toLocaleDateString("en-JM", { year: "numeric", month: "short", day: "numeric" })
+                        : "Coming Soon"}
+                    </p>
+                    {piece.slug && (
+                      <Link
+                        href={`/letters/${piece.slug}`}
+                        className="text-xs font-semibold flex items-center gap-1 transition-opacity hover:opacity-70"
+                        style={{ color: "var(--color-gold-400)", fontFamily: "var(--font-sans)" }}
+                      >
+                        Read <ArrowRight size={11} />
+                      </Link>
+                    )}
+                  </div>
                 </div>
               </div>
             ))}

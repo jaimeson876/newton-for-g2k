@@ -487,7 +487,6 @@ export const navItems = [
   { label: "The Candidate", href: "/the-candidate" },
   { label: "The Ticket", href: "/the-ticket" },
   { label: "Gallery", href: "/gallery" },
-  { label: "Letters", href: "/letters" },
   { label: "Mission", href: "/mission" },
   {
     label: "The Plan",
