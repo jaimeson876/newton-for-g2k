@@ -25,12 +25,13 @@ export default function ManifestoChat() {
 
   const panelRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
-  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const messagesContainerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
-  // Scroll to bottom on new messages
+  // Scroll to bottom — use scrollTop directly so Lenis doesn't interfere
   const scrollToBottom = useCallback(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    const el = messagesContainerRef.current;
+    if (el) el.scrollTop = el.scrollHeight;
   }, []);
 
   useEffect(() => {
@@ -215,8 +216,12 @@ export default function ManifestoChat() {
             </button>
           </div>
 
-          {/* Messages */}
-          <div className="flex-1 overflow-y-auto px-4 py-4 space-y-3 scrollbar-hide">
+          {/* Messages — data-lenis-prevent stops Lenis from blocking this scroll */}
+          <div
+            ref={messagesContainerRef}
+            data-lenis-prevent
+            className="flex-1 overflow-y-auto px-4 py-4 space-y-3 scrollbar-hide"
+          >
             {messages.length === 0 && !loading && (
               <div className="space-y-3">
                 <p
@@ -308,7 +313,6 @@ export default function ManifestoChat() {
               </div>
             )}
 
-            <div ref={messagesEndRef} />
           </div>
 
           {/* Input */}
