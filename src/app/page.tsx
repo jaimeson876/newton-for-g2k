@@ -451,6 +451,27 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ── WAVE DIVIDER ────────────────────────────────────────── */}
+      {/* overflow-hidden clips the rough top+bottom edges — only the mid-band shows */}
+      <div
+        className="relative w-full overflow-hidden"
+        style={{ height: "220px" }}
+        aria-hidden="true"
+      >
+        <img
+          src="/images/wave-divider.svg"
+          alt=""
+          className="absolute left-1/2 -translate-x-1/2"
+          style={{
+            width: "140%",
+            minWidth: "900px",
+            top: "50%",
+            transform: "translate(-50%, -50%)",
+            objectFit: "cover",
+          }}
+        />
+      </div>
+
       {/* ── PILLARS ─────────────────────────────────────────────── */}
       <section
         ref={pillarsRef}

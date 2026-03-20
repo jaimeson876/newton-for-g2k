@@ -3,6 +3,8 @@ import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import CustomCursor from "@/components/shared/CustomCursor";
+import SmoothScroll from "@/components/shared/SmoothScroll";
+import ManifestoChat from "@/components/shared/ManifestoChat";
 
 export const metadata: Metadata = {
   title: {
@@ -31,10 +33,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="min-h-screen flex flex-col antialiased">
-        <CustomCursor />
-        <Navbar />
-        <main className="flex-1">{children}</main>
-        <Footer />
+        <SmoothScroll>
+          <CustomCursor />
+          <Navbar />
+          <main className="flex-1">{children}</main>
+          <Footer />
+          <ManifestoChat />
+        </SmoothScroll>
       </body>
     </html>
   );

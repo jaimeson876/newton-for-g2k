@@ -24,8 +24,8 @@
 @font-face { font-family:'AloeveraCondensed'; src:url('/fonts/Aloeveradisplaycondensed-Bold.otf') format('opentype'); font-weight:700; font-style:normal; font-display:swap; }
 @font-face { font-family:'AloeveraCondensed'; src:url('/fonts/Aloeveradisplaycondensed-Black.otf') format('opentype'); font-weight:900; font-style:normal; font-display:swap; }
 
-/* Nersans Two Slant — display/titles */
-@font-face { font-family:'Nersans'; src:url('/fonts/NersansTwoSlant.ttf') format('truetype'); font-weight:400 900; font-style:normal; font-display:swap; }
+/* Nersans One — display/titles */
+@font-face { font-family:'Nersans'; src:url('/fonts/NersansOne.ttf') format('truetype'); font-weight:400 900; font-style:normal; font-display:swap; }
 
 /* ─── Brand Tokens ─────────────────────────────────────────────── */
 @theme inline {
