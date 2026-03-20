@@ -163,7 +163,7 @@ export default function ReachOutPage() {
                   }}
                 >
                   Whether you have a question about the plan, feedback on our
-                  organisation, or just want to connect — Newton reads every
+                  organisation, or just want to connect, Newton reads every
                   message personally.
                 </p>
                 <p
@@ -176,7 +176,7 @@ export default function ReachOutPage() {
                     color: "var(--color-brand-vivid)",
                   }}
                 >
-                  — Newton Harris
+                  Newton Harris
                 </p>
               </div>
 

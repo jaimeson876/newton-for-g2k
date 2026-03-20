@@ -5,7 +5,7 @@ import { pillar2, pillar3 } from "@/content";
 export const metadata: Metadata = {
   title: "Pillar 3: Sustainable Financing",
   description:
-    "FUNDING OUR FUTURE — building an organisation that is financially self-sufficient and professionally managed.",
+    "FUNDING OUR FUTURE: building an organisation that is financially self-sufficient and professionally managed.",
 };
 
 export default function Pillar3Page() {

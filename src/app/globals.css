@@ -372,6 +372,32 @@ h1, h2, h3, h4, h5, h6 {
   transition: opacity 0.5s ease;
 }
 
+/* ─── Wave divider scroll animations ──────────────────────────── */
+@keyframes wave-scroll-1 {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+@keyframes wave-scroll-2 {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* ─── Gallery image shimmer skeleton ──────────────────────────── */
+@keyframes shimmer-slide {
+  0%   { background-position: -200% 0; }
+  100% { background-position:  200% 0; }
+}
+.img-shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(255,255,255,0.03) 25%,
+    rgba(255,255,255,0.07) 37%,
+    rgba(255,255,255,0.03) 63%
+  );
+  background-size: 400% 100%;
+  animation: shimmer-slide 1.6s ease-in-out infinite;
+}
+
 /* ─── Noise texture overlay ────────────────────────────────────── */
 .noise-overlay::after {
   content: '';

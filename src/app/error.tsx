@@ -55,7 +55,7 @@ export default function Error({
           marginBottom: "2.5rem",
         }}
       >
-        An unexpected error occurred. Try reloading — Newton&apos;s campaign isn&apos;t slowing down.
+        An unexpected error occurred. Try reloading. Newton&apos;s campaign isn&apos;t slowing down.
       </p>
       <button
         onClick={reset}

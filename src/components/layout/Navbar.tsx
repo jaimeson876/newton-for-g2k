@@ -47,7 +47,7 @@ export default function Navbar() {
           <Link
             href="/"
             className="flex flex-col leading-none group"
-            aria-label="Newton Harris for G2K President — Home"
+            aria-label="Newton Harris for G2K President, Home"
           >
             <span className="text-white font-black text-sm md:text-base tracking-wider uppercase">
               Newton Harris

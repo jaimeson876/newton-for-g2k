@@ -4,8 +4,9 @@ import { useState, useRef, useEffect, useCallback } from "react";
 import { gsap } from "gsap";
 import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
 import Link from "next/link";
+import ArrowMotif from "@/components/shared/ArrowMotif";
 
-// ── Place poster images at: public/images/posters/{newton,aaliyah,ricardo,juma}.jpg
+// Place poster images at: public/images/posters/{newton,aaliyah,ricardo,juma}.jpg
 const team = [
   {
     name: "Newton Harris",
@@ -13,7 +14,7 @@ const team = [
     tagline: "Tested. Proven. Ready.",
     poster: "/images/posters/newton.jpg",
     handle: undefined as string | undefined,
-    bio: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Newton brings over five years of ministerial experience at the highest levels of Jamaican government, a Jesuit-trained intellectual rigour, and a lifetime of community service. He has been in the room, absorbed the mechanics of governance, and built the relationships that make real change possible. Newton is the strategic backbone of this ticket — ready on day one.",
+    bio: "Newton brings over five years of ministerial experience at the highest levels of Jamaican government, a Jesuit-trained intellectual rigour, and a lifetime of community service. He has been in the room, absorbed the mechanics of governance, and built the relationships that make real change possible. Newton is the strategic backbone of this ticket, ready on day one.",
     accent: "#1DB84B",
   },
   {
@@ -22,7 +23,7 @@ const team = [
     tagline: "Leadership that delivers. Vision that Empowers.",
     poster: "/images/posters/aaliyah.jpg",
     handle: "@aaliyah__liyahh",
-    bio: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Aaliyah is a dynamic force with a proven record of mobilising young Jamaicans around shared purpose. Her commitment to empowering every G2K member — particularly women in political and civic leadership — makes her an essential and powerful voice on this ticket.",
+    bio: "Aaliyah is a dynamic force with a proven record of mobilising young Jamaicans around shared purpose. Her commitment to empowering every G2K member, with particular focus on women in political and civic leadership, makes her an essential and powerful voice on this ticket.",
     accent: "#1DB84B",
   },
   {
@@ -31,7 +32,7 @@ const team = [
     tagline: "Persistent. Effective. Active. Zealous.",
     poster: "/images/posters/ricardo.jpg",
     handle: undefined as string | undefined,
-    bio: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Known across the organisation by his acronym PEAZ, Ricardo Robinson embodies the relentless, on-the-ground dedication that G2K demands. Persistent in purpose, effective in execution, and always present when it counts — he is a doer who delivers.",
+    bio: "Known across the organisation by his acronym PEAZ, Ricardo Robinson embodies the relentless, on-the-ground dedication that G2K demands. Persistent in purpose, effective in execution, and always present when it counts. He is a doer who delivers.",
     accent: "#1DB84B",
   },
   {
@@ -40,9 +41,17 @@ const team = [
     tagline: "Strengthening The Future. Delivering Results.",
     poster: "/images/posters/juma.jpg",
     handle: undefined as string | undefined,
-    bio: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Juma is a dedicated, innovative professional with a clear-eyed vision for G2K's future. He brings strategic clarity, deep community ties, and an unwavering mandate to ensure this organisation strengthens Jamaica from the inside out.",
+    bio: "Juma is a dedicated, innovative professional with a clear-eyed vision for G2K's future. He brings strategic clarity, deep community ties, and an unwavering mandate to ensure this organisation strengthens Jamaica from the inside out.",
     accent: "#1DB84B",
   },
+];
+
+// Placeholder HUD quality pills per candidate
+const HUD_QUALITIES = [
+  ["5+ Yrs. Gov't Experience", "Ministerial Advisor", "Debate Champion", "Community Leader"],
+  ["Youth Mobiliser", "Empowerment Advocate", "Policy Voice", "Proven Organiser"],
+  ["PEAZ: Always Present", "Ground-Level Operator", "Results-Driven", "Relentless"],
+  ["Strategic Thinker", "Community-Rooted", "Vision-Led", "Innovative"],
 ];
 
 // Card dimensions
@@ -68,9 +77,11 @@ function getOffset(cardIdx: number, activeIdx: number): number {
 
 export default function TheTicketPage() {
   const [activeIdx, setActiveIdx] = useState(0);
-  const [bioIdx, setBioIdx] = useState(0); // updates mid-transition
+  const [bioIdx, setBioIdx] = useState(0);
+  const [hudIdx, setHudIdx] = useState(0);
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
   const bioRef = useRef<HTMLDivElement>(null);
+  const hudRef = useRef<HTMLDivElement>(null);
   const busy = useRef(false);
 
   // Set initial 3D positions instantly
@@ -101,8 +112,9 @@ export default function TheTicketPage() {
     if (busy.current || next === activeIdx) return;
     busy.current = true;
 
-    // Fade bio out
+    // Fade bio + HUD out
     gsap.to(bioRef.current, { opacity: 0, y: 8, duration: 0.22, ease: "power2.in" });
+    gsap.to(hudRef.current, { opacity: 0, y: 6, duration: 0.18, ease: "power2.in" });
 
     // Animate all cards to new positions
     cardRefs.current.forEach((el, i) => {
@@ -123,15 +135,25 @@ export default function TheTicketPage() {
 
     setActiveIdx(next);
 
-    // Fade bio in with new content
+    // Fade bio + HUD back in
     gsap.to(bioRef.current, {
       opacity: 1,
       y: 0,
       duration: 0.4,
       delay: 0.55,
       ease: "power2.out",
-      onStart: () => setBioIdx(next),
+      onStart: () => {
+        setBioIdx(next);
+        setHudIdx(next);
+      },
       onComplete: () => { busy.current = false; },
+    });
+    gsap.to(hudRef.current, {
+      opacity: 1,
+      y: 0,
+      duration: 0.35,
+      delay: 0.6,
+      ease: "power2.out",
     });
   }, [activeIdx]);
 
@@ -139,12 +161,16 @@ export default function TheTicketPage() {
   const next = useCallback(() => animateTo((activeIdx + 1) % N), [activeIdx, animateTo]);
 
   const displayed = team[bioIdx];
+  const hudQualities = HUD_QUALITIES[hudIdx];
 
   return (
     <div style={{ background: "var(--color-brand-950)", minHeight: "100vh" }}>
 
-      {/* ── HERO ─────────────────────────────────────────────────── */}
-      <section className="pt-24 pb-6 text-center px-4">
+      {/* Hero */}
+      <section className="relative pt-24 pb-6 text-center px-4 overflow-hidden">
+        <div className="absolute left-0 bottom-0 pointer-events-none select-none opacity-[0.025]">
+          <ArrowMotif size={360} color="var(--color-brand-vivid)" />
+        </div>
         <p
           className="inline-block px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest mb-5"
           style={{
@@ -178,11 +204,11 @@ export default function TheTicketPage() {
             lineHeight: 1.75,
           }}
         >
-          A full slate built on one mission. G2K — led from the front.
+          A full slate built on one mission. G2K, led from the front.
         </p>
       </section>
 
-      {/* ── CAROUSEL ─────────────────────────────────────────────── */}
+      {/* Carousel */}
       <section className="relative flex flex-col items-center py-10">
 
         {/* Perspective wrapper */}
@@ -190,7 +216,7 @@ export default function TheTicketPage() {
           className="relative flex items-center justify-center w-full"
           style={{ perspective: "1100px", perspectiveOrigin: "50% 50%", height: `${CH + 56}px` }}
         >
-          {/* Cards container — preserve-3d so siblings share Z-space */}
+          {/* Cards container */}
           <div
             className="relative"
             style={{
@@ -207,10 +233,10 @@ export default function TheTicketPage() {
                 style={{ width: `${CW}px`, height: `${CH}px`, transformStyle: "preserve-3d" }}
                 onClick={() => animateTo(i)}
               >
-                {/* Float inner — GSAP controls y on this independently */}
+                {/* Float inner */}
                 <div className="float-inner w-full h-full">
 
-                  {/* Card face — pointer tracking sets --px, --py, --holo-o */}
+                  {/* Card face */}
                   <div
                     className="card-face w-full h-full rounded-2xl overflow-hidden relative"
                     style={{
@@ -252,7 +278,7 @@ export default function TheTicketPage() {
                       el.style.setProperty("--holo-o", "0");
                     }}
                   >
-                    {/* Poster image — drop files at public/images/posters/ */}
+                    {/* Poster image */}
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src={member.poster}
@@ -261,7 +287,7 @@ export default function TheTicketPage() {
                       onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
                     />
 
-                    {/* Base gradient overlay — ensures text legibility */}
+                    {/* Base gradient overlay */}
                     <div
                       className="absolute inset-0"
                       style={{
@@ -269,16 +295,11 @@ export default function TheTicketPage() {
                       }}
                     />
 
-                    {/* Holographic refraction — dual-radial, color-dodge, pointer-driven */}
                     <div className="card-refraction" />
-
-                    {/* Spotlight — follows pointer, overlay blend */}
                     <div className="card-spotlight" />
-
-                    {/* Ambient shimmer strip — always-on base layer */}
                     <div className="holo-shimmer" style={{ opacity: 0.5 }} />
 
-                    {/* Role badge — top left */}
+                    {/* Role badge */}
                     <div className="absolute top-4 left-4">
                       <span
                         className="px-2 py-0.5 rounded text-white font-bold"
@@ -294,7 +315,7 @@ export default function TheTicketPage() {
                       </span>
                     </div>
 
-                    {/* Ghost number — top right */}
+                    {/* Ghost number */}
                     <div
                       className="absolute top-2 right-4 pointer-events-none select-none"
                       style={{
@@ -309,7 +330,7 @@ export default function TheTicketPage() {
                       {String(i + 1).padStart(2, "0")}
                     </div>
 
-                    {/* Name + info — bottom */}
+                    {/* Name + info */}
                     <div className="absolute bottom-0 left-0 right-0 p-5">
                       <p
                         style={{
@@ -356,7 +377,7 @@ export default function TheTicketPage() {
             ))}
           </div>
 
-          {/* ── Arrow buttons ─────────────────────────────────────── */}
+          {/* Arrow buttons */}
           <button
             onClick={prev}
             aria-label="Previous"
@@ -385,7 +406,7 @@ export default function TheTicketPage() {
           </button>
         </div>
 
-        {/* ── Dot indicators ────────────────────────────────────── */}
+        {/* Dot indicators */}
         <div className="flex items-center gap-2.5 mt-7">
           {team.map((_, i) => (
             <button
@@ -402,8 +423,32 @@ export default function TheTicketPage() {
           ))}
         </div>
 
-        {/* ── Active name display ───────────────────────────────── */}
-        <div className="text-center mt-7 px-4">
+        {/* HUD quality pills */}
+        <div
+          ref={hudRef}
+          className="mt-6 px-4 flex flex-wrap items-center justify-center gap-2"
+          style={{ maxWidth: "520px" }}
+        >
+          {hudQualities.map((q) => (
+            <span
+              key={q}
+              className="px-3 py-1 rounded-full text-xs font-semibold"
+              style={{
+                background: "rgba(29,184,75,0.09)",
+                border: "1px solid rgba(29,184,75,0.2)",
+                color: "rgba(255,255,255,0.65)",
+                fontFamily: "var(--font-sans)",
+                letterSpacing: "0.04em",
+                lineHeight: 1.4,
+              }}
+            >
+              {q}
+            </span>
+          ))}
+        </div>
+
+        {/* Active name display */}
+        <div className="text-center mt-6 px-4">
           <p
             style={{
               fontFamily: "var(--font-display)",
@@ -432,7 +477,7 @@ export default function TheTicketPage() {
         </div>
       </section>
 
-      {/* ── BIO ──────────────────────────────────────────────────── */}
+      {/* Bio */}
       <section className="pb-16">
         <div className="container-site max-w-xl mx-auto text-center">
           <div ref={bioRef}>
@@ -465,7 +510,7 @@ export default function TheTicketPage() {
         </div>
       </section>
 
-      {/* ── CTA ──────────────────────────────────────────────────── */}
+      {/* CTA */}
       <section
         className="py-12"
         style={{ borderTop: "1px solid rgba(29,184,75,0.1)" }}

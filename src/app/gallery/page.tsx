@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { Camera, Video, Tv, FileText } from "lucide-react";
+import { Camera, Video, Tv, FileText, X, ChevronLeft, ChevronRight } from "lucide-react";
+import ArrowMotif from "@/components/shared/ArrowMotif";
 gsap.registerPlugin(ScrollTrigger);
 
 const SECTION_NAV = [
@@ -13,7 +14,7 @@ const SECTION_NAV = [
   { id: "writings", label: "Letters & Writings", Icon: FileText, color: "var(--color-gold-400)" },
 ];
 
-// span: 2 = tall cell, 1 = standard cell — repeating [2,1,1] pattern
+// span: 2 = tall cell, 1 = standard cell, repeating [2,1,1] pattern
 const PHOTOS = [
   { src: "1B5F4013-1047-4732-AEF8-E83189C7BFEF.jpg", span: 2 },
   { src: "2c280ccf-1535-4f5d-92c0-56727e2206b9.jpg", span: 1 },
@@ -123,11 +124,140 @@ function SectionLabel({
   );
 }
 
+function Lightbox({
+  index,
+  onClose,
+  onPrev,
+  onNext,
+}: {
+  index: number;
+  onClose: () => void;
+  onPrev: () => void;
+  onNext: () => void;
+}) {
+  const panelRef = useRef<HTMLDivElement>(null);
+  const imgRef = useRef<HTMLImageElement>(null);
+
+  useEffect(() => {
+    if (panelRef.current) {
+      gsap.fromTo(
+        panelRef.current,
+        { opacity: 0, scale: 0.92 },
+        { opacity: 1, scale: 1, duration: 0.28, ease: "power3.out" }
+      );
+    }
+    document.body.style.overflow = "hidden";
+    return () => { document.body.style.overflow = ""; };
+  }, []);
+
+  useEffect(() => {
+    if (imgRef.current) {
+      gsap.fromTo(imgRef.current, { opacity: 0 }, { opacity: 1, duration: 0.22, ease: "power2.out" });
+    }
+  }, [index]);
+
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+      if (e.key === "ArrowLeft") onPrev();
+      if (e.key === "ArrowRight") onNext();
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [onClose, onPrev, onNext]);
+
+  const photo = PHOTOS[index];
+
+  return (
+    <div
+      className="fixed inset-0 z-[9999] flex items-center justify-center"
+      style={{ background: "rgba(3,12,5,0.97)", backdropFilter: "blur(12px)" }}
+      onClick={onClose}
+    >
+      <div
+        className="absolute top-5 left-1/2 -translate-x-1/2"
+        style={{
+          fontFamily: "var(--font-sans)",
+          fontSize: "0.68rem",
+          letterSpacing: "0.15em",
+          color: "rgba(255,255,255,0.35)",
+          fontWeight: 600,
+        }}
+      >
+        {index + 1} / {PHOTOS.length}
+      </div>
+
+      <button
+        onClick={onClose}
+        className="absolute top-5 right-5 w-10 h-10 rounded-full flex items-center justify-center transition-colors hover:bg-white/10"
+        style={{ color: "rgba(255,255,255,0.6)", zIndex: 10 }}
+        aria-label="Close"
+      >
+        <X size={20} />
+      </button>
+
+      <button
+        onClick={(e) => { e.stopPropagation(); onPrev(); }}
+        className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full flex items-center justify-center transition-all hover:scale-110 hover:bg-white/10"
+        style={{ color: "rgba(255,255,255,0.7)", zIndex: 10 }}
+        aria-label="Previous photo"
+      >
+        <ChevronLeft size={24} />
+      </button>
+
+      <button
+        onClick={(e) => { e.stopPropagation(); onNext(); }}
+        className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full flex items-center justify-center transition-all hover:scale-110 hover:bg-white/10"
+        style={{ color: "rgba(255,255,255,0.7)", zIndex: 10 }}
+        aria-label="Next photo"
+      >
+        <ChevronRight size={24} />
+      </button>
+
+      <div
+        ref={panelRef}
+        className="relative flex items-center justify-center"
+        style={{ maxWidth: "90vw", maxHeight: "88vh", opacity: 0 }}
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          ref={imgRef}
+          src={`/images/gallery/photos/${photo.src}`}
+          alt={`Campaign photo ${index + 1}`}
+          style={{
+            maxWidth: "90vw",
+            maxHeight: "88vh",
+            objectFit: "contain",
+            borderRadius: "16px",
+            boxShadow: "0 32px 96px rgba(0,0,0,0.75)",
+          }}
+        />
+        <div
+          className="absolute inset-0 rounded-2xl pointer-events-none"
+          style={{ border: "1px solid rgba(29,184,75,0.18)" }}
+        />
+      </div>
+    </div>
+  );
+}
+
 export default function GalleryPage() {
   const photosRef = useRef<HTMLDivElement>(null);
   const videosRef = useRef<HTMLDivElement>(null);
   const appearancesRef = useRef<HTMLDivElement>(null);
   const writingsRef = useRef<HTMLDivElement>(null);
+
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+
+  const openLightbox = useCallback((i: number) => setLightboxIndex(i), []);
+  const closeLightbox = useCallback(() => setLightboxIndex(null), []);
+  const prevPhoto = useCallback(() => {
+    setLightboxIndex((prev) => (prev === null ? null : (prev - 1 + PHOTOS.length) % PHOTOS.length));
+  }, []);
+  const nextPhoto = useCallback(() => {
+    setLightboxIndex((prev) => (prev === null ? null : (prev + 1) % PHOTOS.length));
+  }, []);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -175,8 +305,20 @@ export default function GalleryPage() {
   return (
     <div style={{ background: "var(--color-brand-950)", minHeight: "100vh" }}>
 
-      {/* ── Hero ─────────────────────────────────────────────────── */}
-      <section className="pt-28 pb-20 text-center px-4">
+      {lightboxIndex !== null && (
+        <Lightbox
+          index={lightboxIndex}
+          onClose={closeLightbox}
+          onPrev={prevPhoto}
+          onNext={nextPhoto}
+        />
+      )}
+
+      {/* Hero */}
+      <section className="relative pt-28 pb-20 text-center px-4 overflow-hidden">
+        <div className="absolute right-0 top-0 pointer-events-none select-none opacity-[0.03]">
+          <ArrowMotif size={500} color="var(--color-brand-vivid)" />
+        </div>
         <p
           className="inline-block px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest mb-6"
           style={{
@@ -213,7 +355,7 @@ export default function GalleryPage() {
         </p>
       </section>
 
-      {/* ── Section anchor nav ──────────────────────────────────── */}
+      {/* Section anchor nav */}
       <nav
         className="sticky z-40 border-b"
         style={{
@@ -255,7 +397,7 @@ export default function GalleryPage() {
         </div>
       </nav>
 
-      {/* ── Photos ───────────────────────────────────────────────── */}
+      {/* Photos */}
       <section id="photos" className="pt-20 pb-24 px-4" ref={photosRef}>
         <div className="container-site">
           <SectionLabel icon={Camera} label="Photos" color="var(--color-brand-vivid)" />
@@ -271,20 +413,44 @@ export default function GalleryPage() {
                 key={photo.src}
                 className="gallery-card rounded-xl overflow-hidden relative cursor-pointer group"
                 style={{ gridRow: `span ${photo.span}` }}
+                onClick={() => openLightbox(i)}
               >
+                {/* Shimmer skeleton while image loads */}
+                <div className="absolute inset-0 img-shimmer" />
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={`/images/gallery/photos/${photo.src}`}
                   alt={`Campaign photo ${i + 1}`}
-                  className="absolute inset-0 w-full h-full transition-transform duration-700 group-hover:scale-105"
-                  style={{ objectFit: "cover" }}
+                  className="absolute inset-0 w-full h-full group-hover:scale-105"
+                  style={{
+                    objectFit: "cover",
+                    opacity: 0,
+                    transition: "opacity 0.55s ease, transform 0.7s ease",
+                  }}
                   loading="lazy"
+                  onLoad={(e) => {
+                    (e.currentTarget as HTMLImageElement).style.opacity = "1";
+                  }}
                 />
-                {/* Subtle bottom gradient */}
+                {/* Bottom gradient */}
                 <div
                   className="absolute inset-0 pointer-events-none"
                   style={{ background: "linear-gradient(to top, rgba(3,12,5,0.45) 0%, transparent 55%)" }}
                 />
+                {/* Expand hint on hover */}
+                <div
+                  className="absolute inset-0 pointer-events-none flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                  style={{ background: "rgba(29,184,75,0.06)" }}
+                >
+                  <div
+                    className="w-9 h-9 rounded-full flex items-center justify-center"
+                    style={{ background: "rgba(29,184,75,0.18)", border: "1px solid rgba(29,184,75,0.4)" }}
+                  >
+                    <svg viewBox="0 0 24 24" fill="none" className="w-4 h-4">
+                      <path d="M8 3H5a2 2 0 00-2 2v3m18 0V5a2 2 0 00-2-2h-3M3 16v3a2 2 0 002 2h3m8 0h3a2 2 0 002-2v-3" stroke="rgba(29,184,75,0.9)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  </div>
+                </div>
                 <div
                   className="absolute inset-0 rounded-xl pointer-events-none"
                   style={{ border: "1px solid rgba(29,184,75,0.09)" }}
@@ -295,7 +461,7 @@ export default function GalleryPage() {
         </div>
       </section>
 
-      {/* ── Videos ───────────────────────────────────────────────── */}
+      {/* Videos */}
       <section
         id="videos"
         className="pt-4 pb-24 px-4"
@@ -304,7 +470,6 @@ export default function GalleryPage() {
       >
         <div className="container-site">
           <SectionLabel icon={Video} label="Videos" color="var(--color-gold-400)" />
-          {/* Campaign video */}
           <div
             className="video-card rounded-2xl overflow-hidden relative"
             style={{
@@ -323,7 +488,6 @@ export default function GalleryPage() {
               Your browser does not support this video format.
             </video>
           </div>
-          {/* Additional clips placeholder row */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-6">
             {[0, 1, 2].map((i) => (
               <div
@@ -351,7 +515,7 @@ export default function GalleryPage() {
         </div>
       </section>
 
-      {/* ── Public Appearances ───────────────────────────────────── */}
+      {/* Public Appearances */}
       <section
         id="appearances"
         className="pt-4 pb-24 px-4"
@@ -370,8 +534,7 @@ export default function GalleryPage() {
               lineHeight: 1.85,
             }}
           >
-            TV interviews, panel discussions, and media appearances — watch Newton make the
-            case for a better G2K.
+            TV interviews, panel discussions, and media appearances. Watch Newton make the case for a better G2K.
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {APPEARANCES.map((item) => (
@@ -383,7 +546,6 @@ export default function GalleryPage() {
                   border: "1px solid rgba(29,184,75,0.1)",
                 }}
               >
-                {/* Clip preview */}
                 <div
                   className="relative w-full"
                   style={{
@@ -409,7 +571,6 @@ export default function GalleryPage() {
                       </svg>
                     </div>
                   </div>
-                  {/* Outlet badge */}
                   <div className="absolute top-2 left-2">
                     <span
                       className="px-2 py-0.5 rounded font-bold"
@@ -426,7 +587,6 @@ export default function GalleryPage() {
                     </span>
                   </div>
                 </div>
-                {/* Meta */}
                 <div className="p-4">
                   <p
                     style={{
@@ -456,7 +616,7 @@ export default function GalleryPage() {
         </div>
       </section>
 
-      {/* ── Letters & Writings ───────────────────────────────────── */}
+      {/* Letters & Writings */}
       <section
         id="writings"
         className="pt-4 pb-32 px-4"
@@ -475,7 +635,7 @@ export default function GalleryPage() {
               lineHeight: 1.85,
             }}
           >
-            Open letters, essays, and published writings — Newton in his own words.
+            Open letters, essays, and published writings. Newton in his own words.
           </p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {WRITINGS.map((piece) => (
@@ -487,7 +647,6 @@ export default function GalleryPage() {
                   border: "1px solid rgba(245,197,24,0.1)",
                 }}
               >
-                {/* Gold top bar */}
                 <div
                   className="h-[3px] w-full"
                   style={{
@@ -495,7 +654,6 @@ export default function GalleryPage() {
                   }}
                 />
                 <div className="p-7">
-                  {/* Icon */}
                   <div
                     className="w-11 h-11 rounded-xl flex items-center justify-center mb-6"
                     style={{

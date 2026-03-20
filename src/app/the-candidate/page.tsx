@@ -14,13 +14,13 @@ const globalMoments = [
     year: "2013–14",
     title: "Top Debater",
     detail:
-      "World Universities Debating Championships — Malaysia & Chennai. Recognised as Top Debater across Latin America and the Caribbean. National Public Speaking Champion, JCDC 2014.",
+      "World Universities Debating Championships in Malaysia and Chennai. Recognised as Top Debater across Latin America and the Caribbean. National Public Speaking Champion, JCDC 2014.",
   },
   {
     year: "2015",
     title: "Obama's Table",
     detail:
-      "Selected for the Young Leaders of the Americas Initiative (YLAI) — President Barack Obama's flagship program for the hemisphere's most promising emerging young leaders.",
+      "Selected for the Young Leaders of the Americas Initiative (YLAI), President Barack Obama's flagship program for the hemisphere's most promising emerging young leaders.",
   },
   {
     year: "2019",
@@ -39,7 +39,7 @@ const credentials = [
   {
     label: "Legal Administrator",
     detail:
-      "Attorney-General's Chambers — where Jamaica's legal framework is built and defended.",
+      "Attorney-General's Chambers, where Jamaica's legal framework is built and defended.",
   },
   {
     label: "Business Leader",
@@ -54,12 +54,12 @@ const credentials = [
   {
     label: "LL.B. Law",
     detail:
-      "University of Technology Jamaica — the academic credential to match the practical one.",
+      "University of Technology Jamaica. The academic credential to match the practical one.",
   },
   {
     label: "releaf Project",
     detail:
-      "Led a national reforestation and rebuilding initiative — because leadership is also stewardship.",
+      "Led a national reforestation and rebuilding initiative. Because leadership is stewardship.",
   },
 ];
 
@@ -179,7 +179,7 @@ export default function TheCandidatePage() {
                 opacity: 0,
               }}
             >
-              From a hardware store in Brown&apos;s Town to the Vatican. From the Bronx to Barack Obama&apos;s table. Newton Harris didn&apos;t stumble into leadership — he was forged by it.
+              From a hardware store in Brown&apos;s Town to the Vatican. From the Bronx to Barack Obama&apos;s table. Newton Harris didn&apos;t stumble into leadership. He was forged by it.
             </p>
           </div>
         </div>
@@ -225,7 +225,7 @@ export default function TheCandidatePage() {
                   maxWidth: "36rem",
                 }}
               >
-                Newton grew up behind the counter of his family&apos;s hardware store in Brown&apos;s Town. One day, a contractor named Mr. Joseph Brown walked out before being served. Newton didn&apos;t wait — he ran after him. That instinct, that refusal to let anyone walk away unserved, became the foundation of everything that followed.
+                Newton grew up behind the counter of his family&apos;s hardware store in Brown&apos;s Town. One day, a contractor named Mr. Joseph Brown walked out before being served. Newton didn&apos;t wait. He ran after him. That instinct, that refusal to let anyone walk away unserved, became the foundation of everything that followed.
               </p>
               <blockquote
                 style={{
@@ -288,7 +288,7 @@ export default function TheCandidatePage() {
                   maxWidth: "36rem",
                 }}
               >
-                Campion College sharpened Newton into a thinker. Then came something unexpected: a Jesuit novitiate in Upstate New York. Months of silence, study, and deep discernment — the Jesuit tradition of intellectual rigour pressed into his character. He emerged with a clarity of purpose that has never wavered.
+                Campion College sharpened Newton into a thinker. Then came something unexpected: a Jesuit novitiate in Upstate New York. Months of silence, study, and deep discernment. The Jesuit tradition of intellectual rigour pressed into his character. He emerged with a clarity of purpose that has never wavered.
               </p>
               <blockquote
                 style={{
@@ -348,7 +348,7 @@ export default function TheCandidatePage() {
                   maxWidth: "36rem",
                 }}
               >
-                At Calvary Hospital in the Bronx — America&apos;s largest palliative care hospital — Newton worked in hospice. He sat with the dying. He served without an agenda. Most people leave the comforts of home to climb. Newton went to learn how to kneel. That empathy is now embedded in how he leads.
+                At Calvary Hospital in the Bronx, America&apos;s largest palliative care hospital, Newton worked in hospice. He sat with the dying. He served without an agenda. Most people leave the comforts of home to climb. Newton went to learn how to kneel. That empathy is now embedded in how he leads.
               </p>
               <blockquote
                 style={{
@@ -559,7 +559,7 @@ export default function TheCandidatePage() {
                 maxWidth: "34rem",
               }}
             >
-              Newton is the current Chair of the Board of Management of Brown&apos;s Town Infant School — the same community that watched him grow up. He could be anywhere. He chooses to be exactly there, shaping the first chapter of a child&apos;s education, in the town that shaped him.
+              Newton is the current Chair of the Board of Management of Brown&apos;s Town Infant School, the same community that watched him grow up. He could be anywhere. He chooses to be exactly there, shaping the first chapter of a child&apos;s education, in the town that shaped him.
             </p>
             <p
               className="mt-6"

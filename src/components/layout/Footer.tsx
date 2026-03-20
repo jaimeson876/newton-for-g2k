@@ -28,7 +28,7 @@ export default function Footer() {
                 href="https://x.com/NHarrisJM"
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="X (Twitter) — @NHarrisJM"
+                aria-label="Newton Harris on X, @NHarrisJM"
                 className="w-9 h-9 rounded-full flex items-center justify-center transition-all hover:scale-110"
                 style={{
                   background: "rgba(255,255,255,0.06)",
@@ -47,7 +47,7 @@ export default function Footer() {
                 href="https://www.instagram.com/newtonharrisjm/"
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="Instagram — @newtonharrisjm"
+                aria-label="Newton Harris on Instagram, @newtonharrisjm"
                 className="w-9 h-9 rounded-full flex items-center justify-center transition-all hover:scale-110"
                 style={{
                   background: "rgba(255,255,255,0.06)",
@@ -117,7 +117,7 @@ export default function Footer() {
             © {year} Newton Harris for G2K President. All rights reserved.
           </p>
           <p className="text-xs text-white/40">
-            G2K — Generation 2000 | Jamaica Labour Party Youth Arm
+            G2K, Generation 2000. Jamaica Labour Party Youth Arm
           </p>
         </div>
       </div>

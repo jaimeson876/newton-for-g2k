@@ -8,6 +8,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import ArrowMotif from "@/components/shared/ArrowMotif";
 import AnimatedCounter from "@/components/shared/AnimatedCounter";
 import KineticText from "@/components/shared/KineticText";
+import WaveDivider from "@/components/shared/WaveDivider";
 import { candidate, mission, pillar1, pillar2, pillar3, messageToG2K } from "@/content";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -538,24 +539,13 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── WAVE DIVIDER ────────────────────────────────────────── */}
-      {/* overflow-hidden clips the rough top+bottom edges — only the mid-band shows */}
-      <div
-        className="relative w-full overflow-hidden"
-        style={{ height: "220px" }}
-        aria-hidden="true"
-      >
-        <img
-          src="/images/wave-divider.svg"
-          alt=""
-          className="absolute left-1/2 -translate-x-1/2"
-          style={{
-            width: "140%",
-            minWidth: "900px",
-            top: "50%",
-            transform: "translate(-50%, -50%)",
-            objectFit: "cover",
-          }}
+      {/* Wave transition: dark mission section flows into light pillars section */}
+      <div style={{ marginTop: "-2px" }}>
+        <WaveDivider
+          fill="var(--color-brand-950)"
+          bg="var(--color-surface)"
+          height={160}
+          speed="slow"
         />
       </div>
 
@@ -741,6 +731,16 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* Wave transition: light pillars section flows into dark feature band */}
+      <div style={{ marginTop: "-2px" }}>
+        <WaveDivider
+          fill="var(--color-surface)"
+          bg="var(--color-brand-800)"
+          height={120}
+          speed="medium"
+        />
+      </div>
 
       {/* ── ARROW FEATURE DIVIDER ───────────────────────────────── */}
       <div

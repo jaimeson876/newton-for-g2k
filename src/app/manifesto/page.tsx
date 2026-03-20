@@ -6,7 +6,7 @@ import { candidate, mission, pillar1, pillar2, pillar3, messageToG2K } from "@/c
 export const metadata: Metadata = {
   title: "Full Manifesto",
   description:
-    "The complete Newton Harris G2K Presidential Manifesto — all three pillars, tactics, and measurement targets.",
+    "The complete Newton Harris G2K Presidential Manifesto covering all three pillars, tactics, and measurement targets.",
 };
 
 // Table of contents anchor items

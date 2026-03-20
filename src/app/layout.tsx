@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     template: "%s | Newton Harris for G2K President",
   },
   description:
-    "Newton Harris — the candidate of Operational Substance and Verifiable Impact. Ushering in a New Era of Opportunities, Stability, and Respect for G2K.",
+    "Newton Harris, the candidate of Operational Substance and Verifiable Impact. Ushering in a New Era of Opportunities, Stability, and Respect for G2K.",
   keywords: ["Newton Harris", "G2K", "G2K President", "Jamaica Labour Party", "JLP Youth"],
   openGraph: {
     title: "Newton Harris for G2K President",
