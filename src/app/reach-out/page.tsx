@@ -66,16 +66,6 @@ export default function ReachOutPage() {
         body: JSON.stringify(form),
       });
 
-      // Fallback: also submit to Netlify Forms for dashboard capture
-      const netlifyData = new URLSearchParams();
-      netlifyData.append("form-name", "reach-out");
-      Object.entries(form).forEach(([k, v]) => netlifyData.append(k, v));
-      fetch("/", {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: netlifyData.toString(),
-      }).catch(() => { /* non-fatal */ });
-
       if (!res.ok) throw new Error("Request failed");
       setFormState("success");
     } catch {
@@ -322,11 +312,7 @@ export default function ReachOutPage() {
                   onSubmit={handleSubmit}
                   className="rounded-3xl p-8 md:p-10 space-y-5"
                   style={{ background: "white", border: "1.5px solid var(--color-border)" }}
-                  // Netlify bot detection
-                  name="reach-out"
-                  data-netlify="true"
                 >
-                  <input type="hidden" name="form-name" value="reach-out" />
 
                   <div>
                     <h2
