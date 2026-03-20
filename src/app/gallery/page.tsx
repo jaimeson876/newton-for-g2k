@@ -1,9 +1,10 @@
 "use client";
 
 import { useEffect, useRef, useState, useCallback } from "react";
+import Link from "next/link";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { Camera, Video, Tv, FileText, X, ChevronLeft, ChevronRight } from "lucide-react";
+import { Camera, Video, Tv, FileText, X, ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
 import ArrowMotif from "@/components/shared/ArrowMotif";
 gsap.registerPlugin(ScrollTrigger);
 
@@ -641,7 +642,7 @@ export default function GalleryPage() {
             {WRITINGS.map((piece) => (
               <div
                 key={piece.id}
-                className="writing-card rounded-2xl overflow-hidden relative cursor-pointer group"
+                className="writing-card rounded-2xl overflow-hidden relative"
                 style={{
                   background: "rgba(13,31,16,0.45)",
                   border: "1px solid rgba(245,197,24,0.1)",
@@ -701,6 +702,24 @@ export default function GalleryPage() {
                 </div>
               </div>
             ))}
+          </div>
+
+          <div className="mt-10">
+            <Link
+              href="/letters"
+              className="group inline-flex items-center gap-2.5 px-6 py-3 rounded-2xl font-bold text-sm transition-all hover:opacity-85"
+              style={{
+                background: "rgba(245,197,24,0.08)",
+                border: "1px solid rgba(245,197,24,0.2)",
+                color: "var(--color-gold-400)",
+                fontFamily: "var(--font-sans)",
+                fontWeight: 600,
+              }}
+            >
+              <FileText size={14} />
+              Read all letters and articles
+              <ArrowRight size={13} className="group-hover:translate-x-1 transition-transform" />
+            </Link>
           </div>
         </div>
       </section>
