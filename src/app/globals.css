@@ -198,6 +198,35 @@ h1, h2, h3, h4, h5, h6 {
 ::-webkit-scrollbar-track { background: var(--color-brand-950); }
 ::-webkit-scrollbar-thumb { background: var(--color-brand-vivid); border-radius: 2px; }
 
+/* ─── Scroll progress bar ──────────────────────────────────────── */
+.scroll-progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(to right, var(--color-brand-vivid), var(--color-gold-400));
+  transform-origin: left center;
+  transform: scaleX(var(--scroll-progress, 0));
+  z-index: 9999;
+  pointer-events: none;
+  will-change: transform;
+}
+
+/* ─── Aurora blob animations ───────────────────────────────────── */
+@keyframes aurora-1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33%       { transform: translate(60px, -45px) scale(1.14); }
+  66%       { transform: translate(-35px, 30px) scale(0.88); }
+}
+@keyframes aurora-2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  40%       { transform: translate(-70px, 50px) scale(1.18); }
+  80%       { transform: translate(45px, -25px) scale(0.85); }
+}
+.aurora-1 { animation: aurora-1 18s ease-in-out infinite; }
+.aurora-2 { animation: aurora-2 24s ease-in-out infinite; }
+
 /* ─── Marquee ──────────────────────────────────────────────────── */
 @keyframes marquee {
   from { transform: translateX(0); }

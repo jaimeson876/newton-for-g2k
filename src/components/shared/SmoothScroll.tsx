@@ -24,8 +24,11 @@ export default function SmoothScroll({ children }: { children: React.ReactNode }
 
     lenisRef.current = lenis;
 
-    // Sync Lenis with GSAP ScrollTrigger
-    lenis.on("scroll", ScrollTrigger.update);
+    // Sync Lenis with GSAP ScrollTrigger + scroll progress CSS var
+    lenis.on("scroll", (e: { progress: number }) => {
+      ScrollTrigger.update();
+      document.documentElement.style.setProperty("--scroll-progress", String(e.progress));
+    });
 
     const gsapTicker = gsap.ticker.add((time: number) => {
       lenis.raf(time * 1000);

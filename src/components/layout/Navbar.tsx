@@ -32,10 +32,14 @@ export default function Navbar() {
     <header
       className={cn(
         "sticky top-0 z-50 w-full transition-all duration-300",
-        scrolled
-          ? "bg-[var(--color-brand-900)] shadow-lg shadow-black/20"
-          : "bg-[var(--color-brand-900)]"
+        scrolled ? "shadow-lg shadow-black/30" : "bg-[var(--color-brand-900)]"
       )}
+      style={scrolled ? {
+        background: "rgba(3, 12, 5, 0.82)",
+        backdropFilter: "blur(20px)",
+        WebkitBackdropFilter: "blur(20px)",
+        borderBottom: "1px solid rgba(29,184,75,0.1)",
+      } : undefined}
     >
       <div className="container-site">
         <div className="flex items-center justify-between h-16 md:h-18">

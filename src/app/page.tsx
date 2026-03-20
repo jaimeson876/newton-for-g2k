@@ -174,28 +174,61 @@ export default function Home() {
         ref={heroRef}
         className="relative min-h-screen flex items-center bg-[var(--color-brand-950)] overflow-hidden"
       >
-        {/* Radial glow */}
+        {/* Aurora blob 1 — animated */}
         <div
-          className="absolute pointer-events-none"
+          className="absolute pointer-events-none aurora-1"
           style={{
-            top: "10%",
-            left: "-5%",
-            width: "55vw",
-            height: "55vw",
-            background: "radial-gradient(ellipse at center, rgba(29,184,75,0.13) 0%, transparent 70%)",
+            top: "5%",
+            left: "-8%",
+            width: "60vw",
+            height: "60vw",
+            background: "radial-gradient(ellipse at center, rgba(29,184,75,0.14) 0%, transparent 68%)",
           }}
         />
-        {/* Second glow — right */}
+        {/* Aurora blob 2 — animated, offset timing */}
         <div
-          className="absolute pointer-events-none"
+          className="absolute pointer-events-none aurora-2"
           style={{
-            bottom: "0",
-            right: "-10%",
-            width: "40vw",
-            height: "40vw",
-            background: "radial-gradient(ellipse at center, rgba(29,184,75,0.07) 0%, transparent 70%)",
+            bottom: "-5%",
+            right: "-12%",
+            width: "50vw",
+            height: "50vw",
+            background: "radial-gradient(ellipse at center, rgba(29,184,75,0.08) 0%, transparent 68%)",
           }}
         />
+        {/* Grain texture overlay */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E")`,
+            backgroundSize: "200px 200px",
+            opacity: 0.035,
+            zIndex: 1,
+          }}
+          aria-hidden="true"
+        />
+        {/* Ghost stroke text — editorial depth element */}
+        <div
+          className="absolute bottom-0 right-0 overflow-hidden pointer-events-none select-none"
+          style={{ zIndex: 1 }}
+          aria-hidden="true"
+        >
+          <p
+            style={{
+              fontFamily: "var(--font-display)",
+              fontWeight: 900,
+              fontSize: "clamp(6rem, 22vw, 20rem)",
+              WebkitTextStroke: "1px rgba(29,184,75,0.09)",
+              color: "transparent",
+              letterSpacing: "-0.05em",
+              lineHeight: 0.85,
+              userSelect: "none",
+              transform: "translateY(18%)",
+            }}
+          >
+            HARRIS
+          </p>
+        </div>
 
         {/* Arrow motif — large decorative right background */}
         <div
