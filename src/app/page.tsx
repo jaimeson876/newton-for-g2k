@@ -61,6 +61,10 @@ export default function Home() {
   const pillarsRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
+    // Track hero listener cleanup outside the gsap.context callback so we
+    // don't access `ctx` before it's assigned (temporal dead zone).
+    let cleanupHeroListeners: (() => void) | undefined;
+
     const ctx = gsap.context(() => {
       // ── Hero entrance timeline ─────────────────────────────────
       // KineticText handles hero-line-1 (delay 0.25) and hero-line-2 (delay 0.65).
@@ -106,9 +110,8 @@ export default function Home() {
         };
         heroEl.addEventListener("mousemove", onMove, { passive: true });
         heroEl.addEventListener("mouseleave", onLeave);
-        // Store cleanup refs on ctx so they're removed via ctx.revert()
-        // (GSAP context doesn't handle DOM listeners, so we track manually)
-        (ctx as { _heroCleanup?: () => void })._heroCleanup = () => {
+        // Assign to outer variable — NOT ctx, which is still in TDZ here
+        cleanupHeroListeners = () => {
           heroEl.removeEventListener("mousemove", onMove);
           heroEl.removeEventListener("mouseleave", onLeave);
         };
@@ -184,7 +187,7 @@ export default function Home() {
     });
 
     return () => {
-      (ctx as { _heroCleanup?: () => void })._heroCleanup?.();
+      cleanupHeroListeners?.();
       ctx.revert();
     };
   }, []);
