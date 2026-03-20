@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 
 interface KineticTextProps {
@@ -51,54 +51,53 @@ export default function KineticText({
     return () => { tween.kill(); };
   }, [delay]);
 
-  const El = tag as React.ElementType;
-
-  // Build an array of word-groups and spaces
   const words = text.split(" ");
 
-  return (
-    <El
-      ref={(node: HTMLElement | null) => { elRef.current = node; }}
-      className={className}
-      style={style}
-      aria-label={text}
-    >
-      {words.map((word, wi) => (
-        <span key={wi} style={{ display: "inline" }}>
-          {/* Word: overflow-clip wrapper so chars animate up from below */}
+  const innerContent = words.map((word, wi) => (
+    <span key={wi} style={{ display: "inline" }}>
+      <span
+        style={{
+          display: "inline-block",
+          whiteSpace: "nowrap",
+          overflow: "hidden",
+          verticalAlign: "bottom",
+          paddingBottom: "0.05em",
+          marginBottom: "-0.05em",
+        }}
+      >
+        {Array.from(word).map((char, ci) => (
           <span
+            key={ci}
+            className="kchar"
             style={{
               display: "inline-block",
-              whiteSpace: "nowrap",
-              overflow: "hidden",
-              verticalAlign: "bottom",
-              paddingBottom: "0.05em",
-              marginBottom: "-0.05em",
+              opacity: 0,
+              willChange: "transform, opacity",
             }}
           >
-            {Array.from(word).map((char, ci) => (
-              <span
-                key={ci}
-                className="kchar"
-                style={{
-                  display: "inline-block",
-                  opacity: 0, // SSR-safe: chars hidden from first render
-                  willChange: "transform, opacity",
-                }}
-              >
-                {char}
-              </span>
-            ))}
+            {char}
           </span>
-          {/* Inter-word space (not clipped) */}
-          {wi < words.length - 1 && (
-            <span
-              aria-hidden="true"
-              style={{ display: "inline-block", width: "0.28em" }}
-            />
-          )}
-        </span>
-      ))}
-    </El>
+        ))}
+      </span>
+      {wi < words.length - 1 && (
+        <span
+          aria-hidden="true"
+          style={{ display: "inline-block", width: "0.28em" }}
+        />
+      )}
+    </span>
+  ));
+
+  // Use React.createElement directly to avoid React 19 JSX transform
+  // issues with dynamic element types and ref callbacks
+  return React.createElement(
+    tag,
+    {
+      ref: (node: HTMLElement | null) => { elRef.current = node; },
+      className,
+      style,
+      "aria-label": text,
+    },
+    ...innerContent
   );
 }
