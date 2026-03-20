@@ -9,6 +9,7 @@ import ArrowMotif from "@/components/shared/ArrowMotif";
 import AnimatedCounter from "@/components/shared/AnimatedCounter";
 import KineticText from "@/components/shared/KineticText";
 import WaveDivider from "@/components/shared/WaveDivider";
+import TwitterFeed from "@/components/shared/TwitterFeed";
 import { candidate, mission, pillar1, pillar2, pillar3, messageToG2K } from "@/content";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -774,6 +775,66 @@ export default function Home() {
           </p>
         </div>
       </div>
+
+      {/* ── PRESENCE ───────────────────────────────────────────── */}
+      <section
+        className="py-20 md:py-28"
+        style={{ background: "var(--color-brand-950)" }}
+      >
+        <div className="container-site">
+          <div className="text-center mb-12 scroll-reveal">
+            <span className="badge-green">Presence</span>
+            <h2
+              className="mt-4"
+              style={{
+                fontFamily: "var(--font-display)",
+                fontWeight: 900,
+                fontSize: "clamp(1.8rem, 4vw, 3rem)",
+                color: "#fff",
+                letterSpacing: "-0.03em",
+              }}
+            >
+              Follow the campaign.
+            </h2>
+            <p
+              className="mt-3"
+              style={{
+                fontFamily: "var(--font-sans)",
+                fontWeight: 300,
+                fontSize: "0.95rem",
+                color: "rgba(255,255,255,0.45)",
+              }}
+            >
+              Real-time updates from Newton Harris on X.
+            </p>
+          </div>
+
+          <div className="max-w-lg mx-auto scroll-reveal">
+            <TwitterFeed />
+          </div>
+
+          <div className="text-center mt-10 scroll-reveal">
+            <a
+              href="https://x.com/NHarrisJM"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2.5 px-6 py-3 rounded-2xl font-bold text-sm transition-all hover:opacity-85"
+              style={{
+                background: "rgba(255,255,255,0.07)",
+                border: "1px solid rgba(255,255,255,0.12)",
+                color: "rgba(255,255,255,0.7)",
+                fontFamily: "var(--font-sans)",
+                fontWeight: 600,
+              }}
+            >
+              <svg viewBox="0 0 24 24" fill="currentColor" style={{ width: 15, height: 15 }}>
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+              </svg>
+              Follow @NHarrisJM
+            </a>
+          </div>
+        </div>
+      </section>
 
       {/* ── CLOSING MESSAGE ─────────────────────────────────────── */}
       <section

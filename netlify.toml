@@ -8,6 +8,12 @@
 [build.environment]
   NODE_VERSION = "20"
 
+# Serve Decap CMS admin panel at /admin (SPA needs index.html fallback)
+[[redirects]]
+  from = "/admin"
+  to = "/admin/index.html"
+  status = 200
+
 # Redirect www to non-www
 [[redirects]]
   from = "https://www.newtonforg2k.info/*"

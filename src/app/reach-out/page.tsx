@@ -59,11 +59,18 @@ export default function ReachOutPage() {
     setFormState("submitting");
 
     try {
-      // Primary: API route (Resend email when configured)
-      const res = await fetch("/api/contact", {
+      // Submit to Netlify Forms (visible in Netlify dashboard under Site > Forms)
+      const body = new URLSearchParams({
+        "form-name": "reach-out",
+        name: form.name,
+        email: form.email,
+        organisation: form.organisation,
+        message: form.message,
+      });
+      const res = await fetch("/", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: body.toString(),
       });
 
       if (!res.ok) throw new Error("Request failed");
@@ -309,10 +316,15 @@ export default function ReachOutPage() {
               ) : (
                 <form
                   ref={formRef}
+                  name="reach-out"
+                  data-netlify="true"
+                  data-netlify-honeypot="bot-field"
                   onSubmit={handleSubmit}
                   className="rounded-3xl p-8 md:p-10 space-y-5"
                   style={{ background: "white", border: "1.5px solid var(--color-border)" }}
                 >
+                  <input type="hidden" name="form-name" value="reach-out" />
+                  <input type="hidden" name="bot-field" />
 
                   <div>
                     <h2
