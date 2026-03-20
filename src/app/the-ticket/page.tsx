@@ -238,6 +238,9 @@ export default function TheTicketPage() {
                       }}
                     />
 
+                    {/* Holo shimmer — subtle prismatic highlight on all cards */}
+                    <div className="holo-shimmer" />
+
                     {/* Role badge — top left */}
                     <div className="absolute top-4 left-4">
                       <span

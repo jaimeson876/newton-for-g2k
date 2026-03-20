@@ -486,6 +486,7 @@ export const navItems = [
   { label: "Home", href: "/" },
   { label: "The Candidate", href: "/the-candidate" },
   { label: "The Ticket", href: "/the-ticket" },
+  { label: "Gallery", href: "/gallery" },
   { label: "Mission", href: "/mission" },
   {
     label: "The Plan",

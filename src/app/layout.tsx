@@ -6,6 +6,7 @@ import Footer from "@/components/layout/Footer";
 import CustomCursor from "@/components/shared/CustomCursor";
 import SmoothScroll from "@/components/shared/SmoothScroll";
 import ManifestoChat from "@/components/shared/ManifestoChat";
+import QRShareButton from "@/components/shared/QRShareButton";
 
 export const metadata: Metadata = {
   title: {
@@ -42,6 +43,7 @@ export default function RootLayout({
           <Navbar />
           <main className="flex-1">{children}</main>
           <Footer />
+          <QRShareButton />
           <ManifestoChat />
         </SmoothScroll>
       </body>
