@@ -4,8 +4,6 @@ import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Camera, Video, Tv, FileText } from "lucide-react";
-import type { Metadata } from "next";
-
 gsap.registerPlugin(ScrollTrigger);
 
 const SECTION_NAV = [
@@ -15,12 +13,58 @@ const SECTION_NAV = [
   { id: "writings", label: "Letters & Writings", Icon: FileText, color: "var(--color-gold-400)" },
 ];
 
-const PHOTOS = Array.from({ length: 12 }, (_, i) => ({
-  id: i,
-  rowSpan: [2, 1, 1, 2, 1, 2, 1, 1, 2, 1, 1, 2][i],
-}));
-
-const VIDEOS = Array.from({ length: 4 }, (_, i) => ({ id: i }));
+// span: 2 = tall cell, 1 = standard cell — repeating [2,1,1] pattern
+const PHOTOS = [
+  { src: "1B5F4013-1047-4732-AEF8-E83189C7BFEF.jpg", span: 2 },
+  { src: "2c280ccf-1535-4f5d-92c0-56727e2206b9.jpg", span: 1 },
+  { src: "350cd2f2-1807-4dd4-ab23-3c8497856304.jpg", span: 1 },
+  { src: "IMG_0023.jpg", span: 2 },
+  { src: "IMG_0767.jpg", span: 1 },
+  { src: "IMG_0830.jpg", span: 1 },
+  { src: "IMG_1690.jpg", span: 2 },
+  { src: "IMG_2304.jpg", span: 1 },
+  { src: "IMG_2332.jpg", span: 1 },
+  { src: "IMG_2335.jpg", span: 2 },
+  { src: "IMG_2337.jpg", span: 1 },
+  { src: "IMG_2748.jpg", span: 1 },
+  { src: "IMG_3516.jpg", span: 2 },
+  { src: "IMG_4708.jpg", span: 1 },
+  { src: "IMG_4725.jpg", span: 1 },
+  { src: "IMG_5089.jpg", span: 2 },
+  { src: "IMG_5094.jpg", span: 1 },
+  { src: "IMG_5160.jpg", span: 1 },
+  { src: "IMG_5258.jpg", span: 2 },
+  { src: "IMG_5324.jpg", span: 1 },
+  { src: "IMG_5330.jpg", span: 1 },
+  { src: "IMG_5557.jpg", span: 2 },
+  { src: "IMG_5988.jpg", span: 1 },
+  { src: "IMG_6102.jpg", span: 1 },
+  { src: "IMG_6492.JPG", span: 2 },
+  { src: "IMG_6735.jpg", span: 1 },
+  { src: "IMG_7161.jpg", span: 1 },
+  { src: "IMG_7325.jpg", span: 2 },
+  { src: "IMG_7568.jpg", span: 1 },
+  { src: "IMG_7630.jpg", span: 1 },
+  { src: "IMG_7642.jpg", span: 2 },
+  { src: "IMG_7735.jpg", span: 1 },
+  { src: "IMG_7861.PNG", span: 1 },
+  { src: "IMG_8054.jpg", span: 2 },
+  { src: "IMG_8794.jpg", span: 1 },
+  { src: "IMG_8812.jpg", span: 1 },
+  { src: "IMG_8837.JPG", span: 2 },
+  { src: "IMG_8864.jpg", span: 1 },
+  { src: "IMG_8871.jpg", span: 1 },
+  { src: "IMG_8919.jpg", span: 2 },
+  { src: "IMG_8925.jpg", span: 1 },
+  { src: "IMG_8961.jpg", span: 1 },
+  { src: "IMG_8971.jpg", span: 2 },
+  { src: "IMG_8973.jpg", span: 1 },
+  { src: "IMG_8995.JPG", span: 1 },
+  { src: "b94f35f6-724c-4a86-8a61-53dd22b66a47.jpg", span: 2 },
+  { src: "d3ca7042-f6a7-4323-a93c-473798d04bbe.jpg", span: 1 },
+  { src: "f00e465f-ec89-4807-9879-cd4d353ccba6.jpg", span: 1 },
+  { src: "f2eb6b68-d8e1-4c0d-8f41-4b95277eed96.jpg", span: 2 },
+];
 
 const APPEARANCES = [
   { id: 0, outlet: "TVJ", title: "Morning Time Interview", date: "Coming Soon" },
@@ -222,50 +266,29 @@ export default function GalleryPage() {
               gridAutoRows: "160px",
             }}
           >
-            {PHOTOS.map((photo) => (
+            {PHOTOS.map((photo, i) => (
               <div
-                key={photo.id}
+                key={photo.src}
                 className="gallery-card rounded-xl overflow-hidden relative cursor-pointer group"
-                style={{ gridRow: `span ${photo.rowSpan}` }}
+                style={{ gridRow: `span ${photo.span}` }}
               >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={`/images/gallery/photos/${photo.src}`}
+                  alt={`Campaign photo ${i + 1}`}
+                  className="absolute inset-0 w-full h-full transition-transform duration-700 group-hover:scale-105"
+                  style={{ objectFit: "cover" }}
+                  loading="lazy"
+                />
+                {/* Subtle bottom gradient */}
                 <div
-                  className="absolute inset-0 transition-transform duration-700 group-hover:scale-105"
-                  style={{
-                    background: `linear-gradient(${130 + photo.id * 17}deg, #0e2212 0%, #030C05 55%, rgba(29,184,75,0.04) 100%)`,
-                  }}
+                  className="absolute inset-0 pointer-events-none"
+                  style={{ background: "linear-gradient(to top, rgba(3,12,5,0.45) 0%, transparent 55%)" }}
                 />
                 <div
-                  className="absolute inset-0 rounded-xl"
+                  className="absolute inset-0 rounded-xl pointer-events-none"
                   style={{ border: "1px solid rgba(29,184,75,0.09)" }}
                 />
-                {/* Hover badge */}
-                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <span
-                    className="px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider"
-                    style={{
-                      background: "rgba(29,184,75,0.12)",
-                      border: "1px solid rgba(29,184,75,0.25)",
-                      color: "var(--color-brand-vivid)",
-                      fontFamily: "var(--font-sans)",
-                    }}
-                  >
-                    Coming Soon
-                  </span>
-                </div>
-                {/* Ghost number */}
-                <div
-                  className="absolute bottom-3 right-4 pointer-events-none select-none"
-                  style={{
-                    fontFamily: "var(--font-display)",
-                    fontWeight: 900,
-                    fontSize: "2.5rem",
-                    color: "transparent",
-                    WebkitTextStroke: "1px rgba(29,184,75,0.07)",
-                    lineHeight: 1,
-                  }}
-                >
-                  {String(photo.id + 1).padStart(2, "0")}
-                </div>
               </div>
             ))}
           </div>
@@ -281,42 +304,34 @@ export default function GalleryPage() {
       >
         <div className="container-site">
           <SectionLabel icon={Video} label="Videos" color="var(--color-gold-400)" />
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {VIDEOS.map((v) => (
+          {/* Campaign video */}
+          <div
+            className="video-card rounded-2xl overflow-hidden relative"
+            style={{
+              border: "1px solid rgba(245,197,24,0.14)",
+              background: "#030C05",
+              maxWidth: "860px",
+            }}
+          >
+            <video
+              controls
+              preload="metadata"
+              className="w-full block"
+              style={{ display: "block", maxHeight: "520px", objectFit: "contain", background: "#000" }}
+            >
+              <source src="/videos/campaign.mov" type="video/mp4" />
+              Your browser does not support this video format.
+            </video>
+          </div>
+          {/* Additional clips placeholder row */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-6">
+            {[0, 1, 2].map((i) => (
               <div
-                key={v.id}
-                className="video-card rounded-xl overflow-hidden relative cursor-pointer group"
-                style={{ aspectRatio: "16/9" }}
+                key={i}
+                className="video-card rounded-xl overflow-hidden relative"
+                style={{ aspectRatio: "16/9", background: "linear-gradient(148deg, #0e2212, #030C05)", border: "1px solid rgba(245,197,24,0.08)" }}
               >
-                <div
-                  className="absolute inset-0 transition-transform duration-700 group-hover:scale-105"
-                  style={{
-                    background: `linear-gradient(${148 + v.id * 22}deg, #0e2212 0%, #030C05 100%)`,
-                  }}
-                />
-                <div
-                  className="absolute inset-0 rounded-xl"
-                  style={{ border: "1px solid rgba(245,197,24,0.1)" }}
-                />
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <div
-                    className="w-12 h-12 rounded-full flex items-center justify-center transition-transform duration-300 group-hover:scale-110"
-                    style={{
-                      background: "rgba(245,197,24,0.1)",
-                      border: "1px solid rgba(245,197,24,0.25)",
-                    }}
-                  >
-                    <svg
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      className="w-5 h-5"
-                      style={{ marginLeft: "2px" }}
-                    >
-                      <path d="M5 3l14 9-14 9V3z" fill="rgba(245,197,24,0.75)" />
-                    </svg>
-                  </div>
-                </div>
-                <div className="absolute bottom-3 left-3">
                   <span
                     style={{
                       fontFamily: "var(--font-sans)",
@@ -324,7 +339,7 @@ export default function GalleryPage() {
                       fontSize: "0.58rem",
                       letterSpacing: "0.12em",
                       textTransform: "uppercase",
-                      color: "rgba(245,197,24,0.4)",
+                      color: "rgba(245,197,24,0.3)",
                     }}
                   >
                     Coming Soon

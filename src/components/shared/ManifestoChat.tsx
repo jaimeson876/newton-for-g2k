@@ -22,13 +22,14 @@ export default function ManifestoChat() {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [streamingText, setStreamingText] = useState("");
+  // Track bottom offset so we can lift the panel above the keyboard on mobile
+  const [bottomOffset, setBottomOffset] = useState(24);
 
   const panelRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
-  // Scroll to bottom — use scrollTop directly so Lenis doesn't interfere
   const scrollToBottom = useCallback(() => {
     const el = messagesContainerRef.current;
     if (el) el.scrollTop = el.scrollHeight;
@@ -37,6 +38,32 @@ export default function ManifestoChat() {
   useEffect(() => {
     scrollToBottom();
   }, [messages, streamingText, scrollToBottom]);
+
+  // Lift panel above software keyboard using visualViewport API
+  useEffect(() => {
+    if (!open) {
+      setBottomOffset(24);
+      return;
+    }
+
+    const vv = window.visualViewport;
+    if (!vv) return;
+
+    const adjust = () => {
+      // Gap between bottom of visual viewport and bottom of layout viewport = keyboard height
+      const keyboardHeight = window.innerHeight - vv.height - vv.offsetTop;
+      setBottomOffset(Math.max(24, keyboardHeight + 16));
+    };
+
+    adjust();
+    vv.addEventListener("resize", adjust, { passive: true });
+    vv.addEventListener("scroll", adjust, { passive: true });
+
+    return () => {
+      vv.removeEventListener("resize", adjust);
+      vv.removeEventListener("scroll", adjust);
+    };
+  }, [open]);
 
   // Panel open/close animation
   useEffect(() => {
@@ -47,11 +74,16 @@ export default function ManifestoChat() {
         { opacity: 0, y: 24, scale: 0.96 },
         { opacity: 1, y: 0, scale: 1, duration: 0.35, ease: "power3.out" }
       );
-      setTimeout(() => inputRef.current?.focus(), 350);
+      // Only auto-focus on pointer:fine (desktop mouse) — on touch, let user tap input
+      // to avoid keyboard popping up before the panel is positioned
+      const isTouch = window.matchMedia("(pointer: coarse)").matches;
+      if (!isTouch) {
+        setTimeout(() => inputRef.current?.focus(), 350);
+      }
     } else {
       gsap.to(panelRef.current, {
         opacity: 0, y: 16, scale: 0.97,
-        duration: 0.2, ease: "power2.in"
+        duration: 0.2, ease: "power2.in",
       });
     }
   }, [open]);
@@ -165,13 +197,21 @@ export default function ManifestoChat() {
       {open && (
         <div
           ref={panelRef}
-          className="fixed bottom-24 right-6 z-50 flex flex-col rounded-3xl overflow-hidden shadow-2xl"
+          className="fixed z-50 flex flex-col rounded-3xl overflow-hidden shadow-2xl"
           style={{
-            width: "min(92vw, 400px)",
-            height: "min(80vh, 560px)",
+            // On mobile: full-width, anchored to bottom with dynamic keyboard offset
+            // On desktop: right-aligned popup
+            bottom: `${bottomOffset}px`,
+            right: "clamp(0px, 4vw, 24px)",
+            left: "clamp(0px, 4vw, auto)",
+            width: "min(100vw - clamp(0px,8vw,48px), 400px)",
+            // Shrink height to fit above keyboard on mobile
+            height: `min(calc(100dvh - ${bottomOffset}px - 80px), 560px)`,
             background: "var(--color-brand-950)",
             border: "1px solid rgba(29,184,75,0.2)",
             opacity: 0,
+            // Ensure panel doesn't overflow left edge on small screens
+            maxWidth: "calc(100vw - clamp(0px, 8vw, 48px))",
           }}
         >
           {/* Header */}
@@ -211,16 +251,21 @@ export default function ManifestoChat() {
             <button
               onClick={() => setOpen(false)}
               className="ml-auto text-white/40 hover:text-white/80 transition-colors"
+              style={{ minWidth: 44, minHeight: 44, display: "flex", alignItems: "center", justifyContent: "flex-end" }}
             >
               <X size={16} />
             </button>
           </div>
 
-          {/* Messages — data-lenis-prevent stops Lenis from blocking this scroll */}
+          {/* Messages — native touch scroll, overscroll-contain keeps it inside */}
           <div
             ref={messagesContainerRef}
             data-lenis-prevent
-            className="flex-1 overflow-y-auto px-4 py-4 space-y-3 scrollbar-hide"
+            className="flex-1 overflow-y-auto px-4 py-4 space-y-3"
+            style={{
+              overscrollBehavior: "contain",
+              WebkitOverflowScrolling: "touch",
+            } as React.CSSProperties}
           >
             {messages.length === 0 && !loading && (
               <div className="space-y-3">
@@ -240,7 +285,7 @@ export default function ManifestoChat() {
                     <button
                       key={q}
                       onClick={() => send(q)}
-                      className="text-left px-3 py-2 rounded-xl border transition-colors text-sm"
+                      className="text-left px-3 py-2.5 rounded-xl border transition-colors"
                       style={{
                         borderColor: "rgba(29,184,75,0.25)",
                         color: "rgba(255,255,255,0.65)",
@@ -248,6 +293,7 @@ export default function ManifestoChat() {
                         fontWeight: 400,
                         fontSize: "0.78rem",
                         lineHeight: 1.45,
+                        minHeight: 44,
                       }}
                     >
                       {q}
@@ -314,7 +360,6 @@ export default function ManifestoChat() {
                 </div>
               </div>
             )}
-
           </div>
 
           {/* Input */}
@@ -337,7 +382,7 @@ export default function ManifestoChat() {
                 style={{
                   fontFamily: "var(--font-sans)",
                   fontWeight: 300,
-                  fontSize: "0.83rem",
+                  fontSize: "1rem", // 16px — prevents iOS auto-zoom on focus
                   color: "rgba(255,255,255,0.85)",
                   lineHeight: 1.5,
                   maxHeight: "80px",
@@ -347,10 +392,10 @@ export default function ManifestoChat() {
               <button
                 onClick={() => send()}
                 disabled={!input.trim() || loading}
-                className="shrink-0 w-8 h-8 rounded-full flex items-center justify-center transition-all disabled:opacity-30"
+                className="shrink-0 w-10 h-10 rounded-full flex items-center justify-center transition-all disabled:opacity-30"
                 style={{ background: "var(--color-brand-vivid)" }}
               >
-                <Send size={13} color="#fff" />
+                <Send size={14} color="#fff" />
               </button>
             </div>
             <p

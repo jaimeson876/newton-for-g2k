@@ -74,12 +74,30 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
+  /* Prevent elastic over-scroll on iOS from causing layout shifts */
+  overscroll-behavior-y: none;
 }
 
-/* Hide default cursor on non-touch — custom cursor replaces it */
-@media (pointer: fine) {
-  html, * { cursor: none !important; }
+/* ─── Mobile gesture optimisations ────────────────────────────── */
+@media (pointer: coarse) {
+  /* Native vertical scroll everywhere — don't block swipe */
+  html, body { touch-action: pan-y pinch-zoom; }
+
+  /* Disable hover-only animations that misfire on tap */
+  .marquee-track:hover,
+  .marquee-track-reverse:hover { animation-play-state: running; }
+
+  /* Ensure all interactive tap targets meet 44px minimum (WCAG 2.5.5) */
+  a, button, [role="button"] { min-height: 44px; min-width: 44px; }
+
+  /* Remove tap highlight flash */
+  * { -webkit-tap-highlight-color: transparent; }
 }
+
+/* Hide default cursor on mouse devices — custom cursor replaces it.
+   Only applied once JS confirms cursor is ready (via .cursor-ready on <html>).
+   This prevents the "no cursor" state on page errors or slow JS load. */
+html.cursor-ready, html.cursor-ready * { cursor: none !important; }
 
 body {
   background-color: var(--color-background);
@@ -150,41 +168,49 @@ h1, h2, h3, h4, h5, h6 {
 .gsap-fade         { opacity: 0; }
 
 /* ─── Custom cursor ────────────────────────────────────────────── */
-.cursor-dot {
-  position: fixed;
-  top: 0; left: 0;
-  width: 7px; height: 7px;
-  background: var(--color-brand-vivid);
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 9999;
-  transform: translate(-50%, -50%);
-  will-change: transform;
-  transition: background 0.15s, transform 0.08s;
+/* Hidden on touch/coarse-pointer devices (phones, tablets) */
+.cursor-dot, .cursor-ring {
+  display: none;
 }
-.cursor-ring {
-  position: fixed;
-  top: 0; left: 0;
-  width: 34px; height: 34px;
-  border: 1.5px solid var(--color-brand-vivid);
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 9998;
-  transform: translate(-50%, -50%);
-  will-change: transform;
-  transition: width 0.22s ease, height 0.22s ease, border-color 0.2s, opacity 0.2s;
-  opacity: 0.55;
-}
-.cursor-ring.is-hovering {
-  width: 60px; height: 60px;
-  opacity: 0.85;
-  border-color: var(--color-gold-400);
-  border-width: 2px;
-}
-.cursor-ring.is-clicking {
-  width: 24px; height: 24px;
-  opacity: 1;
-  background: rgba(29,184,75,0.12);
+/* Only active on true mouse (pointer:fine) devices */
+@media (pointer: fine) {
+  .cursor-dot {
+    display: block;
+    position: fixed;
+    top: 0; left: 0;
+    width: 7px; height: 7px;
+    background: var(--color-brand-vivid);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    will-change: transform;
+    transition: background 0.15s, transform 0.08s;
+    opacity: 0; /* revealed by JS after first mousemove */
+  }
+  .cursor-ring {
+    display: block;
+    position: fixed;
+    top: 0; left: 0;
+    width: 34px; height: 34px;
+    border: 1.5px solid var(--color-brand-vivid);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%, -50%);
+    will-change: transform;
+    transition: width 0.22s ease, height 0.22s ease, border-color 0.2s, opacity 0.2s;
+    opacity: 0; /* revealed by JS after first mousemove */
+  }
+  .cursor-ring.is-hovering {
+    width: 60px; height: 60px;
+    border-color: var(--color-gold-400);
+    border-width: 2px;
+  }
+  .cursor-ring.is-clicking {
+    width: 24px; height: 24px;
+    background: rgba(29,184,75,0.12);
+  }
 }
 
 /* ─── Focus ring ───────────────────────────────────────────────── */
