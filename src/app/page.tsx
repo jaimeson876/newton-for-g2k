@@ -487,7 +487,7 @@ export default function Home() {
       {/* ── MISSION ─────────────────────────────────────────────── */}
       <section
         className="relative py-20 md:py-32 overflow-hidden"
-        style={{ background: "var(--color-brand-900)" }}
+        style={{ background: "var(--color-brand-900)", zIndex: 1 }}
       >
         {/* Arrow motif — small, bottom-left */}
         <div className="absolute bottom-0 left-0 pointer-events-none select-none opacity-[0.04]">
@@ -539,10 +539,10 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Wave transition: original design asset, bleeds across section boundary */}
+      {/* Wave 1: sits on top of MISSION's bottom edge, hidden under PILLARS' top edge */}
       <div
         className="relative w-full pointer-events-none select-none"
-        style={{ height: "220px", marginTop: "-110px", marginBottom: "-110px", overflow: "visible", zIndex: 5 }}
+        style={{ height: "220px", marginTop: "-110px", marginBottom: "-110px", overflow: "hidden", zIndex: 3 }}
         aria-hidden="true"
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -553,8 +553,7 @@ export default function Home() {
             position: "absolute",
             left: "50%",
             top: "50%",
-            width: "160%",
-            minWidth: "1000px",
+            width: "220%",
             animation: "wave-drift 20s ease-in-out infinite alternate",
           }}
         />
@@ -563,8 +562,8 @@ export default function Home() {
       {/* ── PILLARS ─────────────────────────────────────────────── */}
       <section
         ref={pillarsRef}
-        className="py-20 md:py-32"
-        style={{ background: "var(--color-surface)" }}
+        className="relative py-20 md:py-32"
+        style={{ background: "var(--color-surface)", zIndex: 5 }}
       >
         <div className="container-site">
           <div className="text-center mb-14 scroll-reveal">
@@ -743,10 +742,10 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Wave transition: original design asset (mirrored), bleeds across section boundary */}
+      {/* Wave 2: flipped, sits on top of PILLARS' bottom edge, hidden under ARROW section */}
       <div
         className="relative w-full pointer-events-none select-none"
-        style={{ height: "180px", marginTop: "-90px", marginBottom: "-90px", overflow: "visible", zIndex: 5 }}
+        style={{ height: "180px", marginTop: "-90px", marginBottom: "-90px", overflow: "hidden", zIndex: 7 }}
         aria-hidden="true"
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -757,10 +756,8 @@ export default function Home() {
             position: "absolute",
             left: "50%",
             top: "50%",
-            width: "140%",
-            minWidth: "900px",
-            transform: "translate(-50%, -50%) scaleX(-1)",
-            animation: "wave-drift 24s ease-in-out infinite alternate-reverse",
+            width: "220%",
+            animation: "wave-drift-flip 24s ease-in-out infinite alternate-reverse",
           }}
         />
       </div>
@@ -768,7 +765,7 @@ export default function Home() {
       {/* ── ARROW FEATURE DIVIDER ───────────────────────────────── */}
       <div
         className="relative py-16 overflow-hidden"
-        style={{ background: "var(--color-brand-800)" }}
+        style={{ background: "var(--color-brand-800)", zIndex: 9 }}
       >
         {/* Large centered arrow motif */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none">

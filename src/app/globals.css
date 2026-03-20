@@ -378,6 +378,13 @@ h1, h2, h3, h4, h5, h6 {
   50%  { transform: translate(-49%, -50%) scale(1.012) rotate(0.2deg); }
   100% { transform: translate(-51%, -50%) scale(1.012) rotate(-0.2deg); }
 }
+/* Mirrored variant — scaleX(-1) baked into every keyframe so the flip
+   is never overridden by the animation replacing the inline transform */
+@keyframes wave-drift-flip {
+  0%   { transform: translate(-50%, -50%) scale(-1, 1)      rotate(0deg); }
+  50%  { transform: translate(-49%, -50%) scale(-1.012, 1.012) rotate(-0.2deg); }
+  100% { transform: translate(-51%, -50%) scale(-1.012, 1.012) rotate(0.2deg); }
+}
 
 /* ─── Wave divider scroll animations ──────────────────────────── */
 @keyframes wave-scroll-1 {
