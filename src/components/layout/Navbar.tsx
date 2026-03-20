@@ -1,0 +1,194 @@
+"use client";
+
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useState, useEffect } from "react";
+import { Menu, X, ChevronDown } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { navItems } from "@/content";
+
+export default function Navbar() {
+  const pathname = usePathname();
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [planOpen, setPlanOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  // Close mobile menu on route change
+  useEffect(() => {
+    setMenuOpen(false);
+    setPlanOpen(false);
+  }, [pathname]);
+
+  const isActive = (href: string) =>
+    href === "/" ? pathname === "/" : pathname.startsWith(href);
+
+  return (
+    <header
+      className={cn(
+        "sticky top-0 z-50 w-full transition-all duration-300",
+        scrolled
+          ? "bg-[var(--color-brand-900)] shadow-lg shadow-black/20"
+          : "bg-[var(--color-brand-900)]"
+      )}
+    >
+      <div className="container-site">
+        <div className="flex items-center justify-between h-16 md:h-18">
+          {/* Wordmark */}
+          <Link
+            href="/"
+            className="flex flex-col leading-none group"
+            aria-label="Newton Harris for G2K President — Home"
+          >
+            <span className="text-white font-black text-sm md:text-base tracking-wider uppercase">
+              Newton Harris
+            </span>
+            <span className="text-[var(--color-gold-400)] font-bold text-xs tracking-widest uppercase">
+              For G2K President
+            </span>
+          </Link>
+
+          {/* Desktop nav */}
+          <nav className="hidden md:flex items-center gap-1" aria-label="Main navigation">
+            {navItems.map((item) =>
+              item.children ? (
+                <div key={item.href} className="relative group">
+                  <button
+                    className={cn(
+                      "flex items-center gap-1 px-3 py-2 rounded text-sm font-semibold transition-colors",
+                      isActive(item.href)
+                        ? "text-[var(--color-gold-400)]"
+                        : "text-white/80 hover:text-white hover:bg-white/10"
+                    )}
+                    aria-haspopup="true"
+                  >
+                    {item.label}
+                    <ChevronDown size={14} className="transition-transform group-hover:rotate-180" />
+                  </button>
+                  {/* Dropdown */}
+                  <div className="absolute top-full left-0 mt-1 min-w-72 bg-[var(--color-brand-900)] border border-white/10 rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 overflow-hidden">
+                    {item.children.map((child) => (
+                      <Link
+                        key={child.href}
+                        href={child.href}
+                        className={cn(
+                          "block px-4 py-3 text-sm font-medium border-b border-white/5 last:border-0 transition-colors",
+                          isActive(child.href)
+                            ? "text-[var(--color-gold-400)] bg-white/5"
+                            : "text-white/80 hover:text-white hover:bg-white/10"
+                        )}
+                      >
+                        {child.label}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={cn(
+                    "px-3 py-2 rounded text-sm font-semibold transition-colors",
+                    isActive(item.href)
+                      ? "text-[var(--color-gold-400)]"
+                      : "text-white/80 hover:text-white hover:bg-white/10"
+                  )}
+                >
+                  {item.label}
+                </Link>
+              )
+            )}
+            <Link
+              href="/manifesto"
+              className="ml-2 px-4 py-2 bg-[var(--color-gold-400)] text-[var(--color-brand-900)] font-bold text-sm rounded hover:bg-[var(--color-gold-300)] transition-colors"
+            >
+              Read Manifesto
+            </Link>
+          </nav>
+
+          {/* Mobile hamburger */}
+          <button
+            className="md:hidden p-2 text-white rounded hover:bg-white/10 transition-colors"
+            onClick={() => setMenuOpen(!menuOpen)}
+            aria-label={menuOpen ? "Close menu" : "Open menu"}
+            aria-expanded={menuOpen}
+          >
+            {menuOpen ? <X size={22} /> : <Menu size={22} />}
+          </button>
+        </div>
+      </div>
+
+      {/* Mobile menu */}
+      {menuOpen && (
+        <div className="md:hidden bg-[var(--color-brand-950)] border-t border-white/10">
+          <nav className="container-site py-4 flex flex-col gap-1" aria-label="Mobile navigation">
+            {navItems.map((item) =>
+              item.children ? (
+                <div key={item.href}>
+                  <button
+                    className={cn(
+                      "w-full flex items-center justify-between px-3 py-3 rounded text-sm font-semibold transition-colors text-left",
+                      isActive(item.href)
+                        ? "text-[var(--color-gold-400)]"
+                        : "text-white/80"
+                    )}
+                    onClick={() => setPlanOpen(!planOpen)}
+                    aria-expanded={planOpen}
+                  >
+                    {item.label}
+                    <ChevronDown
+                      size={14}
+                      className={cn("transition-transform", planOpen && "rotate-180")}
+                    />
+                  </button>
+                  {planOpen && (
+                    <div className="ml-3 border-l-2 border-[var(--color-brand-600)] pl-3 flex flex-col gap-1">
+                      {item.children.map((child) => (
+                        <Link
+                          key={child.href}
+                          href={child.href}
+                          className={cn(
+                            "block py-2 text-sm font-medium transition-colors",
+                            isActive(child.href)
+                              ? "text-[var(--color-gold-400)]"
+                              : "text-white/70 hover:text-white"
+                          )}
+                        >
+                          {child.label}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={cn(
+                    "block px-3 py-3 rounded text-sm font-semibold transition-colors",
+                    isActive(item.href)
+                      ? "text-[var(--color-gold-400)]"
+                      : "text-white/80 hover:text-white"
+                  )}
+                >
+                  {item.label}
+                </Link>
+              )
+            )}
+            <Link
+              href="/manifesto"
+              className="mt-2 mx-3 py-3 bg-[var(--color-gold-400)] text-[var(--color-brand-900)] font-bold text-sm rounded text-center hover:bg-[var(--color-gold-300)] transition-colors"
+            >
+              Read Manifesto
+            </Link>
+          </nav>
+        </div>
+      )}
+    </header>
+  );
+}
