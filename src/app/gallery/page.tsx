@@ -68,27 +68,29 @@ const PHOTOS = [
   { src: "f2eb6b68-d8e1-4c0d-8f41-4b95277eed96.jpg", span: 2 },
 ];
 
+const DRIVE = (id: string) => `https://drive.google.com/file/d/${id}/preview`;
+
 // Short clips / social content
 const CLIPS = [
-  { title: "The Youth Perspective", src: "/videos/appearances/The Youth Perspective V2.mp4" },
-  { title: "Young People See The Change", src: "/videos/appearances/Young People See The Change.mp4" },
-  { title: "Youth Opportunities", src: "/videos/appearances/Youth Opportunities.mp4" },
-  { title: "The Youth Understand", src: "/videos/appearances/The Youth Understand.mp4" },
-  { title: "Passing Grade For Minister", src: "/videos/appearances/Passing Grade For Minister.mp4" },
-  { title: "The Youth Perspective (Alt)", src: "/videos/appearances/The Youth Perspective.mp4" },
+  { title: "The Youth Perspective", driveId: "1Fn4S_qIEbAClb-q9Z0U5k79twNRjtqPT" },
+  { title: "Young People See The Change", driveId: "138IrnX6kRP20Ut3-5WUM8AsxwLqssnPS" },
+  { title: "Youth Opportunities", driveId: "1mwe3aJECXN56WVaMp7YY_t4icbsXIm6T" },
+  { title: "The Youth Understand", driveId: "1c41Yq_RJcb802pj_eDquwyN3NE7qKn6U" },
+  { title: "Passing Grade For Minister", driveId: "1mRJ2EChkSFNi4HkW6lgj8oZF1fQjZx2X" },
+  { title: "The Youth Perspective (Alt)", driveId: "1-dCFUIDaHiP9pIleCGgmr1TSf0uBMSd0" },
 ];
 
 // CVM TV appearances
 const APPEARANCES = [
-  { id: 0, outlet: "CVM TV", title: "NHT Role in the Budget", src: "/videos/appearances/Newton_CVM nht role in budget.mp4" },
-  { id: 1, outlet: "CVM TV", title: "PM Budget Review", src: "/videos/appearances/Newton_CVM_ PMbudget .mp4" },
-  { id: 2, outlet: "CVM TV", title: "National Housing Trust", src: "/videos/appearances/Newton_CVM_NHT.mp4" },
-  { id: 3, outlet: "CVM TV", title: "Budget Presentation Response", src: "/videos/appearances/Newton_CVM_SoberPresentation.mp4" },
-  { id: 4, outlet: "CVM TV", title: "NaRRA Discussion", src: "/videos/appearances/Newton_CVM NaRRA.mp4" },
-  { id: 5, outlet: "CVM TV", title: "Housing Supply", src: "/videos/appearances/housing_supply newton cvm 3.mp4" },
-  { id: 6, outlet: "CVM TV", title: "Strong Economy", src: "/videos/appearances/strong_economy newton cvm 3.mp4" },
-  { id: 7, outlet: "CVM TV", title: "NHT Policy Analysis", src: "/videos/appearances/nht_newton cvm 3.mp4" },
-  { id: 8, outlet: "CVM TV", title: "Cuba Relations", src: "/videos/appearances/newton cvm 3 cuba .mp4" },
+  { id: 0, outlet: "CVM TV", title: "NHT Role in the Budget", driveId: "1zcClE-qr2GJ8VNYvWzMCEqmGo6bDRClT" },
+  { id: 1, outlet: "CVM TV", title: "PM Budget Review", driveId: "1_LJJ7GXs23oia1a-LtToIKoTo-miThTl" },
+  { id: 2, outlet: "CVM TV", title: "National Housing Trust", driveId: "1u2pJ8caKu8V5bsBZMsuxSdqnXrAJoihS" },
+  { id: 3, outlet: "CVM TV", title: "Budget Presentation Response", driveId: "1PqIIf7bD63atXz-lM3B8bANQdF88F508" },
+  { id: 4, outlet: "CVM TV", title: "NaRRA Discussion", driveId: "1OSlp-4lh-sUfkphPwuyPZvEL1e0tGp7L" },
+  { id: 5, outlet: "CVM TV", title: "Housing Supply", driveId: "1kDypcCmkuxlM2XoA8PiA8GGq5aiNY1le" },
+  { id: 6, outlet: "CVM TV", title: "Strong Economy", driveId: "1cqR2EuZ76WxfYgGNKLhAb3ahSSzmWuIT" },
+  { id: 7, outlet: "CVM TV", title: "NHT Policy Analysis", driveId: "1UNyX8uXk4EW6WPWRAcf7Bwc8yeH1t8Iy" },
+  { id: 8, outlet: "CVM TV", title: "Cuba Relations", driveId: "1R2zmUJNGOVw8Os6Vi44BWtfj9Y-_QRRT" },
 ];
 
 const WRITING_PLACEHOLDERS = [
@@ -330,9 +332,13 @@ export default function GalleryPage() {
               </span>
               <p style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: "0.9rem", color: "rgba(255,255,255,0.7)" }}>Campaign Launch — March 18, 2026</p>
             </div>
-            <video controls preload="metadata" className="w-full block" style={{ display: "block", maxHeight: "520px", objectFit: "contain", background: "#000" }}>
-              <source src="/videos/appearances/Newton Launch Vid 18.3.26.mp4" type="video/mp4" />
-            </video>
+            <iframe
+              src={DRIVE("1rJkMvqsJLf_cLbfjLBMbQJCRjTDv2Cla")}
+              className="w-full block"
+              style={{ height: "480px", border: "none", background: "#000" }}
+              allow="autoplay"
+              allowFullScreen
+            />
           </div>
 
           {/* Short clips grid */}
@@ -342,9 +348,13 @@ export default function GalleryPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {CLIPS.map((clip, i) => (
               <div key={i} className="video-card rounded-xl overflow-hidden" style={{ background: "linear-gradient(148deg, #0e2212, #030C05)", border: "1px solid rgba(245,197,24,0.08)" }}>
-                <video controls preload="metadata" className="w-full block" style={{ aspectRatio: "16/9", objectFit: "contain", background: "#000" }}>
-                  <source src={clip.src} type="video/mp4" />
-                </video>
+                <iframe
+                  src={DRIVE(clip.driveId)}
+                  className="w-full block"
+                  style={{ aspectRatio: "16/9", border: "none", background: "#000" }}
+                  allow="autoplay"
+                  allowFullScreen
+                />
                 <div className="px-3 py-2">
                   <p style={{ fontFamily: "var(--font-sans)", fontWeight: 600, fontSize: "0.72rem", color: "rgba(255,255,255,0.6)" }}>{clip.title}</p>
                 </div>
@@ -368,14 +378,13 @@ export default function GalleryPage() {
                 className="appearance-card rounded-2xl overflow-hidden"
                 style={{ background: "rgba(13,31,16,0.55)", border: "1px solid rgba(29,184,75,0.1)" }}
               >
-                <video
-                  controls
-                  preload="metadata"
+                <iframe
+                  src={DRIVE(item.driveId)}
                   className="w-full block"
-                  style={{ aspectRatio: "16/9", objectFit: "contain", background: "#000" }}
-                >
-                  <source src={item.src} type="video/mp4" />
-                </video>
+                  style={{ aspectRatio: "16/9", border: "none", background: "#000" }}
+                  allow="autoplay"
+                  allowFullScreen
+                />
                 <div className="px-4 py-3 flex items-center gap-2">
                   <span className="shrink-0 px-2 py-0.5 rounded font-bold" style={{ background: "var(--color-brand-vivid)", fontFamily: "var(--font-sans)", fontSize: "0.5rem", letterSpacing: "0.1em", textTransform: "uppercase", color: "#fff" }}>
                     {item.outlet}
