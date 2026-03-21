@@ -264,17 +264,38 @@ export default function Home() {
           />
         </div>
 
-        {/* Candidate portrait — bottom-right, transparent bg, revealed on load */}
+        {/* Portrait — mobile only: subtle right-edge peek, doesn't clash with text */}
+        <div
+          className="md:hidden absolute bottom-0 right-0 pointer-events-none select-none"
+          style={{
+            width: "42vw",
+            height: "100%",
+            WebkitMaskImage: "linear-gradient(to right, transparent 0%, rgba(0,0,0,0.6) 55%, black 80%)",
+            maskImage: "linear-gradient(to right, transparent 0%, rgba(0,0,0,0.6) 55%, black 80%)",
+            zIndex: 1,
+            opacity: 0.55,
+          }}
+        >
+          <Image
+            src="/images/newton-hero.png"
+            alt=""
+            fill
+            priority
+            style={{ objectFit: "contain", objectPosition: "bottom right" }}
+            sizes="42vw"
+          />
+        </div>
+
+        {/* Portrait — desktop: full reveal, clean horizontal fade */}
         <div
           ref={heroImgRef}
-          className="absolute bottom-0 right-0 pointer-events-none select-none"
+          className="hidden md:block absolute bottom-0 right-0 pointer-events-none select-none"
           style={{
-            width: "clamp(280px, 65vw, 820px)",
+            width: "52vw",
+            maxWidth: "820px",
             height: "100%",
-            WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 28%), linear-gradient(to top, black 60%, transparent 100%)",
-            maskImage: "linear-gradient(to right, transparent 0%, black 28%), linear-gradient(to top, black 60%, transparent 100%)",
-            WebkitMaskComposite: "source-in",
-            maskComposite: "intersect",
+            WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 22%)",
+            maskImage: "linear-gradient(to right, transparent 0%, black 22%)",
             zIndex: 2,
             opacity: 0,
           }}
@@ -285,7 +306,7 @@ export default function Home() {
             fill
             priority
             style={{ objectFit: "contain", objectPosition: "bottom center" }}
-            sizes="(max-width: 768px) 65vw, 52vw"
+            sizes="52vw"
             onLoad={() => {
               if (heroImgRef.current) {
                 gsap.to(heroImgRef.current, { opacity: 1, duration: 0.9, ease: "power2.out", delay: 0.1 });
@@ -295,7 +316,7 @@ export default function Home() {
         </div>
 
         <div className="container-site relative z-10 py-28 md:py-36">
-          <div ref={heroTextRef} className="max-w-[75vw] sm:max-w-[60vw] md:max-w-[48%]">
+          <div ref={heroTextRef} className="max-w-[60vw] sm:max-w-[55vw] md:max-w-[48%]">
             <div className="hero-badge mb-6 opacity-0">
               <span className="badge-green">G2K Presidential Candidate 2026</span>
             </div>
