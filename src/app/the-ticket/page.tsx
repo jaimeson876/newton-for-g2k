@@ -54,9 +54,12 @@ const HUD_QUALITIES = [
   ["Strategic Thinker", "Community-Rooted", "Vision-Led", "Innovative"],
 ];
 
-// Card dimensions
+// Card dimensions — desktop
 const CW = 320;
 const CH = 460;
+// Card dimensions — mobile (scaled down to fit with pills in one viewport)
+const CW_M = 220;
+const CH_M = 316;
 const N = team.length;
 
 // 3D position config keyed by offset from active (-2..2)
@@ -79,10 +82,21 @@ export default function TheTicketPage() {
   const [activeIdx, setActiveIdx] = useState(0);
   const [bioIdx, setBioIdx] = useState(0);
   const [hudIdx, setHudIdx] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
   const bioRef = useRef<HTMLDivElement>(null);
   const hudRef = useRef<HTMLDivElement>(null);
+  const hudMobileRef = useRef<HTMLDivElement>(null);
   const busy = useRef(false);
+  const touchStartX = useRef<number | null>(null);
+  const touchStartY = useRef<number | null>(null);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
 
   // Set initial 3D positions instantly
   useEffect(() => {
@@ -114,7 +128,7 @@ export default function TheTicketPage() {
 
     // Fade bio + HUD out
     gsap.to(bioRef.current, { opacity: 0, y: 8, duration: 0.22, ease: "power2.in" });
-    gsap.to(hudRef.current, { opacity: 0, y: 6, duration: 0.18, ease: "power2.in" });
+    gsap.to([hudRef.current, hudMobileRef.current], { opacity: 0, y: 6, duration: 0.18, ease: "power2.in" });
 
     // Animate all cards to new positions
     cardRefs.current.forEach((el, i) => {
@@ -148,7 +162,7 @@ export default function TheTicketPage() {
       },
       onComplete: () => { busy.current = false; },
     });
-    gsap.to(hudRef.current, {
+    gsap.to([hudRef.current, hudMobileRef.current], {
       opacity: 1,
       y: 0,
       duration: 0.35,
@@ -159,6 +173,23 @@ export default function TheTicketPage() {
 
   const prev = useCallback(() => animateTo((activeIdx - 1 + N) % N), [activeIdx, animateTo]);
   const next = useCallback(() => animateTo((activeIdx + 1) % N), [activeIdx, animateTo]);
+
+  const handleTouchStart = useCallback((e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+    touchStartY.current = e.touches[0].clientY;
+  }, []);
+
+  const handleTouchEnd = useCallback((e: React.TouchEvent) => {
+    if (touchStartX.current === null || touchStartY.current === null) return;
+    const dx = e.changedTouches[0].clientX - touchStartX.current;
+    const dy = e.changedTouches[0].clientY - touchStartY.current;
+    // Only trigger on primarily horizontal swipes (> 40px) that aren't mostly vertical
+    if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy) * 1.5) {
+      if (dx < 0) next(); else prev();
+    }
+    touchStartX.current = null;
+    touchStartY.current = null;
+  }, [next, prev]);
 
   const displayed = team[bioIdx];
   const hudQualities = HUD_QUALITIES[hudIdx];
@@ -212,27 +243,37 @@ export default function TheTicketPage() {
       </section>
 
       {/* Main: card left, info right */}
-      <section className="py-12 md:py-20">
+      <section className="py-6 md:py-20">
         <div className="container-site">
-          <div className="flex flex-col md:flex-row items-center md:items-start gap-10 md:gap-16">
+          <div className="flex flex-col md:flex-row items-center md:items-start gap-6 md:gap-16">
 
             {/* ── LEFT: card stack ─────────────────────────────────── */}
-            <div className="flex-shrink-0 flex flex-col items-center">
+            <div className="flex-shrink-0 flex flex-col items-center w-full md:w-auto">
               {/* Perspective wrapper */}
               <div
                 className="relative flex items-center justify-center"
-                style={{ perspective: "1100px", perspectiveOrigin: "50% 50%", width: `${CW + 80}px`, height: `${CH + 40}px` }}
+                style={{
+                  perspective: "1100px",
+                  perspectiveOrigin: "50% 50%",
+                  width: `${(isMobile ? CW_M : CW) + 80}px`,
+                  height: `${(isMobile ? CH_M : CH) + 40}px`,
+                }}
+                onTouchStart={handleTouchStart}
+                onTouchEnd={handleTouchEnd}
               >
                 <div
                   className="relative"
-                  style={{ width: `${CW}px`, height: `${CH}px`, transformStyle: "preserve-3d" }}
+                  style={{ width: `${isMobile ? CW_M : CW}px`, height: `${isMobile ? CH_M : CH}px`, transformStyle: "preserve-3d" }}
                 >
-                  {team.map((member, i) => (
+                  {team.map((member, i) => {
+                    const cw = isMobile ? CW_M : CW;
+                    const ch = isMobile ? CH_M : CH;
+                    return (
                     <div
                       key={i}
                       ref={(el) => { cardRefs.current[i] = el; }}
                       className="absolute cursor-pointer"
-                      style={{ width: `${CW}px`, height: `${CH}px`, transformStyle: "preserve-3d" }}
+                      style={{ width: `${cw}px`, height: `${ch}px`, transformStyle: "preserve-3d" }}
                       onClick={() => animateTo(i)}
                     >
                       <div className="float-inner w-full h-full">
@@ -293,7 +334,8 @@ export default function TheTicketPage() {
                         </div>
                       </div>
                     </div>
-                  ))}
+                  );
+                  })}
                 </div>
 
                 {/* Nav arrows beside card */}
@@ -306,15 +348,35 @@ export default function TheTicketPage() {
               </div>
 
               {/* Dot indicators */}
-              <div className="flex items-center gap-2.5 mt-5">
+              <div className="flex items-center gap-2.5 mt-4">
                 {team.map((_, i) => (
                   <button key={i} onClick={() => animateTo(i)} aria-label={`Go to ${team[i].name}`} className="rounded-full transition-all duration-300" style={{ width: i === activeIdx ? "22px" : "8px", height: "8px", background: i === activeIdx ? "var(--color-brand-vivid)" : "var(--color-border)" }} />
                 ))}
               </div>
+
+              {/* Mobile-only: compact name + quality pills (visible without scrolling) */}
+              <div ref={hudMobileRef} className="md:hidden mt-4 w-full max-w-sm text-center">
+                <p style={{ fontFamily: "var(--font-sans)", fontWeight: 700, fontSize: "0.65rem", letterSpacing: "0.18em", textTransform: "uppercase", color: "var(--color-brand-vivid)", marginBottom: "0.25rem" }}>
+                  {team[activeIdx].role}
+                </p>
+                <h2 style={{ fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "1.6rem", color: "var(--color-brand-900)", letterSpacing: "-0.03em", lineHeight: 1, marginBottom: "0.75rem" }}>
+                  {team[activeIdx].name}
+                </h2>
+                <div className="flex flex-wrap justify-center gap-2">
+                  {hudQualities.map((q) => (
+                    <span key={q} className="px-3 py-1.5 rounded-lg text-xs font-semibold" style={{ background: "var(--color-brand-50)", border: "1.5px solid var(--color-border)", color: "var(--color-brand-700)", fontFamily: "var(--font-sans)" }}>
+                      {q}
+                    </span>
+                  ))}
+                </div>
+                <p className="mt-4 text-xs" style={{ color: "var(--color-ink-muted)", fontFamily: "var(--font-sans)" }}>
+                  Swipe or use arrows to explore the ticket
+                </p>
+              </div>
             </div>
 
-            {/* ── RIGHT: info panel ────────────────────────────────── */}
-            <div className="flex-1 min-w-0 flex flex-col justify-center pt-0 md:pt-8">
+            {/* ── RIGHT: info panel (desktop only) ─────────────────── */}
+            <div className="hidden md:flex flex-1 min-w-0 flex-col justify-center pt-8">
               {/* Name + role */}
               <div className="mb-2">
                 <p style={{ fontFamily: "var(--font-sans)", fontWeight: 700, fontSize: "0.72rem", letterSpacing: "0.2em", textTransform: "uppercase", color: "var(--color-brand-vivid)", marginBottom: "0.5rem" }}>

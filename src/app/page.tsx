@@ -267,13 +267,14 @@ export default function Home() {
         {/* Candidate portrait — bottom-right, transparent bg, revealed on load */}
         <div
           ref={heroImgRef}
-          className="absolute bottom-0 right-0 pointer-events-none select-none hidden md:block"
+          className="absolute bottom-0 right-0 pointer-events-none select-none"
           style={{
-            width: "52vw",
-            maxWidth: "820px",
+            width: "clamp(280px, 65vw, 820px)",
             height: "100%",
-            WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 22%)",
-            maskImage: "linear-gradient(to right, transparent 0%, black 22%)",
+            WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 28%), linear-gradient(to top, black 60%, transparent 100%)",
+            maskImage: "linear-gradient(to right, transparent 0%, black 28%), linear-gradient(to top, black 60%, transparent 100%)",
+            WebkitMaskComposite: "source-in",
+            maskComposite: "intersect",
             zIndex: 2,
             opacity: 0,
           }}
@@ -284,7 +285,7 @@ export default function Home() {
             fill
             priority
             style={{ objectFit: "contain", objectPosition: "bottom center" }}
-            sizes="52vw"
+            sizes="(max-width: 768px) 65vw, 52vw"
             onLoad={() => {
               if (heroImgRef.current) {
                 gsap.to(heroImgRef.current, { opacity: 1, duration: 0.9, ease: "power2.out", delay: 0.1 });
@@ -294,7 +295,7 @@ export default function Home() {
         </div>
 
         <div className="container-site relative z-10 py-28 md:py-36">
-          <div ref={heroTextRef} className="max-w-4xl md:max-w-[48%]">
+          <div ref={heroTextRef} className="max-w-[75vw] sm:max-w-[60vw] md:max-w-[48%]">
             <div className="hero-badge mb-6 opacity-0">
               <span className="badge-green">G2K Presidential Candidate 2026</span>
             </div>
@@ -550,32 +551,6 @@ export default function Home() {
         <div className="absolute top-0 right-0 pointer-events-none select-none opacity-[0.05]" style={{ transform: "translateY(-20%) translateX(20%)" }}>
           <ArrowMotif size={500} color="var(--color-gold-400)" scrollReveal={false} />
         </div>
-        {/* Wave — full width, bottom edge, fades upward */}
-        <div
-          className="absolute bottom-0 left-0 right-0 pointer-events-none select-none overflow-hidden"
-          style={{
-            height: "320px",
-            WebkitMaskImage: "linear-gradient(to top, rgba(0,0,0,0.45) 0%, transparent 100%)",
-            maskImage: "linear-gradient(to top, rgba(0,0,0,0.45) 0%, transparent 100%)",
-          }}
-          aria-hidden="true"
-        >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/images/wave-divider.svg"
-            alt=""
-            style={{
-              position: "absolute",
-              bottom: 0,
-              left: 0,
-              width: "100%",
-              height: "auto",
-              opacity: 0.4,
-              animation: "wave-drift 22s ease-in-out infinite alternate",
-            }}
-          />
-        </div>
-
         <div className="container-site relative z-10">
           <div className="max-w-3xl mx-auto text-center space-y-8 scroll-reveal">
             <span className="badge-green">My Mission</span>
@@ -627,31 +602,6 @@ export default function Home() {
         className="relative py-20 md:py-32 overflow-hidden"
         style={{ background: "var(--color-surface)" }}
       >
-        {/* Wave — full width, top edge, fades downward */}
-        <div
-          className="absolute top-0 left-0 right-0 pointer-events-none select-none overflow-hidden"
-          style={{
-            height: "320px",
-            WebkitMaskImage: "linear-gradient(to bottom, rgba(0,0,0,0.35) 0%, transparent 100%)",
-            maskImage: "linear-gradient(to bottom, rgba(0,0,0,0.35) 0%, transparent 100%)",
-          }}
-          aria-hidden="true"
-        >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/images/wave-divider.svg"
-            alt=""
-            style={{
-              position: "absolute",
-              top: 0,
-              left: 0,
-              width: "100%",
-              height: "auto",
-              opacity: 0.3,
-              animation: "wave-drift-flip 26s ease-in-out infinite alternate-reverse",
-            }}
-          />
-        </div>
         <div className="container-site">
           <div className="text-center mb-14 scroll-reveal">
             <span className="badge-green">The Plan</span>
