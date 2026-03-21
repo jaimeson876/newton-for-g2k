@@ -214,6 +214,149 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
+/* ─── Letter / rich-text prose ────────────────────────────────── */
+.prose-letter h1 {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  color: var(--color-brand-900);
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+}
+.prose-letter h2 {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(1.35rem, 3vw, 1.9rem);
+  color: var(--color-brand-900);
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  margin-top: 2.25rem;
+  margin-bottom: 0.75rem;
+}
+.prose-letter h3 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.1rem, 2.5vw, 1.45rem);
+  color: var(--color-brand-800);
+  letter-spacing: -0.015em;
+  line-height: 1.2;
+  margin-top: 2rem;
+  margin-bottom: 0.6rem;
+}
+.prose-letter h4 {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--color-brand-700);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-top: 1.75rem;
+  margin-bottom: 0.5rem;
+}
+.prose-letter p {
+  margin-bottom: 1.4em;
+  color: var(--color-ink);
+}
+.prose-letter p:last-child { margin-bottom: 0; }
+.prose-letter strong {
+  font-weight: 700;
+  color: var(--color-ink);
+}
+.prose-letter em { font-style: italic; }
+.prose-letter a {
+  color: var(--color-brand-700);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 0.15s;
+}
+.prose-letter a:hover { color: var(--color-brand-vivid); }
+.prose-letter ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.4em 0;
+}
+.prose-letter ul li {
+  padding-left: 1.4em;
+  position: relative;
+  margin-bottom: 0.5em;
+}
+.prose-letter ul li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-brand-vivid);
+}
+.prose-letter ol {
+  list-style: none;
+  counter-reset: prose-counter;
+  padding: 0;
+  margin: 0 0 1.4em 0;
+}
+.prose-letter ol li {
+  counter-increment: prose-counter;
+  padding-left: 2em;
+  position: relative;
+  margin-bottom: 0.5em;
+}
+.prose-letter ol li::before {
+  content: counter(prose-counter) ".";
+  position: absolute;
+  left: 0;
+  font-weight: 700;
+  color: var(--color-brand-700);
+  font-family: var(--font-condensed);
+}
+.prose-letter blockquote {
+  border-left: 4px solid var(--color-gold-400);
+  margin: 1.75rem 0;
+  padding: 0.75rem 1.25rem;
+  background: rgba(245, 197, 24, 0.05);
+  border-radius: 0 8px 8px 0;
+}
+.prose-letter blockquote p {
+  font-style: italic;
+  color: var(--color-ink-muted);
+  margin-bottom: 0;
+}
+.prose-letter hr {
+  border: none;
+  border-top: 2px solid var(--color-border);
+  margin: 2.5rem 0;
+}
+.prose-letter code {
+  font-family: var(--font-mono);
+  font-size: 0.88em;
+  background: var(--color-brand-100);
+  color: var(--color-brand-800);
+  padding: 0.15em 0.4em;
+  border-radius: 4px;
+}
+.prose-letter pre {
+  background: var(--color-brand-950);
+  color: var(--color-brand-200);
+  padding: 1.25rem;
+  border-radius: 12px;
+  overflow-x: auto;
+  margin-bottom: 1.4em;
+  font-size: 0.9rem;
+}
+.prose-letter pre code {
+  background: none;
+  color: inherit;
+  padding: 0;
+}
+.prose-letter img {
+  max-width: 100%;
+  border-radius: 12px;
+  margin: 1.5rem 0;
+}
+
 /* ─── Focus ring ───────────────────────────────────────────────── */
 *:focus-visible {
   outline: 2px solid var(--color-gold-400);

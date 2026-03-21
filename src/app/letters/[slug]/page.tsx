@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { getAllLetters, getLetter } from "@/lib/letters";
+import { marked } from "marked";
 import type { Metadata } from "next";
 
 interface Props {
@@ -22,20 +23,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-// Minimal markdown-to-HTML: paragraphs, bold, line breaks
-function renderMarkdown(md: string): string {
-  return md
-    .trim()
-    .split(/\n{2,}/)
-    .map((block) => {
-      const line = block
-        .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
-        .replace(/\*(.+?)\*/g, "<em>$1</em>")
-        .replace(/\n/g, "<br />");
-      return `<p>${line}</p>`;
-    })
-    .join("\n");
-}
 
 export default async function LetterPage({ params }: Props) {
   const { slug } = await params;
@@ -124,7 +111,7 @@ export default async function LetterPage({ params }: Props) {
               color: "var(--color-ink)",
               lineHeight: 1.85,
             }}
-            dangerouslySetInnerHTML={{ __html: renderMarkdown(letter.content) }}
+            dangerouslySetInnerHTML={{ __html: marked(letter.content) }}
           />
 
           <div
