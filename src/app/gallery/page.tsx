@@ -127,6 +127,22 @@ function SectionLabel({ icon: Icon, label, color }: { icon: React.ElementType; l
   );
 }
 
+// ─── Video thumbnail card (play button placeholder) ───────────────
+function VideoThumbnail() {
+  return (
+    <div className="absolute inset-0 flex items-center justify-center group-hover:bg-[rgba(29,184,75,0.06)] transition-colors duration-300">
+      <div
+        className="w-12 h-12 rounded-full flex items-center justify-center transition-transform duration-300 group-hover:scale-110"
+        style={{ background: "rgba(3,12,5,0.65)", border: "1.5px solid rgba(29,184,75,0.55)", boxShadow: "0 0 24px rgba(29,184,75,0.2)" }}
+      >
+        <svg viewBox="0 0 24 24" fill="none" className="w-5 h-5" style={{ marginLeft: "2px" }}>
+          <path d="M5 3l14 9-14 9V3z" fill="rgba(29,184,75,0.9)" />
+        </svg>
+      </div>
+    </div>
+  );
+}
+
 // ─── Photo lightbox ───────────────────────────────────────────────
 function Lightbox({ index, onClose, onPrev, onNext }: { index: number; onClose: () => void; onPrev: () => void; onNext: () => void }) {
   const panelRef = useRef<HTMLDivElement>(null);
@@ -177,37 +193,127 @@ function Lightbox({ index, onClose, onPrev, onNext }: { index: number; onClose: 
   );
 }
 
-// ─── Video modal ──────────────────────────────────────────────────
-function VideoModal({ src, title, outlet, onClose }: { src: string; title: string; outlet: string; onClose: () => void }) {
+// ─── Video lightbox ───────────────────────────────────────────────
+type VideoItem = { driveId: string; title: string; outlet?: string };
+
+function VideoLightbox({
+  item,
+  allItems,
+  onClose,
+  onPrev,
+  onNext,
+}: {
+  item: VideoItem;
+  allItems: VideoItem[];
+  onClose: () => void;
+  onPrev: () => void;
+  onNext: () => void;
+}) {
   const panelRef = useRef<HTMLDivElement>(null);
+  const currentIndex = allItems.findIndex((v) => v.driveId === item.driveId);
 
   useEffect(() => {
-    if (panelRef.current) gsap.fromTo(panelRef.current, { opacity: 0, scale: 0.94 }, { opacity: 1, scale: 1, duration: 0.28, ease: "power3.out" });
+    if (panelRef.current) gsap.fromTo(panelRef.current, { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.3, ease: "power3.out" });
     document.body.style.overflow = "hidden";
     return () => { document.body.style.overflow = ""; };
   }, []);
 
   useEffect(() => {
-    const handler = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+      if (e.key === "ArrowLeft") onPrev();
+      if (e.key === "ArrowRight") onNext();
+    };
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
-  }, [onClose]);
+  }, [onClose, onPrev, onNext]);
 
   return (
-    <div className="fixed inset-0 z-[9999] flex items-center justify-center px-4" style={{ background: "rgba(3,12,5,0.97)", backdropFilter: "blur(12px)" }} onClick={onClose}>
-      <button onClick={onClose} className="absolute top-5 right-5 w-10 h-10 rounded-full flex items-center justify-center transition-colors hover:bg-white/10" style={{ color: "rgba(255,255,255,0.6)" }} aria-label="Close">
-        <X size={20} />
-      </button>
-      <div ref={panelRef} className="w-full" style={{ maxWidth: "860px", opacity: 0 }} onClick={(e) => e.stopPropagation()}>
-        <div className="flex items-center gap-2 mb-3">
-          <span className="px-2 py-0.5 rounded font-bold text-white" style={{ background: "var(--color-brand-vivid)", fontFamily: "var(--font-sans)", fontSize: "0.55rem", letterSpacing: "0.1em", textTransform: "uppercase" }}>
-            {outlet}
-          </span>
-          <p style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: "1rem", color: "rgba(255,255,255,0.85)" }}>{title}</p>
+    <div
+      className="fixed inset-0 z-[9999] flex flex-col items-center justify-center"
+      style={{ background: "rgba(3,12,5,0.97)", backdropFilter: "blur(14px)" }}
+      onClick={onClose}
+    >
+      {/* Prev / Next */}
+      {allItems.length > 1 && (
+        <>
+          <button onClick={(e) => { e.stopPropagation(); onPrev(); }} className="absolute left-3 md:left-7 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full flex items-center justify-center hover:bg-white/10 transition-all" style={{ color: "rgba(255,255,255,0.6)", zIndex: 10 }} aria-label="Previous">
+            <ChevronLeft size={24} />
+          </button>
+          <button onClick={(e) => { e.stopPropagation(); onNext(); }} className="absolute right-3 md:right-7 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full flex items-center justify-center hover:bg-white/10 transition-all" style={{ color: "rgba(255,255,255,0.6)", zIndex: 10 }} aria-label="Next">
+            <ChevronRight size={24} />
+          </button>
+        </>
+      )}
+
+      <div
+        ref={panelRef}
+        className="w-full px-4"
+        style={{ maxWidth: "900px", opacity: 0 }}
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Title bar */}
+        <div
+          className="flex items-center justify-between px-4 py-3 rounded-t-2xl"
+          style={{ background: "rgba(13,31,16,0.9)", border: "1px solid rgba(29,184,75,0.12)", borderBottom: "none" }}
+        >
+          <div className="flex items-center gap-2.5 min-w-0">
+            {item.outlet && (
+              <span
+                className="shrink-0 px-2 py-0.5 rounded font-bold"
+                style={{ background: "var(--color-brand-vivid)", fontFamily: "var(--font-sans)", fontSize: "0.52rem", letterSpacing: "0.1em", textTransform: "uppercase", color: "#fff" }}
+              >
+                {item.outlet}
+              </span>
+            )}
+            <p
+              className="truncate"
+              style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: "0.95rem", color: "#fff" }}
+            >
+              {item.title}
+            </p>
+          </div>
+          <div className="flex items-center gap-3 ml-4 shrink-0">
+            {allItems.length > 1 && (
+              <span style={{ fontFamily: "var(--font-sans)", fontSize: "0.62rem", color: "rgba(255,255,255,0.3)", letterSpacing: "0.1em" }}>
+                {currentIndex + 1} / {allItems.length}
+              </span>
+            )}
+            <button onClick={onClose} className="w-7 h-7 rounded-full flex items-center justify-center hover:bg-white/10 transition-colors" style={{ color: "rgba(255,255,255,0.5)" }} aria-label="Close">
+              <X size={16} />
+            </button>
+          </div>
         </div>
-        <video controls autoPlay className="w-full rounded-2xl" style={{ background: "#000", maxHeight: "70vh", boxShadow: "0 32px 96px rgba(0,0,0,0.75)", border: "1px solid rgba(29,184,75,0.15)" }}>
-          <source src={src} type="video/mp4" />
-        </video>
+
+        {/* Video — Drive header clipped with overflow trick */}
+        <div
+          style={{
+            position: "relative",
+            width: "100%",
+            paddingTop: "56.25%", /* 16:9 */
+            overflow: "hidden",
+            background: "#000",
+            borderRadius: "0 0 16px 16px",
+            border: "1px solid rgba(29,184,75,0.12)",
+            borderTop: "none",
+            boxShadow: "0 32px 96px rgba(0,0,0,0.8)",
+          }}
+        >
+          <iframe
+            key={item.driveId}
+            src={DRIVE(item.driveId)}
+            allow="autoplay"
+            allowFullScreen
+            style={{
+              position: "absolute",
+              top: "-56px",  /* clip Drive header bar */
+              left: 0,
+              width: "100%",
+              height: "calc(100% + 56px)",
+              border: "none",
+            }}
+          />
+        </div>
       </div>
     </div>
   );
@@ -221,7 +327,7 @@ export default function GalleryPage() {
   const writingsRef = useRef<HTMLDivElement>(null);
 
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
-  const [videoModal, setVideoModal] = useState<{ src: string; title: string; outlet: string } | null>(null);
+  const [videoIndex, setVideoIndex] = useState<{ list: VideoItem[]; idx: number } | null>(null);
   const [writings, setWritings] = useState(WRITING_PLACEHOLDERS as { slug: string | null; title: string; excerpt: string; date: string | null }[]);
 
   useEffect(() => {
@@ -257,8 +363,14 @@ export default function GalleryPage() {
         <Lightbox index={lightboxIndex} onClose={closeLightbox} onPrev={prevPhoto} onNext={nextPhoto} />
       )}
 
-      {videoModal && (
-        <VideoModal src={videoModal.src} title={videoModal.title} outlet={videoModal.outlet} onClose={() => setVideoModal(null)} />
+      {videoIndex && (
+        <VideoLightbox
+          item={videoIndex.list[videoIndex.idx]}
+          allItems={videoIndex.list}
+          onClose={() => setVideoIndex(null)}
+          onPrev={() => setVideoIndex((v) => v && { ...v, idx: (v.idx - 1 + v.list.length) % v.list.length })}
+          onNext={() => setVideoIndex((v) => v && { ...v, idx: (v.idx + 1) % v.list.length })}
+        />
       )}
 
       {/* Hero */}
@@ -325,21 +437,28 @@ export default function GalleryPage() {
           <SectionLabel icon={Video} label="Videos" color="var(--color-gold-400)" />
 
           {/* Campaign launch — featured */}
-          <div className="video-card rounded-2xl overflow-hidden relative mb-6" style={{ border: "1px solid rgba(245,197,24,0.14)", background: "#030C05", maxWidth: "860px" }}>
-            <div className="px-5 pt-4 pb-2 flex items-center gap-2">
-              <span className="px-2 py-0.5 rounded font-bold text-white" style={{ background: "var(--color-gold-400)", color: "var(--color-brand-900)", fontFamily: "var(--font-sans)", fontSize: "0.55rem", letterSpacing: "0.1em", textTransform: "uppercase" }}>
-                Launch
-              </span>
-              <p style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: "0.9rem", color: "rgba(255,255,255,0.7)" }}>Campaign Launch — March 18, 2026</p>
-            </div>
-            <iframe
-              src={DRIVE("1rJkMvqsJLf_cLbfjLBMbQJCRjTDv2Cla")}
-              className="w-full block"
-              style={{ height: "480px", border: "none", background: "#000" }}
-              allow="autoplay"
-              allowFullScreen
-            />
-          </div>
+          {(() => {
+            const launch: VideoItem = { driveId: "1rJkMvqsJLf_cLbfjLBMbQJCRjTDv2Cla", title: "Campaign Launch — March 18, 2026" };
+            return (
+              <button
+                className="video-card rounded-2xl overflow-hidden relative mb-6 w-full cursor-pointer group text-left"
+                style={{ border: "1px solid rgba(245,197,24,0.14)", background: "linear-gradient(148deg, #0e2212, #030C05)", maxWidth: "860px" }}
+                onClick={() => setVideoIndex({ list: [launch], idx: 0 })}
+              >
+                <div className="relative" style={{ aspectRatio: "16/9" }}>
+                  <VideoThumbnail />
+                  <div className="absolute top-3 left-3">
+                    <span className="px-2 py-0.5 rounded font-bold" style={{ background: "var(--color-gold-400)", color: "var(--color-brand-900)", fontFamily: "var(--font-sans)", fontSize: "0.55rem", letterSpacing: "0.1em", textTransform: "uppercase" }}>
+                      Launch
+                    </span>
+                  </div>
+                </div>
+                <div className="px-5 py-3">
+                  <p style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: "1rem", color: "rgba(255,255,255,0.85)" }}>Campaign Launch — March 18, 2026</p>
+                </div>
+              </button>
+            );
+          })()}
 
           {/* Short clips grid */}
           <p style={{ fontFamily: "var(--font-sans)", fontWeight: 700, fontSize: "0.68rem", letterSpacing: "0.15em", textTransform: "uppercase", color: "rgba(255,255,255,0.3)", marginBottom: "1rem" }}>
@@ -347,18 +466,17 @@ export default function GalleryPage() {
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {CLIPS.map((clip, i) => (
-              <div key={i} className="video-card rounded-xl overflow-hidden" style={{ background: "linear-gradient(148deg, #0e2212, #030C05)", border: "1px solid rgba(245,197,24,0.08)" }}>
-                <iframe
-                  src={DRIVE(clip.driveId)}
-                  className="w-full block"
-                  style={{ aspectRatio: "16/9", border: "none", background: "#000" }}
-                  allow="autoplay"
-                  allowFullScreen
-                />
-                <div className="px-3 py-2">
-                  <p style={{ fontFamily: "var(--font-sans)", fontWeight: 600, fontSize: "0.72rem", color: "rgba(255,255,255,0.6)" }}>{clip.title}</p>
+              <button
+                key={i}
+                className="video-card rounded-xl overflow-hidden cursor-pointer group text-left"
+                style={{ background: "linear-gradient(148deg, #0e2212, #030C05)", border: "1px solid rgba(245,197,24,0.08)" }}
+                onClick={() => setVideoIndex({ list: CLIPS, idx: i })}
+              >
+                <VideoThumbnail />
+                <div className="px-3 py-2.5">
+                  <p style={{ fontFamily: "var(--font-sans)", fontWeight: 600, fontSize: "0.78rem", color: "rgba(255,255,255,0.7)" }}>{clip.title}</p>
                 </div>
-              </div>
+              </button>
             ))}
           </div>
         </div>
@@ -372,28 +490,27 @@ export default function GalleryPage() {
             TV interviews and panel discussions. Watch Newton make the case for a better Jamaica.
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {APPEARANCES.map((item) => (
-              <div
+            {APPEARANCES.map((item, i) => (
+              <button
                 key={item.id}
-                className="appearance-card rounded-2xl overflow-hidden"
+                className="appearance-card rounded-2xl overflow-hidden cursor-pointer group text-left"
                 style={{ background: "rgba(13,31,16,0.55)", border: "1px solid rgba(29,184,75,0.1)" }}
+                onClick={() => setVideoIndex({ list: APPEARANCES, idx: i })}
               >
-                <iframe
-                  src={DRIVE(item.driveId)}
-                  className="w-full block"
-                  style={{ aspectRatio: "16/9", border: "none", background: "#000" }}
-                  allow="autoplay"
-                  allowFullScreen
-                />
-                <div className="px-4 py-3 flex items-center gap-2">
-                  <span className="shrink-0 px-2 py-0.5 rounded font-bold" style={{ background: "var(--color-brand-vivid)", fontFamily: "var(--font-sans)", fontSize: "0.5rem", letterSpacing: "0.1em", textTransform: "uppercase", color: "#fff" }}>
-                    {item.outlet}
-                  </span>
-                  <p style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: "0.85rem", color: "#fff", lineHeight: 1.2 }}>
+                <div className="relative" style={{ aspectRatio: "16/9", background: "linear-gradient(155deg, #0e2212, #030C05)" }}>
+                  <VideoThumbnail />
+                  <div className="absolute top-2.5 left-2.5">
+                    <span className="px-2 py-0.5 rounded font-bold" style={{ background: "var(--color-brand-vivid)", fontFamily: "var(--font-sans)", fontSize: "0.5rem", letterSpacing: "0.1em", textTransform: "uppercase", color: "#fff" }}>
+                      {item.outlet}
+                    </span>
+                  </div>
+                </div>
+                <div className="px-4 py-3">
+                  <p style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: "0.88rem", color: "#fff", lineHeight: 1.25 }}>
                     {item.title}
                   </p>
                 </div>
-              </div>
+              </button>
             ))}
           </div>
         </div>
