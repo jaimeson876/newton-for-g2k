@@ -25,10 +25,16 @@ export function getAllLetters(): LetterMeta[] {
       const slug = filename.replace(/\.md$/, "");
       const raw = fs.readFileSync(path.join(LETTERS_DIR, filename), "utf8");
       const { data } = matter(raw);
+      // gray-matter parses bare YAML dates (2026-03-20) as JS Date objects.
+      // Normalize to YYYY-MM-DD string so all downstream code gets a string.
+      const rawDate = data.date;
+      const date = rawDate instanceof Date
+        ? rawDate.toISOString().split("T")[0]
+        : (rawDate ?? "");
       return {
         slug,
         title: data.title ?? "Untitled",
-        date: data.date ?? "",
+        date,
         excerpt: data.excerpt ?? "",
         image: data.image,
       };
@@ -41,10 +47,14 @@ export function getLetter(slug: string): Letter | null {
   if (!fs.existsSync(filepath)) return null;
   const raw = fs.readFileSync(filepath, "utf8");
   const { data, content } = matter(raw);
+  const rawDate = data.date;
+  const date = rawDate instanceof Date
+    ? rawDate.toISOString().split("T")[0]
+    : (rawDate ?? "");
   return {
     slug,
     title: data.title ?? "Untitled",
-    date: data.date ?? "",
+    date,
     excerpt: data.excerpt ?? "",
     image: data.image,
     content,

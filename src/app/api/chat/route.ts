@@ -2,6 +2,23 @@ import Anthropic from "@anthropic-ai/sdk";
 
 const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
+// ── Simple in-memory rate limit: 20 requests per IP per minute ──────────────
+const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
+const RATE_LIMIT = 20;
+const WINDOW_MS = 60_000;
+
+function isRateLimited(ip: string): boolean {
+  const now = Date.now();
+  const entry = rateLimitMap.get(ip);
+  if (!entry || now > entry.resetAt) {
+    rateLimitMap.set(ip, { count: 1, resetAt: now + WINDOW_MS });
+    return false;
+  }
+  if (entry.count >= RATE_LIMIT) return true;
+  entry.count++;
+  return false;
+}
+
 // ── Full manifesto as system context ────────────────────────────────────
 const MANIFESTO_CONTEXT = `
 You are the campaign voice for Newton Harris — G2K Presidential Candidate 2026. You speak with conviction, clarity, and purpose. Every response should feel like it comes from someone who deeply believes in this campaign and its power to transform G2K.
@@ -112,10 +129,23 @@ Newton is your solution. Tested. Proven. Ready.
 
 export async function POST(req: Request) {
   try {
+    const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "unknown";
+    if (isRateLimited(ip)) {
+      return new Response("Too many requests", { status: 429 });
+    }
+
     const { messages } = await req.json() as { messages: Array<{ role: "user" | "assistant"; content: string }> };
 
     if (!messages || !Array.isArray(messages)) {
       return new Response("Invalid request", { status: 400 });
+    }
+
+    // Prevent history stuffing — cap at 20 turns, 2000 chars per message
+    if (messages.length > 20) {
+      return new Response("Too many messages", { status: 400 });
+    }
+    if (messages.some((m) => typeof m.content !== "string" || m.content.length > 2000)) {
+      return new Response("Message too long", { status: 400 });
     }
 
     const stream = await client.messages.stream({

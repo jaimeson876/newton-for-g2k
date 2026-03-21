@@ -69,7 +69,7 @@ export default async function LetterPage({ params }: Props) {
               marginBottom: "1rem",
             }}
           >
-            {new Date(letter.date).toLocaleDateString("en-JM", {
+            {new Date(letter.date + "T12:00:00").toLocaleDateString("en-JM", {
               year: "numeric",
               month: "long",
               day: "numeric",
@@ -99,6 +99,7 @@ export default async function LetterPage({ params }: Props) {
               alt={letter.title}
               className="w-full rounded-2xl mb-10 object-cover"
               style={{ maxHeight: "480px" }}
+              loading="lazy"
             />
           )}
 
@@ -111,7 +112,7 @@ export default async function LetterPage({ params }: Props) {
               color: "var(--color-ink)",
               lineHeight: 1.85,
             }}
-            dangerouslySetInnerHTML={{ __html: marked(letter.content) }}
+            dangerouslySetInnerHTML={{ __html: marked.parse(letter.content) as string }}
           />
 
           <div

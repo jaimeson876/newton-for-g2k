@@ -93,7 +93,7 @@ export default function LettersPage() {
                       color: "var(--color-brand-vivid)",
                     }}
                   >
-                    {new Date(letter.date).toLocaleDateString("en-JM", {
+                    {new Date(letter.date + "T12:00:00").toLocaleDateString("en-JM", {
                       year: "numeric",
                       month: "long",
                       day: "numeric",

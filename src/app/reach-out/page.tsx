@@ -8,8 +8,8 @@ import ArrowMotif from "@/components/shared/ArrowMotif";
 
 gsap.registerPlugin(ScrollTrigger);
 
-// ── Replace with your actual Google Calendar appointment link ──────────────
 const CALENDAR_LINK = "https://calendar.google.com/calendar/appointments/schedules/YOUR_SCHEDULE_ID";
+const CALENDAR_CONFIGURED = !CALENDAR_LINK.includes("YOUR_SCHEDULE_ID");
 
 type FormState = "idle" | "submitting" | "success" | "error";
 
@@ -142,7 +142,7 @@ export default function ReachOutPage() {
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 lg:gap-16 items-start">
 
             {/* ── Left: context + schedule ────────────────────── */}
-            <div className="reach-info-col lg:col-span-2 space-y-10 opacity-0">
+            <div className="reach-info-col lg:col-span-2 space-y-10">
               {/* Quote */}
               <div
                 className="rounded-3xl p-8 space-y-4"
@@ -187,8 +187,8 @@ export default function ReachOutPage() {
                 </p>
               </div>
 
-              {/* Schedule a call */}
-              <div className="space-y-3">
+              {/* Schedule a call — only shown when CALENDAR_LINK is configured */}
+              {CALENDAR_CONFIGURED && <div className="space-y-3">
                 <p
                   style={{
                     fontFamily: "var(--font-condensed)",
@@ -258,11 +258,11 @@ export default function ReachOutPage() {
                 >
                   Powered by Google Calendar. No account required to book.
                 </p>
-              </div>
+              </div>}
             </div>
 
             {/* ── Right: contact form ──────────────────────────── */}
-            <div className="reach-form-col lg:col-span-3 opacity-0">
+            <div className="reach-form-col lg:col-span-3">
               {formState === "success" ? (
                 <div
                   className="rounded-3xl p-10 flex flex-col items-center text-center space-y-5"

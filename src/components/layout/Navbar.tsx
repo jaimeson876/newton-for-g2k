@@ -11,6 +11,7 @@ export default function Navbar() {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
   const [planOpen, setPlanOpen] = useState(false);
+  const [desktopPlanOpen, setDesktopPlanOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -19,10 +20,11 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Close mobile menu on route change
+  // Close menus on route change
   useEffect(() => {
     setMenuOpen(false);
     setPlanOpen(false);
+    setDesktopPlanOpen(false);
   }, [pathname]);
 
   const isActive = (href: string) =>
@@ -70,12 +72,15 @@ export default function Navbar() {
                         : "text-white/80 hover:text-white hover:bg-white/10"
                     )}
                     aria-haspopup="true"
+                    aria-expanded={desktopPlanOpen}
+                    onClick={() => setDesktopPlanOpen((o) => !o)}
+                    onKeyDown={(e) => { if (e.key === "Escape") setDesktopPlanOpen(false); }}
                   >
                     {item.label}
-                    <ChevronDown size={14} className="transition-transform group-hover:rotate-180" />
+                    <ChevronDown size={14} className={cn("transition-transform", (desktopPlanOpen) && "rotate-180", "group-hover:rotate-180")} />
                   </button>
-                  {/* Dropdown */}
-                  <div className="absolute top-full left-0 mt-1 min-w-72 bg-[var(--color-brand-900)] border border-white/10 rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 overflow-hidden">
+                  {/* Dropdown — visible on hover (mouse) or when desktopPlanOpen (keyboard) */}
+                  <div className={cn("absolute top-full left-0 mt-1 min-w-72 bg-[var(--color-brand-900)] border border-white/10 rounded-lg shadow-xl transition-all duration-200 overflow-hidden", desktopPlanOpen ? "opacity-100 visible" : "opacity-0 invisible group-hover:opacity-100 group-hover:visible")}>
                     {item.children.map((child) => (
                       <Link
                         key={child.href}

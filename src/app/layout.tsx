@@ -25,6 +25,13 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_JM",
     siteName: "Newton for G2K",
+    images: [{ url: "/og-image.jpg", width: 1200, height: 630, alt: "Newton Harris for G2K President 2026" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Newton Harris for G2K President",
+    description: "Tested. Proven. Ready to Lead on Day One.",
+    images: ["/og-image.jpg"],
   },
   robots: { index: true, follow: true },
 };

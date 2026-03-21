@@ -333,6 +333,19 @@ function VideoLightbox({
           </div>
         )}
       </div>
+
+      {/* Safari/ITP fallback — Drive preview requires 3rd-party cookies */}
+      <p style={{ textAlign: "center", marginTop: "0.6rem", fontFamily: "var(--font-sans)", fontSize: "0.65rem", color: "rgba(255,255,255,0.25)" }}>
+        Video not loading?{" "}
+        <a
+          href={`https://drive.google.com/file/d/${item.driveId}/view`}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ color: "var(--color-brand-vivid)", textDecoration: "underline" }}
+        >
+          Open in Google Drive
+        </a>
+      </p>
     </div>
   );
 }
@@ -369,10 +382,18 @@ export default function GalleryPage() {
       gsap.from(".gallery-card", { opacity: 0, y: 36, scale: 0.96, duration: 0.65, stagger: 0.045, ease: "power3.out", scrollTrigger: { trigger: photosRef.current, start: "top 82%", once: true } });
       gsap.from(".video-card", { opacity: 0, y: 28, duration: 0.55, stagger: 0.07, ease: "power3.out", scrollTrigger: { trigger: videosRef.current, start: "top 82%", once: true } });
       gsap.from(".appearance-card", { opacity: 0, y: 28, duration: 0.55, stagger: 0.07, ease: "power3.out", scrollTrigger: { trigger: appearancesRef.current, start: "top 82%", once: true } });
-      gsap.from(".writing-card", { opacity: 0, y: 28, duration: 0.55, stagger: 0.1, ease: "power3.out", scrollTrigger: { trigger: writingsRef.current, start: "top 82%", once: true } });
     });
     return () => ctx.revert();
   }, []);
+
+  // Animate writing cards only once real letters have loaded (not placeholders)
+  useEffect(() => {
+    if (writings.every((w) => w.slug === null)) return;
+    gsap.from(".writing-card", {
+      opacity: 0, y: 28, duration: 0.55, stagger: 0.1, ease: "power3.out",
+      scrollTrigger: { trigger: writingsRef.current, start: "top 82%", once: true },
+    });
+  }, [writings]);
 
   return (
     <div style={{ background: "var(--color-brand-950)", minHeight: "100vh" }}>
@@ -495,12 +516,17 @@ export default function GalleryPage() {
                 style={{ background: "rgba(13,31,16,0.55)", border: "1px solid rgba(29,184,75,0.1)" }}
                 onClick={() => setVideoIndex({ list: APPEARANCES, idx: i })}
               >
-                <div className="relative" style={{ aspectRatio: "16/9", background: "linear-gradient(155deg, #0e2212, #030C05)" }}>
+                <div className="relative" style={{ aspectRatio: item.orientation === "portrait" ? "9/16" : "16/9", background: "linear-gradient(155deg, #0e2212, #030C05)" }}>
                   <VideoThumbnail />
-                  <div className="absolute top-2.5 left-2.5">
+                  <div className="absolute top-2.5 left-2.5 flex items-center gap-1.5">
                     <span className="px-2 py-0.5 rounded font-bold" style={{ background: "var(--color-brand-vivid)", fontFamily: "var(--font-sans)", fontSize: "0.5rem", letterSpacing: "0.1em", textTransform: "uppercase", color: "#fff" }}>
                       {item.outlet}
                     </span>
+                    {item.orientation === "portrait" && (
+                      <span className="px-1.5 py-0.5 rounded font-bold" style={{ background: "rgba(255,255,255,0.12)", fontFamily: "var(--font-sans)", fontSize: "0.45rem", letterSpacing: "0.08em", textTransform: "uppercase", color: "rgba(255,255,255,0.6)" }}>
+                        vertical
+                      </span>
+                    )}
                   </div>
                 </div>
                 <div className="px-4 py-3">

@@ -43,7 +43,7 @@ const pillars = [
 
 const stats = [
   { value: 5, suffix: "+", label: "Years Ministerial Advisor" },
-  { value: 2018, suffix: "", label: "G2K Member Since" },
+  { value: 8, suffix: "+", label: "Years in G2K" },
   { value: 2, suffix: "", label: "National Forums Delivered" },
 ];
 
@@ -82,21 +82,26 @@ export default function Home() {
       // ── Hero mouse drift — chars attract toward cursor ─────────
       const heroEl = heroRef.current;
       if (heroEl) {
+        let rafId: number | null = null;
         const onMove = (e: MouseEvent) => {
-          const chars = heroEl.querySelectorAll<HTMLElement>(".kchar");
-          chars.forEach((char) => {
-            const rect = char.getBoundingClientRect();
-            const cx = rect.left + rect.width / 2;
-            const cy = rect.top + rect.height / 2;
-            const dx = e.clientX - cx;
-            const dy = e.clientY - cy;
-            const str = Math.max(0, 1 - Math.hypot(dx, dy) / 300);
-            gsap.to(char, {
-              x: dx * str * 0.07,
-              y: dy * str * 0.035,
-              duration: 0.45,
-              ease: "power2.out",
-              overwrite: "auto",
+          if (rafId !== null) return;
+          rafId = requestAnimationFrame(() => {
+            rafId = null;
+            const chars = heroEl.querySelectorAll<HTMLElement>(".kchar");
+            chars.forEach((char) => {
+              const rect = char.getBoundingClientRect();
+              const cx = rect.left + rect.width / 2;
+              const cy = rect.top + rect.height / 2;
+              const dx = e.clientX - cx;
+              const dy = e.clientY - cy;
+              const str = Math.max(0, 1 - Math.hypot(dx, dy) / 300);
+              gsap.to(char, {
+                x: dx * str * 0.07,
+                y: dy * str * 0.035,
+                duration: 0.45,
+                ease: "power2.out",
+                overwrite: "auto",
+              });
             });
           });
         };
@@ -117,6 +122,7 @@ export default function Home() {
         cleanupHeroListeners = () => {
           heroEl.removeEventListener("mousemove", onMove);
           heroEl.removeEventListener("mouseleave", onLeave);
+          if (rafId !== null) cancelAnimationFrame(rafId);
         };
       }
 
