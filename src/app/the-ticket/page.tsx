@@ -315,9 +315,9 @@ export default function TheTicketPage() {
                           <div className="holo-shimmer" />
 
                           {/* Role badge */}
-                          <div className="absolute top-4 left-4">
-                            <span className="px-2.5 py-1 rounded-lg text-white font-bold" style={{ background: "var(--color-brand-vivid)", fontFamily: "var(--font-sans)", fontSize: "0.6rem", letterSpacing: "0.1em", textTransform: "uppercase" }}>
-                              {i === 0 ? "President" : "Vice President"}
+                          <div className="absolute top-3 left-3">
+                            <span className="px-2 py-0.5 rounded-md text-white font-bold" style={{ background: "var(--color-brand-vivid)", fontFamily: "var(--font-sans)", fontSize: "0.52rem", letterSpacing: "0.08em", textTransform: "uppercase" }}>
+                              {i === 0 ? "President" : "VP"}
                             </span>
                           </div>
 
