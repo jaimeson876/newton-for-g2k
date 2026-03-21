@@ -361,18 +361,16 @@ h1, h2, h3, h4, h5, h6 {
   transition: opacity 0.5s ease;
 }
 
-/* ─── Original wave-divider gentle float animation ────────────── */
+/* ─── Wave-divider horizontal drift ───────────────────────────── */
 @keyframes wave-drift {
-  0%   { transform: translate(-50%, -50%) scale(1)     rotate(0deg); }
-  50%  { transform: translate(-49%, -50%) scale(1.012) rotate(0.2deg); }
-  100% { transform: translate(-51%, -50%) scale(1.012) rotate(-0.2deg); }
+  0%   { transform: translateX(0%)    scaleY(1); }
+  50%  { transform: translateX(-1.5%) scaleY(1.012); }
+  100% { transform: translateX(1.5%)  scaleY(1.008); }
 }
-/* Mirrored variant — scaleX(-1) baked into every keyframe so the flip
-   is never overridden by the animation replacing the inline transform */
 @keyframes wave-drift-flip {
-  0%   { transform: translate(-50%, -50%) scale(-1, 1)      rotate(0deg); }
-  50%  { transform: translate(-49%, -50%) scale(-1.012, 1.012) rotate(-0.2deg); }
-  100% { transform: translate(-51%, -50%) scale(-1.012, 1.012) rotate(0.2deg); }
+  0%   { transform: translateX(0%)    scaleY(1) scaleX(-1); }
+  50%  { transform: translateX(1.5%)  scaleY(1.012) scaleX(-1); }
+  100% { transform: translateX(-1.5%) scaleY(1.008) scaleX(-1); }
 }
 
 /* ─── Wave divider scroll animations ──────────────────────────── */

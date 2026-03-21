@@ -550,13 +550,13 @@ export default function Home() {
         <div className="absolute top-0 right-0 pointer-events-none select-none opacity-[0.05]" style={{ transform: "translateY(-20%) translateX(20%)" }}>
           <ArrowMotif size={500} color="var(--color-gold-400)" scrollReveal={false} />
         </div>
-        {/* Wave — right edge, vertical, gradient fade inward */}
+        {/* Wave — full width, bottom edge, fades upward */}
         <div
-          className="absolute right-0 top-0 h-full pointer-events-none select-none overflow-hidden"
+          className="absolute bottom-0 left-0 right-0 pointer-events-none select-none overflow-hidden"
           style={{
-            width: "42vw",
-            WebkitMaskImage: "linear-gradient(to left, rgba(0,0,0,0.55) 0%, transparent 88%)",
-            maskImage: "linear-gradient(to left, rgba(0,0,0,0.55) 0%, transparent 88%)",
+            height: "320px",
+            WebkitMaskImage: "linear-gradient(to top, rgba(0,0,0,0.45) 0%, transparent 100%)",
+            maskImage: "linear-gradient(to top, rgba(0,0,0,0.45) 0%, transparent 100%)",
           }}
           aria-hidden="true"
         >
@@ -566,10 +566,11 @@ export default function Home() {
             alt=""
             style={{
               position: "absolute",
-              top: "50%",
-              left: "50%",
-              width: "min(160vh, 2400px)",
-              transform: "translate(-50%, -50%) rotate(90deg)",
+              bottom: 0,
+              left: 0,
+              width: "100%",
+              height: "auto",
+              opacity: 0.4,
               animation: "wave-drift 22s ease-in-out infinite alternate",
             }}
           />
@@ -626,13 +627,13 @@ export default function Home() {
         className="relative py-20 md:py-32 overflow-hidden"
         style={{ background: "var(--color-surface)" }}
       >
-        {/* Wave — left edge, vertical, gradient fade inward */}
+        {/* Wave — full width, top edge, fades downward */}
         <div
-          className="absolute left-0 top-0 h-full pointer-events-none select-none overflow-hidden"
+          className="absolute top-0 left-0 right-0 pointer-events-none select-none overflow-hidden"
           style={{
-            width: "42vw",
-            WebkitMaskImage: "linear-gradient(to right, rgba(0,0,0,0.45) 0%, transparent 88%)",
-            maskImage: "linear-gradient(to right, rgba(0,0,0,0.45) 0%, transparent 88%)",
+            height: "320px",
+            WebkitMaskImage: "linear-gradient(to bottom, rgba(0,0,0,0.35) 0%, transparent 100%)",
+            maskImage: "linear-gradient(to bottom, rgba(0,0,0,0.35) 0%, transparent 100%)",
           }}
           aria-hidden="true"
         >
@@ -642,10 +643,11 @@ export default function Home() {
             alt=""
             style={{
               position: "absolute",
-              top: "50%",
-              left: "50%",
-              width: "min(160vh, 2400px)",
-              transform: "translate(-50%, -50%) rotate(-90deg)",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: "auto",
+              opacity: 0.3,
               animation: "wave-drift-flip 26s ease-in-out infinite alternate-reverse",
             }}
           />
