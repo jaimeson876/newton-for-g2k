@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import Image from "next/image";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Link from "next/link";
@@ -140,8 +141,31 @@ export default function TheCandidatePage() {
         <div className="absolute inset-0 flex items-center justify-end opacity-[0.04] pointer-events-none">
           <ArrowMotif size={700} color="var(--color-brand-vivid)" />
         </div>
+
+        {/* Candidate portrait */}
+        <div
+          className="absolute bottom-0 right-0 pointer-events-none select-none hidden md:block"
+          style={{
+            width: "52vw",
+            maxWidth: "820px",
+            height: "100%",
+            WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 22%)",
+            maskImage: "linear-gradient(to right, transparent 0%, black 22%)",
+            zIndex: 2,
+          }}
+        >
+          <Image
+            src="/images/newton-hero.png"
+            alt="Newton Harris"
+            fill
+            priority
+            style={{ objectFit: "contain", objectPosition: "bottom center" }}
+            sizes="52vw"
+          />
+        </div>
+
         <div className="container-site relative z-10">
-          <div className="max-w-3xl">
+          <div className="max-w-3xl md:max-w-[46%]">
             <p
               className="hero-label inline-block px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest mb-6"
               style={{

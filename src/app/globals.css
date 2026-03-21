@@ -308,30 +308,27 @@ h1, h2, h3, h4, h5, h6 {
   pointer-events: none;
   background: linear-gradient(
     115deg,
-    transparent 20%,
-    rgba(29, 184, 75, 0.04) 30%,
-    rgba(245, 197, 24, 0.07) 42%,
-    rgba(255, 255, 255, 0.09) 50%,
-    rgba(29, 184, 75, 0.04) 58%,
+    transparent 30%,
+    rgba(255, 255, 255, 0.025) 50%,
     transparent 70%
   );
   background-size: 300% 100%;
-  animation: holo-shift 5s linear infinite;
+  animation: holo-shift 8s linear infinite;
   mix-blend-mode: screen;
 }
 
-/* ─── Pointer-responsive holographic card (Jhey / trading card) ── */
+/* ─── Pointer-responsive holographic card ────────────────────── */
 
-/* Tilt — applied to card face inner div, not the GSAP outer */
+/* Tilt — exaggerated for physical trading-card feel */
 .card-face {
   transform:
-    rotateX(calc(var(--py, 0) * -12deg))
-    rotateY(calc(var(--px, 0) * 12deg));
-  transition: transform 0.12s linear;
+    rotateX(calc(var(--py, 0) * -22deg))
+    rotateY(calc(var(--px, 0) * 22deg));
+  transition: transform 0.1s linear;
   will-change: transform;
 }
 
-/* Dual-radial holographic refraction — color-dodge blend */
+/* Refraction — barely visible, only on hover */
 .card-refraction {
   position: absolute;
   inset: 0;
@@ -339,36 +336,28 @@ h1, h2, h3, h4, h5, h6 {
   pointer-events: none;
   background:
     radial-gradient(
-      circle at calc(50% + var(--px, 0) * 80%) calc(45% + var(--py, 0) * 60%),
-      hsla(5,  100%, 78%, 0.65),
-      hsla(85, 100%, 62%, 0.45) 20%,
-      hsla(200, 90%, 68%, 0.35) 38%,
-      transparent 56%
-    ),
-    radial-gradient(
-      circle at calc(58% + var(--px, 0) * -55%) calc(52% + var(--py, 0) * 65%),
-      hsla(280, 88%, 72%, 0.4),
-      hsla(345, 100%, 68%, 0.3) 22%,
-      transparent 48%
+      circle at calc(50% + var(--px, 0) * 60%) calc(45% + var(--py, 0) * 50%),
+      hsla(140, 60%, 70%, 0.12),
+      transparent 55%
     );
-  mix-blend-mode: color-dodge;
-  opacity: calc(0.18 + var(--holo-o, 0) * 0.65);
+  mix-blend-mode: screen;
+  opacity: calc(var(--holo-o, 0) * 0.4);
   transition: opacity 0.5s ease;
 }
 
-/* Moving spotlight — overlay blend */
+/* Spotlight — very subtle */
 .card-spotlight {
   position: absolute;
   inset: 0;
   border-radius: inherit;
   pointer-events: none;
   background: radial-gradient(
-    circle at calc(50% + var(--px, 0) * 110%) calc(50% + var(--py, 0) * 90%),
-    rgba(255, 255, 255, 0.13) 0%,
-    transparent 52%
+    circle at calc(50% + var(--px, 0) * 80%) calc(50% + var(--py, 0) * 70%),
+    rgba(255, 255, 255, 0.06) 0%,
+    transparent 55%
   );
   mix-blend-mode: overlay;
-  opacity: var(--holo-o, 0);
+  opacity: calc(var(--holo-o, 0) * 0.5);
   transition: opacity 0.5s ease;
 }
 

@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useEffect } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, FileText } from "lucide-react";
 import { gsap } from "gsap";
@@ -73,7 +74,7 @@ export default function Home() {
       if (heroTextRef.current) {
         const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
         tl.fromTo(".hero-badge", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.7 })
-          .fromTo(".hero-sub",  { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.7 }, "1.85")
+          .fromTo(".hero-sub",  { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.7 }, "2.0")
           .fromTo(".hero-ctas", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.7 }, "-=0.3");
       }
 
@@ -198,9 +199,10 @@ export default function Home() {
       {/* ── HERO ────────────────────────────────────────────────── */}
       <section
         ref={heroRef}
-        className="relative min-h-screen flex items-center bg-[var(--color-brand-950)] overflow-hidden"
+        className="relative min-h-screen flex items-center overflow-hidden"
+        style={{ background: "#ffffff" }}
       >
-        {/* Aurora blob 1 — animated */}
+        {/* Aurora blob 1 */}
         <div
           className="absolute pointer-events-none aurora-1"
           style={{
@@ -208,10 +210,10 @@ export default function Home() {
             left: "-8%",
             width: "60vw",
             height: "60vw",
-            background: "radial-gradient(ellipse at center, rgba(29,184,75,0.14) 0%, transparent 68%)",
+            background: "radial-gradient(ellipse at center, rgba(29,184,75,0.08) 0%, transparent 68%)",
           }}
         />
-        {/* Aurora blob 2 — animated, offset timing */}
+        {/* Aurora blob 2 */}
         <div
           className="absolute pointer-events-none aurora-2"
           style={{
@@ -219,21 +221,10 @@ export default function Home() {
             right: "-12%",
             width: "50vw",
             height: "50vw",
-            background: "radial-gradient(ellipse at center, rgba(29,184,75,0.08) 0%, transparent 68%)",
+            background: "radial-gradient(ellipse at center, rgba(245,197,24,0.06) 0%, transparent 68%)",
           }}
         />
-        {/* Grain texture overlay */}
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E")`,
-            backgroundSize: "200px 200px",
-            opacity: 0.035,
-            zIndex: 1,
-          }}
-          aria-hidden="true"
-        />
-        {/* Ghost stroke text — editorial depth element */}
+        {/* Ghost stroke text */}
         <div
           className="absolute bottom-0 right-0 overflow-hidden pointer-events-none select-none"
           style={{ zIndex: 1 }}
@@ -244,7 +235,7 @@ export default function Home() {
               fontFamily: "var(--font-display)",
               fontWeight: 900,
               fontSize: "clamp(6rem, 22vw, 20rem)",
-              WebkitTextStroke: "1px rgba(29,184,75,0.09)",
+              WebkitTextStroke: "1px rgba(27,94,45,0.05)",
               color: "transparent",
               letterSpacing: "-0.05em",
               lineHeight: 0.85,
@@ -270,38 +261,87 @@ export default function Home() {
           />
         </div>
 
+        {/* Candidate portrait — bottom-right, transparent bg */}
+        <div
+          className="absolute bottom-0 right-0 pointer-events-none select-none hidden md:block"
+          style={{
+            width: "52vw",
+            maxWidth: "820px",
+            height: "100%",
+            WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 22%)",
+            maskImage: "linear-gradient(to right, transparent 0%, black 22%)",
+            zIndex: 2,
+          }}
+        >
+          <Image
+            src="/images/newton-hero.png"
+            alt="Newton Harris, G2K Presidential Candidate 2026"
+            fill
+            priority
+            style={{ objectFit: "contain", objectPosition: "bottom center" }}
+            sizes="52vw"
+          />
+        </div>
+
         <div className="container-site relative z-10 py-28 md:py-36">
-          <div ref={heroTextRef} className="max-w-4xl">
+          <div ref={heroTextRef} className="max-w-4xl md:max-w-[48%]">
             <div className="hero-badge mb-6 opacity-0">
               <span className="badge-green">G2K Presidential Candidate 2026</span>
             </div>
 
-            <KineticText
-              text="NEWTON"
-              tag="h1"
-              className="hero-line-1 leading-none mb-0"
-              style={{
-                fontFamily: "var(--font-display)",
-                fontSize: "clamp(3.5rem, 10vw, 8rem)",
-                fontWeight: 900,
-                letterSpacing: "-0.03em",
-                color: "#fff",
-              }}
-              delay={0.25}
-            />
-            <KineticText
-              text="IS YOUR SOLUTION"
-              tag="h1"
-              className="hero-line-2 leading-none mb-8"
-              style={{
-                fontFamily: "var(--font-display)",
-                fontSize: "clamp(3.5rem, 10vw, 8rem)",
-                fontWeight: 900,
-                letterSpacing: "-0.03em",
-                color: "var(--color-brand-vivid)",
-              }}
-              delay={0.65}
-            />
+            <div style={{ lineHeight: 1, display: "block" }}>
+              <KineticText
+                text="NEWTON"
+                tag="h1"
+                className="hero-line-1"
+                style={{
+                  fontFamily: "var(--font-display)",
+                  fontSize: "clamp(3.8rem, 10vw, 8.5rem)",
+                  fontWeight: 900,
+                  letterSpacing: "-0.04em",
+                  color: "var(--color-brand-900)",
+                  lineHeight: 0.95,
+                  display: "block",
+                  margin: 0,
+                  whiteSpace: "nowrap",
+                }}
+                delay={0.25}
+              />
+              <KineticText
+                text="IS YOUR"
+                tag="h1"
+                className="hero-line-2"
+                style={{
+                  fontFamily: "var(--font-display)",
+                  fontSize: "clamp(3.8rem, 10vw, 8.5rem)",
+                  fontWeight: 900,
+                  letterSpacing: "-0.04em",
+                  color: "var(--color-brand-vivid)",
+                  lineHeight: 0.95,
+                  display: "block",
+                  margin: 0,
+                  whiteSpace: "nowrap",
+                }}
+                delay={0.55}
+              />
+              <KineticText
+                text="SOLUTION"
+                tag="h1"
+                className="hero-line-3 mb-8"
+                style={{
+                  fontFamily: "var(--font-display)",
+                  fontSize: "clamp(3.8rem, 10vw, 8.5rem)",
+                  fontWeight: 900,
+                  letterSpacing: "-0.04em",
+                  color: "var(--color-brand-vivid)",
+                  lineHeight: 0.95,
+                  display: "block",
+                  margin: 0,
+                  whiteSpace: "nowrap",
+                }}
+                delay={0.75}
+              />
+            </div>
 
             <div className="hero-sub opacity-0 space-y-3 mb-10">
               <p
@@ -309,7 +349,7 @@ export default function Home() {
                   fontFamily: "var(--font-sans)",
                   fontWeight: 600,
                   fontSize: "clamp(0.9rem, 2vw, 1.1rem)",
-                  color: "rgba(255,255,255,0.55)",
+                  color: "var(--color-ink-muted)",
                   letterSpacing: "0.22em",
                   textTransform: "uppercase",
                 }}
@@ -322,7 +362,7 @@ export default function Home() {
                   fontWeight: 300,
                   fontStyle: "italic",
                   fontSize: "clamp(0.85rem, 1.8vw, 1rem)",
-                  color: "rgba(255,255,255,0.35)",
+                  color: "var(--color-ink-muted)",
                 }}
               >
                 {candidate.era}
@@ -334,8 +374,8 @@ export default function Home() {
                 href="/the-candidate"
                 className="group inline-flex items-center gap-2.5 px-7 py-3.5 rounded-2xl font-bold text-sm transition-all duration-300"
                 style={{
-                  background: "var(--color-gold-400)",
-                  color: "var(--color-brand-900)",
+                  background: "var(--color-brand-vivid)",
+                  color: "#fff",
                   fontFamily: "var(--font-sans)",
                   fontWeight: 700,
                 }}
@@ -347,8 +387,8 @@ export default function Home() {
                 href="/manifesto"
                 className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-2xl font-bold text-sm border-2 transition-all duration-300"
                 style={{
-                  borderColor: "rgba(255,255,255,0.2)",
-                  color: "rgba(255,255,255,0.75)",
+                  borderColor: "var(--color-brand-700)",
+                  color: "var(--color-brand-700)",
                   fontFamily: "var(--font-sans)",
                   fontWeight: 600,
                 }}
@@ -362,7 +402,7 @@ export default function Home() {
         {/* Bottom fade */}
         <div
           className="absolute bottom-0 left-0 right-0 h-32 pointer-events-none"
-          style={{ background: "linear-gradient(to bottom, transparent, var(--color-brand-950))" }}
+          style={{ background: "linear-gradient(to bottom, transparent, #ffffff)" }}
         />
       </section>
 
@@ -420,16 +460,16 @@ export default function Home() {
       </div>
 
       {/* ── STATS ───────────────────────────────────────────────── */}
-      <section className="py-20 md:py-28" style={{ background: "var(--color-brand-950)" }}>
+      <section className="py-20 md:py-28" style={{ background: "var(--color-brand-50)" }}>
         <div className="container-site">
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-0 rounded-3xl overflow-hidden" style={{ border: "1px solid rgba(29,184,75,0.15)" }}>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-0 rounded-3xl overflow-hidden" style={{ border: "1px solid var(--color-border)" }}>
             {stats.map((s, i) => (
               <div
                 key={i}
                 className="px-10 py-12 text-center relative"
                 style={{
-                  borderRight: i < stats.length - 1 ? "1px solid rgba(29,184,75,0.12)" : "none",
-                  background: i % 2 === 1 ? "rgba(29,184,75,0.04)" : "transparent",
+                  borderRight: i < stats.length - 1 ? "1px solid var(--color-border)" : "none",
+                  background: i % 2 === 1 ? "rgba(29,184,75,0.05)" : "white",
                 }}
               >
                 <div
@@ -439,7 +479,7 @@ export default function Home() {
                   <AnimatedCounter
                     value={s.value}
                     suffix={s.suffix}
-                    className="text-[var(--color-brand-vivid)]"
+                    className="text-[var(--color-brand-700)]"
                   />
                 </div>
                 <p
@@ -447,7 +487,7 @@ export default function Home() {
                     fontFamily: "var(--font-sans)",
                     fontWeight: 400,
                     fontSize: "0.8rem",
-                    color: "rgba(255,255,255,0.4)",
+                    color: "var(--color-ink-muted)",
                     letterSpacing: "0.08em",
                     textTransform: "uppercase",
                   }}
@@ -460,13 +500,13 @@ export default function Home() {
 
           {/* Intro blurb */}
           <div className="mt-16 max-w-2xl mx-auto text-center scroll-reveal">
-            <div className="section-divider mx-auto" style={{ background: "rgba(29,184,75,0.3)" }} />
+            <div className="section-divider mx-auto" style={{ background: "var(--color-brand-vivid)" }} />
             <p
               style={{
                 fontFamily: "var(--font-sans)",
                 fontWeight: 300,
                 fontSize: "clamp(1rem, 2.2vw, 1.2rem)",
-                color: "rgba(255,255,255,0.65)",
+                color: "var(--color-ink)",
                 lineHeight: 1.75,
               }}
             >
@@ -475,7 +515,7 @@ export default function Home() {
             <Link
               href="/the-candidate"
               className="group inline-flex items-center gap-2 mt-6 font-bold transition-all"
-              style={{ color: "var(--color-brand-vivid)", fontFamily: "var(--font-sans)", fontWeight: 700 }}
+              style={{ color: "var(--color-brand-700)", fontFamily: "var(--font-sans)", fontWeight: 700 }}
             >
               Learn more about Newton
               <ArrowRight size={15} className="group-hover:translate-x-1 transition-transform" />
@@ -806,7 +846,7 @@ export default function Home() {
       {/* ── PRESENCE ───────────────────────────────────────────── */}
       <section
         className="py-20 md:py-28"
-        style={{ background: "var(--color-brand-950)" }}
+        style={{ background: "white" }}
       >
         <div className="container-site">
           <div className="text-center mb-12 scroll-reveal">
@@ -817,7 +857,7 @@ export default function Home() {
                 fontFamily: "var(--font-display)",
                 fontWeight: 900,
                 fontSize: "clamp(1.8rem, 4vw, 3rem)",
-                color: "#fff",
+                color: "var(--color-brand-900)",
                 letterSpacing: "-0.03em",
               }}
             >
@@ -829,7 +869,7 @@ export default function Home() {
                 fontFamily: "var(--font-sans)",
                 fontWeight: 300,
                 fontSize: "0.95rem",
-                color: "rgba(255,255,255,0.45)",
+                color: "var(--color-ink-muted)",
               }}
             >
               Real-time updates from Newton Harris on X.

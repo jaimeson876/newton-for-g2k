@@ -12,7 +12,7 @@ const team = [
     name: "Newton Harris",
     role: "G2K President",
     tagline: "Tested. Proven. Ready.",
-    poster: "/images/posters/newton.jpg",
+    poster: "/images/newton-hero.png",
     handle: undefined as string | undefined,
     bio: "Newton brings over five years of ministerial experience at the highest levels of Jamaican government, a Jesuit-trained intellectual rigour, and a lifetime of community service. He has been in the room, absorbed the mechanics of governance, and built the relationships that make real change possible. Newton is the strategic backbone of this ticket, ready on day one.",
     accent: "#1DB84B",
@@ -55,8 +55,8 @@ const HUD_QUALITIES = [
 ];
 
 // Card dimensions
-const CW = 268;
-const CH = 374;
+const CW = 320;
+const CH = 460;
 const N = team.length;
 
 // 3D position config keyed by offset from active (-2..2)
@@ -164,18 +164,18 @@ export default function TheTicketPage() {
   const hudQualities = HUD_QUALITIES[hudIdx];
 
   return (
-    <div style={{ background: "var(--color-brand-950)", minHeight: "100vh" }}>
+    <div style={{ background: "#ffffff", minHeight: "100vh" }}>
 
       {/* Hero */}
-      <section className="relative pt-24 pb-6 text-center px-4 overflow-hidden">
-        <div className="absolute left-0 bottom-0 pointer-events-none select-none opacity-[0.025]">
+      <section className="relative pt-24 pb-10 text-center px-4 overflow-hidden" style={{ background: "var(--color-brand-50)" }}>
+        <div className="absolute left-0 bottom-0 pointer-events-none select-none opacity-[0.06]">
           <ArrowMotif size={360} color="var(--color-brand-vivid)" />
         </div>
         <p
           className="inline-block px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest mb-5"
           style={{
             background: "rgba(29,184,75,0.12)",
-            color: "var(--color-brand-vivid)",
+            color: "var(--color-brand-700)",
             fontFamily: "var(--font-sans)",
           }}
         >
@@ -186,7 +186,7 @@ export default function TheTicketPage() {
             fontFamily: "var(--font-display)",
             fontWeight: 900,
             fontSize: "clamp(2.8rem, 7vw, 5.5rem)",
-            color: "#fff",
+            color: "var(--color-brand-900)",
             lineHeight: 0.95,
             letterSpacing: "-0.03em",
           }}
@@ -200,7 +200,7 @@ export default function TheTicketPage() {
             fontFamily: "var(--font-sans)",
             fontWeight: 300,
             fontSize: "1rem",
-            color: "rgba(255,255,255,0.45)",
+            color: "var(--color-ink-muted)",
             lineHeight: 1.75,
           }}
         >
@@ -208,336 +208,159 @@ export default function TheTicketPage() {
         </p>
       </section>
 
-      {/* Carousel */}
-      <section className="relative flex flex-col items-center py-10">
+      {/* Main: card left, info right */}
+      <section className="py-12 md:py-20">
+        <div className="container-site">
+          <div className="flex flex-col md:flex-row items-center md:items-start gap-10 md:gap-16">
 
-        {/* Perspective wrapper */}
-        <div
-          className="relative flex items-center justify-center w-full"
-          style={{ perspective: "1100px", perspectiveOrigin: "50% 50%", height: `${CH + 56}px` }}
-        >
-          {/* Cards container */}
-          <div
-            className="relative"
-            style={{
-              width: `${CW}px`,
-              height: `${CH}px`,
-              transformStyle: "preserve-3d",
-            }}
-          >
-            {team.map((member, i) => (
+            {/* ── LEFT: card stack ─────────────────────────────────── */}
+            <div className="flex-shrink-0 flex flex-col items-center">
+              {/* Perspective wrapper */}
               <div
-                key={i}
-                ref={(el) => { cardRefs.current[i] = el; }}
-                className="absolute cursor-pointer"
-                style={{ width: `${CW}px`, height: `${CH}px`, transformStyle: "preserve-3d" }}
-                onClick={() => animateTo(i)}
+                className="relative flex items-center justify-center"
+                style={{ perspective: "1100px", perspectiveOrigin: "50% 50%", width: `${CW + 80}px`, height: `${CH + 40}px` }}
               >
-                {/* Float inner */}
-                <div className="float-inner w-full h-full">
-
-                  {/* Card face */}
-                  <div
-                    className="card-face w-full h-full rounded-2xl overflow-hidden relative"
-                    style={{
-                      background: "linear-gradient(160deg, #0d1f10 0%, var(--color-brand-950) 100%)",
-                      border: `1px solid ${i === activeIdx ? "rgba(29,184,75,0.45)" : "rgba(29,184,75,0.12)"}`,
-                      boxShadow: i === activeIdx
-                        ? "0 32px 80px rgba(0,0,0,0.75), 0 0 48px rgba(29,184,75,0.18)"
-                        : "0 16px 48px rgba(0,0,0,0.55)",
-                    }}
-                    onMouseMove={(e) => {
-                      const el = e.currentTarget;
-                      const rect = el.getBoundingClientRect();
-                      const px = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
-                      const py = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
-                      el.style.setProperty("--px", px.toFixed(3));
-                      el.style.setProperty("--py", py.toFixed(3));
-                      el.style.setProperty("--holo-o", "1");
-                    }}
-                    onMouseLeave={(e) => {
-                      const el = e.currentTarget;
-                      el.style.setProperty("--px", "0");
-                      el.style.setProperty("--py", "0");
-                      el.style.setProperty("--holo-o", "0");
-                    }}
-                    onTouchMove={(e) => {
-                      const touch = e.touches[0];
-                      const el = e.currentTarget;
-                      const rect = el.getBoundingClientRect();
-                      const px = ((touch.clientX - rect.left) / rect.width - 0.5) * 2;
-                      const py = ((touch.clientY - rect.top) / rect.height - 0.5) * 2;
-                      el.style.setProperty("--px", px.toFixed(3));
-                      el.style.setProperty("--py", py.toFixed(3));
-                      el.style.setProperty("--holo-o", "1");
-                    }}
-                    onTouchEnd={(e) => {
-                      const el = e.currentTarget;
-                      el.style.setProperty("--px", "0");
-                      el.style.setProperty("--py", "0");
-                      el.style.setProperty("--holo-o", "0");
-                    }}
-                  >
-                    {/* Poster image */}
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={member.poster}
-                      alt={member.name}
-                      className="absolute inset-0 w-full h-full object-cover object-top"
-                      onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
-                    />
-
-                    {/* Base gradient overlay */}
+                <div
+                  className="relative"
+                  style={{ width: `${CW}px`, height: `${CH}px`, transformStyle: "preserve-3d" }}
+                >
+                  {team.map((member, i) => (
                     <div
-                      className="absolute inset-0"
-                      style={{
-                        background: "linear-gradient(to top, rgba(3,12,5,0.97) 0%, rgba(3,12,5,0.4) 52%, rgba(3,12,5,0.08) 100%)",
-                      }}
-                    />
-
-                    <div className="card-refraction" />
-                    <div className="card-spotlight" />
-                    <div className="holo-shimmer" style={{ opacity: 0.5 }} />
-
-                    {/* Role badge */}
-                    <div className="absolute top-4 left-4">
-                      <span
-                        className="px-2 py-0.5 rounded text-white font-bold"
-                        style={{
-                          background: "var(--color-brand-vivid)",
-                          fontFamily: "var(--font-sans)",
-                          fontSize: "0.58rem",
-                          letterSpacing: "0.1em",
-                          textTransform: "uppercase",
-                        }}
-                      >
-                        {i === 0 ? "President" : "Vice President"}
-                      </span>
-                    </div>
-
-                    {/* Ghost number */}
-                    <div
-                      className="absolute top-2 right-4 pointer-events-none select-none"
-                      style={{
-                        fontFamily: "var(--font-display)",
-                        fontWeight: 900,
-                        fontSize: "4.5rem",
-                        color: "transparent",
-                        WebkitTextStroke: "1px rgba(29,184,75,0.1)",
-                        lineHeight: 1,
-                      }}
+                      key={i}
+                      ref={(el) => { cardRefs.current[i] = el; }}
+                      className="absolute cursor-pointer"
+                      style={{ width: `${CW}px`, height: `${CH}px`, transformStyle: "preserve-3d" }}
+                      onClick={() => animateTo(i)}
                     >
-                      {String(i + 1).padStart(2, "0")}
-                    </div>
+                      <div className="float-inner w-full h-full">
+                        <div
+                          className="card-face w-full h-full rounded-3xl overflow-hidden relative"
+                          style={{
+                            background: "linear-gradient(160deg, #0d1f10 0%, var(--color-brand-950) 100%)",
+                            border: `1.5px solid ${i === activeIdx ? "rgba(29,184,75,0.5)" : "rgba(29,184,75,0.1)"}`,
+                            boxShadow: i === activeIdx
+                              ? "0 28px 64px rgba(0,0,0,0.22), 0 0 0 1px rgba(29,184,75,0.15)"
+                              : "0 12px 32px rgba(0,0,0,0.12)",
+                          }}
+                          onMouseMove={(e) => {
+                            const el = e.currentTarget;
+                            const rect = el.getBoundingClientRect();
+                            const px = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
+                            const py = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
+                            el.style.setProperty("--px", px.toFixed(3));
+                            el.style.setProperty("--py", py.toFixed(3));
+                            el.style.setProperty("--holo-o", "1");
+                          }}
+                          onMouseLeave={(e) => {
+                            const el = e.currentTarget;
+                            el.style.setProperty("--px", "0");
+                            el.style.setProperty("--py", "0");
+                            el.style.setProperty("--holo-o", "0");
+                          }}
+                        >
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img
+                            src={member.poster}
+                            alt={member.name}
+                            className="absolute inset-0 w-full h-full object-cover object-top"
+                            onError={(e) => { (e.currentTarget as HTMLImageElement).src = "/images/newton-hero.png"; }}
+                          />
+                          <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(3,12,5,0.88) 0%, rgba(3,12,5,0.15) 45%, rgba(3,12,5,0.0) 100%)" }} />
+                          <div className="card-refraction" />
+                          <div className="card-spotlight" />
+                          <div className="holo-shimmer" />
 
-                    {/* Name + info */}
-                    <div className="absolute bottom-0 left-0 right-0 p-5">
-                      <p
-                        style={{
-                          fontFamily: "var(--font-sans)",
-                          fontWeight: 700,
-                          fontSize: "0.62rem",
-                          letterSpacing: "0.16em",
-                          textTransform: "uppercase",
-                          color: "var(--color-brand-vivid)",
-                          marginBottom: "0.3rem",
-                        }}
-                      >
-                        {member.role}
-                      </p>
-                      <h3
-                        style={{
-                          fontFamily: "var(--font-display)",
-                          fontWeight: 900,
-                          fontSize: "1.42rem",
-                          color: "#fff",
-                          lineHeight: 1.0,
-                          letterSpacing: "-0.025em",
-                        }}
-                      >
-                        {member.name}
-                      </h3>
-                      <p
-                        style={{
-                          fontFamily: "var(--font-sans)",
-                          fontWeight: 300,
-                          fontSize: "0.7rem",
-                          color: "rgba(255,255,255,0.5)",
-                          marginTop: "0.35rem",
-                          lineHeight: 1.5,
-                        }}
-                      >
-                        {member.tagline}
-                      </p>
-                    </div>
-                  </div>
+                          {/* Role badge */}
+                          <div className="absolute top-4 left-4">
+                            <span className="px-2.5 py-1 rounded-lg text-white font-bold" style={{ background: "var(--color-brand-vivid)", fontFamily: "var(--font-sans)", fontSize: "0.6rem", letterSpacing: "0.1em", textTransform: "uppercase" }}>
+                              {i === 0 ? "President" : "Vice President"}
+                            </span>
+                          </div>
 
+                          {/* Ghost number */}
+                          <div className="absolute top-2 right-4 pointer-events-none select-none" style={{ fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "5rem", color: "transparent", WebkitTextStroke: "1px rgba(29,184,75,0.08)", lineHeight: 1 }}>
+                            {String(i + 1).padStart(2, "0")}
+                          </div>
+
+                          {/* Name at bottom */}
+                          <div className="absolute bottom-0 left-0 right-0 p-5">
+                            <p style={{ fontFamily: "var(--font-sans)", fontWeight: 700, fontSize: "0.6rem", letterSpacing: "0.18em", textTransform: "uppercase", color: "var(--color-brand-vivid)", marginBottom: "0.25rem" }}>{member.role}</p>
+                            <h3 style={{ fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "1.5rem", color: "#fff", lineHeight: 1.0, letterSpacing: "-0.025em" }}>{member.name}</h3>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
                 </div>
+
+                {/* Nav arrows beside card */}
+                <button onClick={prev} aria-label="Previous" className="absolute left-0 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full flex items-center justify-center transition-all hover:scale-110 active:scale-95" style={{ background: "white", border: "1.5px solid var(--color-border)", color: "var(--color-brand-700)", boxShadow: "0 2px 8px rgba(0,0,0,0.08)", zIndex: 20 }}>
+                  <ChevronLeft size={18} />
+                </button>
+                <button onClick={next} aria-label="Next" className="absolute right-0 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full flex items-center justify-center transition-all hover:scale-110 active:scale-95" style={{ background: "white", border: "1.5px solid var(--color-border)", color: "var(--color-brand-700)", boxShadow: "0 2px 8px rgba(0,0,0,0.08)", zIndex: 20 }}>
+                  <ChevronRight size={18} />
+                </button>
               </div>
-            ))}
-          </div>
 
-          {/* Arrow buttons */}
-          <button
-            onClick={prev}
-            aria-label="Previous"
-            className="absolute left-4 md:left-12 lg:left-20 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full flex items-center justify-center transition-all hover:scale-110 active:scale-95"
-            style={{
-              background: "rgba(29,184,75,0.1)",
-              border: "1px solid rgba(29,184,75,0.25)",
-              color: "#fff",
-              zIndex: 20,
-            }}
-          >
-            <ChevronLeft size={18} />
-          </button>
-          <button
-            onClick={next}
-            aria-label="Next"
-            className="absolute right-4 md:right-12 lg:right-20 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full flex items-center justify-center transition-all hover:scale-110 active:scale-95"
-            style={{
-              background: "rgba(29,184,75,0.1)",
-              border: "1px solid rgba(29,184,75,0.25)",
-              color: "#fff",
-              zIndex: 20,
-            }}
-          >
-            <ChevronRight size={18} />
-          </button>
-        </div>
+              {/* Dot indicators */}
+              <div className="flex items-center gap-2.5 mt-5">
+                {team.map((_, i) => (
+                  <button key={i} onClick={() => animateTo(i)} aria-label={`Go to ${team[i].name}`} className="rounded-full transition-all duration-300" style={{ width: i === activeIdx ? "22px" : "8px", height: "8px", background: i === activeIdx ? "var(--color-brand-vivid)" : "var(--color-border)" }} />
+                ))}
+              </div>
+            </div>
 
-        {/* Dot indicators */}
-        <div className="flex items-center gap-2.5 mt-7">
-          {team.map((_, i) => (
-            <button
-              key={i}
-              onClick={() => animateTo(i)}
-              aria-label={`Go to ${team[i].name}`}
-              className="rounded-full transition-all duration-300"
-              style={{
-                width: i === activeIdx ? "22px" : "8px",
-                height: "8px",
-                background: i === activeIdx ? "var(--color-brand-vivid)" : "rgba(255,255,255,0.18)",
-              }}
-            />
-          ))}
-        </div>
+            {/* ── RIGHT: info panel ────────────────────────────────── */}
+            <div className="flex-1 min-w-0 flex flex-col justify-center pt-0 md:pt-8">
+              {/* Name + role */}
+              <div className="mb-2">
+                <p style={{ fontFamily: "var(--font-sans)", fontWeight: 700, fontSize: "0.72rem", letterSpacing: "0.2em", textTransform: "uppercase", color: "var(--color-brand-vivid)", marginBottom: "0.5rem" }}>
+                  {team[activeIdx].role}
+                </p>
+                <h2 style={{ fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(2rem, 5vw, 3.2rem)", color: "var(--color-brand-900)", letterSpacing: "-0.03em", lineHeight: 1 }}>
+                  {team[activeIdx].name}
+                </h2>
+                <p className="mt-2" style={{ fontFamily: "var(--font-sans)", fontStyle: "italic", fontWeight: 400, fontSize: "1rem", color: "var(--color-ink-muted)" }}>
+                  {team[activeIdx].tagline}
+                </p>
+              </div>
 
-        {/* HUD quality pills */}
-        <div
-          ref={hudRef}
-          className="mt-6 px-4 flex flex-wrap items-center justify-center gap-2"
-          style={{ maxWidth: "520px" }}
-        >
-          {hudQualities.map((q) => (
-            <span
-              key={q}
-              className="px-3 py-1 rounded-full text-xs font-semibold"
-              style={{
-                background: "rgba(29,184,75,0.09)",
-                border: "1px solid rgba(29,184,75,0.2)",
-                color: "rgba(255,255,255,0.65)",
-                fontFamily: "var(--font-sans)",
-                letterSpacing: "0.04em",
-                lineHeight: 1.4,
-              }}
-            >
-              {q}
-            </span>
-          ))}
-        </div>
+              {/* Divider */}
+              <div className="my-5" style={{ height: "1px", background: "var(--color-border)" }} />
 
-        {/* Active name display */}
-        <div className="text-center mt-6 px-4">
-          <p
-            style={{
-              fontFamily: "var(--font-display)",
-              fontWeight: 900,
-              fontSize: "clamp(1.8rem, 5vw, 2.8rem)",
-              color: "#fff",
-              letterSpacing: "-0.03em",
-              lineHeight: 1,
-            }}
-          >
-            {team[activeIdx].name}
-          </p>
-          <p
-            className="mt-1"
-            style={{
-              fontFamily: "var(--font-sans)",
-              fontWeight: 700,
-              fontSize: "0.72rem",
-              letterSpacing: "0.18em",
-              textTransform: "uppercase",
-              color: "var(--color-brand-vivid)",
-            }}
-          >
-            {team[activeIdx].role}
-          </p>
-        </div>
-      </section>
+              {/* Quality pills */}
+              <div ref={hudRef} className="flex flex-wrap gap-2.5 mb-6">
+                {hudQualities.map((q) => (
+                  <span key={q} className="px-4 py-2 rounded-xl text-sm font-semibold" style={{ background: "var(--color-brand-50)", border: "1.5px solid var(--color-border)", color: "var(--color-brand-700)", fontFamily: "var(--font-sans)", letterSpacing: "0.02em" }}>
+                    {q}
+                  </span>
+                ))}
+              </div>
 
-      {/* Bio */}
-      <section className="pb-16">
-        <div className="container-site max-w-xl mx-auto text-center">
-          <div ref={bioRef}>
-            <p
-              style={{
-                fontFamily: "var(--font-sans)",
-                fontWeight: 300,
-                fontSize: "0.97rem",
-                color: "rgba(255,255,255,0.55)",
-                lineHeight: 1.9,
-              }}
-            >
-              {displayed.bio}
-            </p>
-            {displayed.handle && (
-              <p
-                className="mt-3"
-                style={{
-                  fontFamily: "var(--font-sans)",
-                  fontWeight: 600,
-                  fontSize: "0.78rem",
-                  color: "var(--color-brand-vivid)",
-                  letterSpacing: "0.05em",
-                }}
-              >
-                {displayed.handle}
-              </p>
-            )}
+              {/* Bio */}
+              <div ref={bioRef}>
+                <p style={{ fontFamily: "var(--font-sans)", fontWeight: 300, fontSize: "1rem", color: "var(--color-ink)", lineHeight: 1.9 }}>
+                  {displayed.bio}
+                </p>
+                {displayed.handle && (
+                  <p className="mt-3" style={{ fontFamily: "var(--font-sans)", fontWeight: 600, fontSize: "0.85rem", color: "var(--color-brand-vivid)", letterSpacing: "0.05em" }}>
+                    {displayed.handle}
+                  </p>
+                )}
+              </div>
+            </div>
+
           </div>
         </div>
       </section>
 
       {/* CTA */}
-      <section
-        className="py-12"
-        style={{ borderTop: "1px solid rgba(29,184,75,0.1)" }}
-      >
+      <section className="py-12" style={{ borderTop: "1px solid var(--color-border)" }}>
         <div className="container-site flex flex-col sm:flex-row items-center justify-center gap-4">
-          <Link
-            href="/reach-out"
-            className="inline-flex items-center gap-2 px-7 py-3.5 rounded-2xl font-bold text-sm text-white transition-all hover:scale-105"
-            style={{
-              background: "var(--color-brand-vivid)",
-              fontFamily: "var(--font-sans)",
-              fontWeight: 700,
-              boxShadow: "0 0 22px rgba(29,184,75,0.35)",
-            }}
-          >
+          <Link href="/reach-out" className="inline-flex items-center gap-2 px-7 py-3.5 rounded-2xl font-bold text-sm text-white transition-all hover:scale-105" style={{ background: "var(--color-brand-vivid)", fontFamily: "var(--font-sans)", fontWeight: 700, boxShadow: "0 4px 20px rgba(29,184,75,0.25)" }}>
             Get Behind The Ticket <ArrowRight size={14} />
           </Link>
-          <Link
-            href="/mission"
-            className="inline-flex items-center gap-2 px-7 py-3.5 rounded-2xl font-bold text-sm border transition-all"
-            style={{
-              borderColor: "rgba(255,255,255,0.15)",
-              color: "rgba(255,255,255,0.6)",
-              fontFamily: "var(--font-sans)",
-              fontWeight: 600,
-            }}
-          >
+          <Link href="/mission" className="inline-flex items-center gap-2 px-7 py-3.5 rounded-2xl font-bold text-sm border-2 transition-all" style={{ borderColor: "var(--color-brand-700)", color: "var(--color-brand-700)", fontFamily: "var(--font-sans)", fontWeight: 600 }}>
             Read the Mission <ArrowRight size={14} />
           </Link>
         </div>
