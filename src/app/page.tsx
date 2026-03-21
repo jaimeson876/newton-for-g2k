@@ -60,6 +60,7 @@ export default function Home() {
   const heroRef = useRef<HTMLElement>(null);
   const heroTextRef = useRef<HTMLDivElement>(null);
   const heroArrowRef = useRef<HTMLDivElement>(null);
+  const heroImgRef = useRef<HTMLDivElement>(null);
   const pillarsRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -200,28 +201,30 @@ export default function Home() {
       <section
         ref={heroRef}
         className="relative min-h-screen flex items-center overflow-hidden"
-        style={{ background: "#ffffff" }}
+        style={{
+          background: "linear-gradient(150deg, #c8f0d4 0%, #e4f8ea 28%, #f5fdf7 58%, #ffffff 100%)",
+        }}
       >
-        {/* Aurora blob 1 */}
+        {/* Aurora blob 1 — vivid green, top-left */}
         <div
           className="absolute pointer-events-none aurora-1"
           style={{
-            top: "5%",
-            left: "-8%",
-            width: "60vw",
-            height: "60vw",
-            background: "radial-gradient(ellipse at center, rgba(29,184,75,0.08) 0%, transparent 68%)",
+            top: "-10%",
+            left: "-10%",
+            width: "70vw",
+            height: "70vw",
+            background: "radial-gradient(ellipse at center, rgba(29,184,75,0.22) 0%, transparent 65%)",
           }}
         />
-        {/* Aurora blob 2 */}
+        {/* Aurora blob 2 — gold, bottom-right */}
         <div
           className="absolute pointer-events-none aurora-2"
           style={{
-            bottom: "-5%",
-            right: "-12%",
-            width: "50vw",
-            height: "50vw",
-            background: "radial-gradient(ellipse at center, rgba(245,197,24,0.06) 0%, transparent 68%)",
+            bottom: "-10%",
+            right: "-5%",
+            width: "55vw",
+            height: "55vw",
+            background: "radial-gradient(ellipse at center, rgba(245,197,24,0.14) 0%, transparent 65%)",
           }}
         />
         {/* Ghost stroke text */}
@@ -235,7 +238,7 @@ export default function Home() {
               fontFamily: "var(--font-display)",
               fontWeight: 900,
               fontSize: "clamp(6rem, 22vw, 20rem)",
-              WebkitTextStroke: "1px rgba(27,94,45,0.05)",
+              WebkitTextStroke: "2px rgba(27,94,45,0.08)",
               color: "transparent",
               letterSpacing: "-0.05em",
               lineHeight: 0.85,
@@ -247,22 +250,23 @@ export default function Home() {
           </p>
         </div>
 
-        {/* Arrow motif — large decorative right background */}
+        {/* Arrow motif — hero background, right edge */}
         <div
           ref={heroArrowRef}
           className="absolute right-0 top-0 pointer-events-none select-none"
           style={{ opacity: 0 }}
         >
           <ArrowMotif
-            size={680}
+            size={720}
             color="var(--color-brand-vivid)"
-            opacity={0.07}
+            opacity={0.11}
             className="translate-x-1/4 -translate-y-1/4"
           />
         </div>
 
-        {/* Candidate portrait — bottom-right, transparent bg */}
+        {/* Candidate portrait — bottom-right, transparent bg, revealed on load */}
         <div
+          ref={heroImgRef}
           className="absolute bottom-0 right-0 pointer-events-none select-none hidden md:block"
           style={{
             width: "52vw",
@@ -271,6 +275,7 @@ export default function Home() {
             WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 22%)",
             maskImage: "linear-gradient(to right, transparent 0%, black 22%)",
             zIndex: 2,
+            opacity: 0,
           }}
         >
           <Image
@@ -280,6 +285,11 @@ export default function Home() {
             priority
             style={{ objectFit: "contain", objectPosition: "bottom center" }}
             sizes="52vw"
+            onLoad={() => {
+              if (heroImgRef.current) {
+                gsap.to(heroImgRef.current, { opacity: 1, duration: 0.9, ease: "power2.out", delay: 0.1 });
+              }
+            }}
           />
         </div>
 
@@ -460,7 +470,10 @@ export default function Home() {
       </div>
 
       {/* ── STATS ───────────────────────────────────────────────── */}
-      <section className="py-20 md:py-28" style={{ background: "var(--color-brand-50)" }}>
+      <section className="relative py-20 md:py-28 overflow-hidden" style={{ background: "var(--color-brand-50)" }}>
+        <div className="absolute bottom-0 left-0 pointer-events-none select-none opacity-[0.06]" style={{ transform: "translateY(25%) translateX(-25%)" }}>
+          <ArrowMotif size={700} color="var(--color-brand-vivid)" />
+        </div>
         <div className="container-site">
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-0 rounded-3xl overflow-hidden" style={{ border: "1px solid var(--color-border)" }}>
             {stats.map((s, i) => (
@@ -529,9 +542,13 @@ export default function Home() {
         className="relative py-20 md:py-32 overflow-hidden"
         style={{ background: "var(--color-brand-900)" }}
       >
-        {/* Arrow motif — small, bottom-left */}
-        <div className="absolute bottom-0 left-0 pointer-events-none select-none opacity-[0.04]">
-          <ArrowMotif size={320} color="var(--color-brand-vivid)" scrollReveal={false} />
+        {/* Arrow motif — bottom-left */}
+        <div className="absolute bottom-0 left-0 pointer-events-none select-none opacity-[0.07]" style={{ transform: "translateY(20%) translateX(-20%)" }}>
+          <ArrowMotif size={600} color="var(--color-brand-vivid)" scrollReveal={false} />
+        </div>
+        {/* Arrow motif — top-right */}
+        <div className="absolute top-0 right-0 pointer-events-none select-none opacity-[0.05]" style={{ transform: "translateY(-20%) translateX(20%)" }}>
+          <ArrowMotif size={500} color="var(--color-gold-400)" scrollReveal={false} />
         </div>
         {/* Wave — right edge, vertical, gradient fade inward */}
         <div
@@ -551,7 +568,7 @@ export default function Home() {
               position: "absolute",
               top: "50%",
               left: "50%",
-              width: "min(95vh, 1100px)",
+              width: "min(160vh, 2400px)",
               transform: "translate(-50%, -50%) rotate(90deg)",
               animation: "wave-drift 22s ease-in-out infinite alternate",
             }}
@@ -627,7 +644,7 @@ export default function Home() {
               position: "absolute",
               top: "50%",
               left: "50%",
-              width: "min(95vh, 1100px)",
+              width: "min(160vh, 2400px)",
               transform: "translate(-50%, -50%) rotate(-90deg)",
               animation: "wave-drift-flip 26s ease-in-out infinite alternate-reverse",
             }}
@@ -845,9 +862,12 @@ export default function Home() {
 
       {/* ── PRESENCE ───────────────────────────────────────────── */}
       <section
-        className="py-20 md:py-28"
+        className="relative py-20 md:py-28 overflow-hidden"
         style={{ background: "white" }}
       >
+        <div className="absolute top-0 right-0 pointer-events-none select-none opacity-[0.05]" style={{ transform: "translateY(-30%) translateX(30%)" }}>
+          <ArrowMotif size={680} color="var(--color-brand-vivid)" />
+        </div>
         <div className="container-site">
           <div className="text-center mb-12 scroll-reveal">
             <span className="badge-green">Presence</span>

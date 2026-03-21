@@ -168,8 +168,11 @@ export default function TheTicketPage() {
 
       {/* Hero */}
       <section className="relative pt-24 pb-10 text-center px-4 overflow-hidden" style={{ background: "var(--color-brand-50)" }}>
-        <div className="absolute left-0 bottom-0 pointer-events-none select-none opacity-[0.06]">
-          <ArrowMotif size={360} color="var(--color-brand-vivid)" />
+        <div className="absolute left-0 bottom-0 pointer-events-none select-none opacity-[0.08]" style={{ transform: "translateY(25%) translateX(-20%)" }}>
+          <ArrowMotif size={600} color="var(--color-brand-vivid)" />
+        </div>
+        <div className="absolute top-0 right-0 pointer-events-none select-none opacity-[0.06]" style={{ transform: "translateY(-20%) translateX(20%)" }}>
+          <ArrowMotif size={500} color="var(--color-gold-400)" />
         </div>
         <p
           className="inline-block px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest mb-5"

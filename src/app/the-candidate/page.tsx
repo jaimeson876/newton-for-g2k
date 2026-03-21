@@ -138,8 +138,13 @@ export default function TheCandidatePage() {
         className="relative overflow-hidden py-28 md:py-44"
         style={{ background: "var(--color-brand-950)" }}
       >
-        <div className="absolute inset-0 flex items-center justify-end opacity-[0.04] pointer-events-none">
-          <ArrowMotif size={700} color="var(--color-brand-vivid)" />
+        {/* Large arrow motif — top-right bleed */}
+        <div className="absolute top-0 right-0 pointer-events-none select-none opacity-[0.09]" style={{ transform: "translateY(-15%) translateX(15%)" }}>
+          <ArrowMotif size={780} color="var(--color-brand-vivid)" />
+        </div>
+        {/* Secondary — bottom-left */}
+        <div className="absolute bottom-0 left-0 pointer-events-none select-none opacity-[0.05]" style={{ transform: "translateY(25%) translateX(-25%)" }}>
+          <ArrowMotif size={500} color="var(--color-gold-400)" />
         </div>
 
         {/* Candidate portrait */}

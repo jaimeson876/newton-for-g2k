@@ -8,6 +8,7 @@ import CustomCursor from "@/components/shared/CustomCursor";
 import SmoothScroll from "@/components/shared/SmoothScroll";
 import ManifestoChat from "@/components/shared/ManifestoChat";
 import QRShareButton from "@/components/shared/QRShareButton";
+import PageWrapper from "@/components/layout/PageWrapper";
 
 export const metadata: Metadata = {
   title: {
@@ -42,7 +43,7 @@ export default function RootLayout({
         <SmoothScroll>
           <CustomCursor />
           <Navbar />
-          <main className="flex-1">{children}</main>
+          <PageWrapper>{children}</PageWrapper>
           <Footer />
           <QRShareButton />
           <ManifestoChat />

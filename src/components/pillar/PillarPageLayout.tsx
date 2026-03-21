@@ -49,14 +49,14 @@ export default function PillarPageLayout({
       {/* Hero */}
       <section className="bg-[var(--color-brand-900)] py-20 md:py-28">
         <div className="container-site">
-          <div className="max-w-3xl space-y-4">
+          <div className="max-w-3xl flex flex-col gap-4">
             <Link
               href="/plan"
-              className="inline-flex items-center gap-1.5 text-white/50 hover:text-white text-sm font-medium transition-colors"
+              className="inline-flex items-center gap-1.5 text-white/50 hover:text-white text-sm font-medium transition-colors self-start"
             >
               <ArrowLeft size={14} /> The Plan
             </Link>
-            <span className="badge-green">Pillar {pillarNumber}</span>
+            <span className="badge-green self-start">Pillar {pillarNumber}</span>
             <h1 className="text-3xl md:text-5xl lg:text-6xl font-black text-white leading-tight">
               {heading}
             </h1>
