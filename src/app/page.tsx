@@ -336,7 +336,7 @@ export default function Home() {
                   fontFamily: "var(--font-display)",
                   fontSize: "clamp(3.8rem, 10vw, 8.5rem)",
                   fontWeight: 900,
-                  letterSpacing: "-0.04em",
+                  letterSpacing: "-0.025em",
                   color: "var(--color-brand-900)",
                   lineHeight: 0.95,
                   display: "block",
@@ -353,7 +353,7 @@ export default function Home() {
                   fontFamily: "var(--font-display)",
                   fontSize: "clamp(3.8rem, 10vw, 8.5rem)",
                   fontWeight: 900,
-                  letterSpacing: "-0.04em",
+                  letterSpacing: "-0.025em",
                   color: "var(--color-brand-vivid)",
                   lineHeight: 0.95,
                   display: "block",
@@ -370,7 +370,7 @@ export default function Home() {
                   fontFamily: "var(--font-display)",
                   fontSize: "clamp(3.8rem, 10vw, 8.5rem)",
                   fontWeight: 900,
-                  letterSpacing: "-0.04em",
+                  letterSpacing: "-0.025em",
                   color: "var(--color-brand-vivid)",
                   lineHeight: 0.95,
                   display: "block",
@@ -396,14 +396,15 @@ export default function Home() {
               </p>
               <p
                 style={{
-                  fontFamily: "var(--font-sans)",
-                  fontWeight: 300,
-                  fontStyle: "italic",
-                  fontSize: "clamp(0.85rem, 1.8vw, 1rem)",
-                  color: "var(--color-ink-muted)",
+                  fontFamily: "var(--font-condensed)",
+                  fontWeight: 700,
+                  fontSize: "clamp(0.7rem, 1.5vw, 0.8rem)",
+                  color: "var(--color-brand-700)",
+                  letterSpacing: "0.14em",
+                  textTransform: "uppercase",
                 }}
               >
-                {candidate.era}
+                L.L.B. · Ministerial Advisor · Foreign Policy Expert
               </p>
             </div>
 
@@ -423,15 +424,18 @@ export default function Home() {
               </Link>
               <Link
                 href="/manifesto"
-                className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-2xl font-bold text-sm border-2 transition-all duration-300"
+                className="group inline-flex items-center gap-2.5 px-7 py-3.5 rounded-2xl transition-all duration-300 hover:scale-105 active:scale-95"
                 style={{
-                  borderColor: "var(--color-brand-700)",
-                  color: "var(--color-brand-700)",
+                  background: "var(--color-gold-400)",
+                  color: "var(--color-brand-900)",
                   fontFamily: "var(--font-sans)",
-                  fontWeight: 600,
+                  fontWeight: 900,
+                  fontSize: "clamp(0.82rem, 1.6vw, 0.93rem)",
+                  letterSpacing: "0.01em",
+                  boxShadow: "0 0 28px rgba(245,197,24,0.45), 0 4px 14px rgba(245,197,24,0.25)",
                 }}
               >
-                <FileText size={15} /> Read the Manifesto
+                <FileText size={16} /> Read the Manifesto
               </Link>
             </div>
           </div>

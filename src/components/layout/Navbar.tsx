@@ -128,7 +128,12 @@ export default function Navbar() {
             )}
             <Link
               href="/manifesto"
-              className="ml-2 px-4 py-2 bg-[var(--color-gold-400)] text-[var(--color-brand-900)] font-bold text-sm rounded hover:bg-[var(--color-gold-300)] transition-colors"
+              className="ml-2 px-5 py-2.5 text-[var(--color-brand-900)] font-black text-sm rounded-xl transition-all duration-200 hover:scale-105 active:scale-95"
+              style={{
+                background: "var(--color-gold-400)",
+                boxShadow: "0 0 18px rgba(245,197,24,0.4), 0 2px 8px rgba(245,197,24,0.2)",
+                letterSpacing: "0.01em",
+              }}
             >
               Read Manifesto
             </Link>
@@ -217,7 +222,12 @@ export default function Navbar() {
             )}
             <Link
               href="/manifesto"
-              className="mt-2 mx-3 py-3 bg-[var(--color-gold-400)] text-[var(--color-brand-900)] font-bold text-sm rounded text-center hover:bg-[var(--color-gold-300)] transition-colors"
+              className="mt-2 mx-3 py-3.5 text-[var(--color-brand-900)] font-black text-sm rounded-xl text-center transition-all duration-200 active:scale-95"
+              style={{
+                background: "var(--color-gold-400)",
+                boxShadow: "0 0 20px rgba(245,197,24,0.35), 0 2px 8px rgba(245,197,24,0.2)",
+                letterSpacing: "0.01em",
+              }}
             >
               Read Manifesto
             </Link>
