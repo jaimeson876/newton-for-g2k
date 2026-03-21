@@ -4,7 +4,7 @@ date: 2026-03-20
 excerpt: G2K is at a crossroads. This is our moment to build something that will
   outlast any single campaign.
 ---
-The 2026/2027 Budget Debate has been one of the most consequential in our modern history. As Minister of Finance Fayval Williams opened the presentations and Prime Minister Andrew Holness detailed the recovery road map, much of the conversation centred  the **Fiscal Suspensory Clause.** This sounds like high-level economic jargon but i just think of it as our “Escape Clause.” And whether you’re a young professional in Kingston or a  farmer in St. Elizabeth, this clause is the reason we are able to rebuild after Hurricane Melissa without the country collapsing into a financial crisis.
+The 2026/2027 Budget Debate has been one of the most consequential in our modern history. As Minister of Finance Fayval Williams opened the presentations and Prime Minister Andrew Holness detailed the recovery road map, much of the conversation centred  the **Fiscal Suspensory Clause.** This sounds like high-level economic jargon so I just think of it as our “Escape Clause.” And whether you’re a young professional in Kingston or a  farmer in St. Elizabeth, this clause is the reason we are able to rebuild after Hurricane Melissa without the country collapsing into a financial crisis.
 
 In my role as a Ministerial Advisor and as your candidate for G2K President, I believe it is my duty to bridge the gap between these technical policies and the reality on the ground. Understanding our economy is the first step toward participating in our democracy.
 
@@ -18,7 +18,7 @@ Imagine a family that has been saving strictly for a house. If a medical emergen
 
 ### Policy in Action: The ROOFS Programme
 
-This fiscal flexibility is not just numbers on a spreadsheet. It is the fuel for the **Restoration of Owner or Occupant Family Shelter (ROOFS) Programme**. Because we have the "fiscal space" created by our previous discipline, the government has allocated 10 billion dollars specifically to help households that lost their roofs.
+This fiscal flexibility is not just numbers on a spreadsheet. It is the fuel for initiatives like the **Restoration of Owner or Occupant Family Shelter (ROOFS) Programme**. Because we have the "fiscal space" created by our previous discipline, the government has allocated 10 billion dollars specifically to help households that lost their roofs.
 
 We are also seeing the arrival of the first 300 semi-permanent housing units, part of a larger 5,000-unit procurement by the NHT. In years past, we would have had to beg for this aid or borrow it at high interest rates. Today, we are funding it through our own resilience. This is the "Resilience Dividend" in action.
 
