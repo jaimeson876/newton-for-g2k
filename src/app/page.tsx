@@ -277,7 +277,7 @@ export default function Home() {
           }}
         >
           <Image
-            src="/images/newton-hero.png"
+            src="/images/newton-2.png"
             alt=""
             fill
             priority
@@ -286,17 +286,7 @@ export default function Home() {
           />
         </div>
 
-        {/* Dark pool — right side backdrop so newton-1.png dark bg blends on the light hero */}
-        <div
-          className="hidden md:block absolute top-0 bottom-0 right-0 pointer-events-none"
-          style={{
-            width: "58vw",
-            background: "linear-gradient(to right, transparent 0%, var(--color-brand-950) 40%)",
-            zIndex: 1,
-          }}
-        />
-
-        {/* Portrait — desktop: arms-crossed, dark bg blends into the dark pool */}
+        {/* Portrait — desktop */}
         <div
           ref={heroImgRef}
           className="hidden md:block absolute bottom-0 right-0 pointer-events-none select-none"
@@ -304,12 +294,14 @@ export default function Home() {
             width: "52vw",
             maxWidth: "820px",
             height: "100%",
+            WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 22%)",
+            maskImage: "linear-gradient(to right, transparent 0%, black 22%)",
             zIndex: 2,
             opacity: 0,
           }}
         >
           <Image
-            src="/images/newton-1.png"
+            src="/images/newton-2.png"
             alt="Newton Harris, G2K Presidential Candidate 2026"
             fill
             priority

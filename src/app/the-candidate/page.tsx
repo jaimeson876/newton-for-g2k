@@ -160,7 +160,7 @@ export default function TheCandidatePage() {
           }}
         >
           <Image
-            src="/images/newton-1.png"
+            src="/images/newton-2.png"
             alt="Newton Harris"
             fill
             priority
@@ -271,7 +271,7 @@ export default function TheCandidatePage() {
               </blockquote>
             </div>
             {/* Photo — smiling, approachable */}
-            <div className="hidden lg:block relative h-[420px] rounded-3xl overflow-hidden" style={{ background: "var(--color-brand-950)" }}>
+            <div className="hidden lg:block relative h-[420px] rounded-3xl overflow-hidden" style={{ background: "var(--color-brand-vivid)" }}>
               <Image src="/images/newton-2.png" alt="Newton Harris" fill style={{ objectFit: "cover", objectPosition: "top center" }} sizes="340px" />
             </div>
           </div>
@@ -346,7 +346,7 @@ export default function TheCandidatePage() {
         <div className="container-site">
           <div className="story-reveal grid grid-cols-1 lg:grid-cols-[340px_160px_1fr] gap-10 items-center">
             {/* Photo — close, reflective */}
-            <div className="hidden lg:block relative h-[420px] rounded-3xl overflow-hidden" style={{ background: "var(--color-brand-950)" }}>
+            <div className="hidden lg:block relative h-[420px] rounded-3xl overflow-hidden" style={{ background: "var(--color-gold-400)" }}>
               <Image src="/images/newton-3.png" alt="Newton Harris" fill style={{ objectFit: "cover", objectPosition: "top center" }} sizes="340px" />
             </div>
             <p
