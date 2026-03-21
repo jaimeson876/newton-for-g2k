@@ -348,9 +348,9 @@ export default function TheTicketPage() {
               </div>
 
               {/* Dot indicators */}
-              <div className="flex items-center gap-2.5 mt-4">
+              <div className="flex items-center gap-1.5 mt-3">
                 {team.map((_, i) => (
-                  <button key={i} onClick={() => animateTo(i)} aria-label={`Go to ${team[i].name}`} className="rounded-full transition-all duration-300" style={{ width: i === activeIdx ? "22px" : "8px", height: "8px", background: i === activeIdx ? "var(--color-brand-vivid)" : "var(--color-border)" }} />
+                  <button key={i} onClick={() => animateTo(i)} aria-label={`Go to ${team[i].name}`} className="rounded-full transition-all duration-300" style={{ width: i === activeIdx ? "16px" : "5px", height: "5px", background: i === activeIdx ? "var(--color-brand-vivid)" : "var(--color-border)" }} />
                 ))}
               </div>
 
