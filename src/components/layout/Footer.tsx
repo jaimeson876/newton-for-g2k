@@ -19,8 +19,9 @@ export default function Footer() {
             </div>
             <p className="text-sm leading-relaxed">
               Tested. Proven. Ready to Lead on Day One.
-              <br />
-              Ushering in a New Era of Opportunities, Stability, and Respect.
+            </p>
+            <p className="text-xs tracking-widest uppercase mt-1" style={{ color: "var(--color-gold-400)", fontFamily: "var(--font-condensed)", fontWeight: 700, letterSpacing: "0.13em" }}>
+              L.L.B. · Ministerial Advisor · Foreign Policy Expert
             </p>
             {/* Social links */}
             <div className="flex items-center gap-3 mt-5">

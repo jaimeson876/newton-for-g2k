@@ -61,6 +61,17 @@ export default function Navbar() {
 
           {/* Desktop nav */}
           <nav className="hidden md:flex items-center gap-1" aria-label="Main navigation">
+            <Link
+              href="/manifesto"
+              className="mr-2 px-5 py-2.5 text-[var(--color-brand-900)] font-black text-sm rounded-xl transition-all duration-200 hover:scale-105 active:scale-95"
+              style={{
+                background: "var(--color-gold-400)",
+                boxShadow: "0 0 18px rgba(245,197,24,0.4), 0 2px 8px rgba(245,197,24,0.2)",
+                letterSpacing: "0.01em",
+              }}
+            >
+              Read Manifesto
+            </Link>
             {navItems.map((item) =>
               item.children ? (
                 <div key={item.href} className="relative group">
@@ -126,17 +137,6 @@ export default function Navbar() {
                 </Link>
               )
             )}
-            <Link
-              href="/manifesto"
-              className="ml-2 px-5 py-2.5 text-[var(--color-brand-900)] font-black text-sm rounded-xl transition-all duration-200 hover:scale-105 active:scale-95"
-              style={{
-                background: "var(--color-gold-400)",
-                boxShadow: "0 0 18px rgba(245,197,24,0.4), 0 2px 8px rgba(245,197,24,0.2)",
-                letterSpacing: "0.01em",
-              }}
-            >
-              Read Manifesto
-            </Link>
           </nav>
 
           {/* Mobile hamburger */}
@@ -155,6 +155,17 @@ export default function Navbar() {
       {menuOpen && (
         <div className="md:hidden bg-[var(--color-brand-950)] border-t border-white/10">
           <nav className="container-site py-4 flex flex-col gap-1" aria-label="Mobile navigation">
+            <Link
+              href="/manifesto"
+              className="mb-2 mx-3 py-3.5 text-[var(--color-brand-900)] font-black text-sm rounded-xl text-center transition-all duration-200 active:scale-95"
+              style={{
+                background: "var(--color-gold-400)",
+                boxShadow: "0 0 20px rgba(245,197,24,0.35), 0 2px 8px rgba(245,197,24,0.2)",
+                letterSpacing: "0.01em",
+              }}
+            >
+              Read Manifesto
+            </Link>
             {navItems.map((item) =>
               item.children ? (
                 <div key={item.href}>
@@ -220,17 +231,6 @@ export default function Navbar() {
                 </Link>
               )
             )}
-            <Link
-              href="/manifesto"
-              className="mt-2 mx-3 py-3.5 text-[var(--color-brand-900)] font-black text-sm rounded-xl text-center transition-all duration-200 active:scale-95"
-              style={{
-                background: "var(--color-gold-400)",
-                boxShadow: "0 0 20px rgba(245,197,24,0.35), 0 2px 8px rgba(245,197,24,0.2)",
-                letterSpacing: "0.01em",
-              }}
-            >
-              Read Manifesto
-            </Link>
           </nav>
         </div>
       )}
