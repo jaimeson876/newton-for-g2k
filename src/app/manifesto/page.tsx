@@ -95,8 +95,12 @@ export default function ManifestoPage() {
               <ManifestoHeading roman="II." text="Your Next G2K President" />
               <BodyText>{candidate.intro}</BodyText>
 
-              <SubHeading>{candidate.professionalEdge.heading}</SubHeading>
-              <BodyText>{candidate.professionalEdge.body}</BodyText>
+              <SubHeading>{candidate.professionalBackground.heading}</SubHeading>
+              <BodyText>{candidate.professionalBackground.body}</BodyText>
+
+              <SubHeading>{candidate.g2kVeteran.heading}</SubHeading>
+              <BodyText>{candidate.g2kVeteran.intro}</BodyText>
+              <BulletList items={candidate.g2kVeteran.achievements} />
 
               <SubHeading>{candidate.womenInPolitics.heading}</SubHeading>
               <BodyText>{candidate.womenInPolitics.intro}</BodyText>
@@ -108,10 +112,7 @@ export default function ManifestoPage() {
                   </li>
                 ))}
               </ul>
-
-              <SubHeading>{candidate.g2kVeteran.heading}</SubHeading>
-              <BodyText>{candidate.g2kVeteran.intro}</BodyText>
-              <BulletList items={candidate.g2kVeteran.achievements} />
+              <BulletList items={candidate.womenInPolitics.commitments} />
             </ManifestoSection>
 
             {/* III. My Mission */}
@@ -274,7 +275,7 @@ function BulletList({ items }: { items: string[] }) {
 function ManifestoPillarModules({
   modules,
 }: {
-  modules: { id?: string; title: string; promise: string; tactics: { name: string; detail: string }[]; measurements: { name: string; detail: string }[] }[];
+  modules: { id?: string; title: string; promise: string; tactics: { name: string; detail: string }[] }[];
 }) {
   return (
     <div className="space-y-6 mt-4">
@@ -282,7 +283,6 @@ function ManifestoPillarModules({
         <div key={mod.id ?? mod.title} className="border-l-4 border-[var(--color-brand-200)] pl-5 space-y-3">
           <p className="font-black text-[var(--color-brand-900)]">{mod.title}</p>
           <p className="text-[var(--color-ink)] text-sm leading-relaxed">{mod.promise}</p>
-
           <div>
             <p className="font-bold text-xs uppercase tracking-widest text-[var(--color-ink-muted)] mt-3 mb-2">
               Tactical Strategy
@@ -292,20 +292,6 @@ function ManifestoPillarModules({
                 <li key={i} className="text-sm text-[var(--color-ink)]">
                   <span className="font-bold">{t.name}:</span>{" "}
                   <span className="text-[var(--color-ink-muted)]">{t.detail}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div>
-            <p className="font-bold text-xs uppercase tracking-widest text-[var(--color-ink-muted)] mt-3 mb-2">
-              Measurement
-            </p>
-            <ul className="space-y-1.5">
-              {mod.measurements.map((m, i) => (
-                <li key={i} className="text-sm text-[var(--color-ink)]">
-                  <span className="font-bold">{m.name}:</span>{" "}
-                  <span className="text-[var(--color-ink-muted)]">{m.detail}</span>
                 </li>
               ))}
             </ul>

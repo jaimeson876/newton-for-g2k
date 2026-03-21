@@ -10,71 +10,48 @@ import ArrowMotif from "@/components/shared/ArrowMotif";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const globalMoments = [
-  {
-    year: "2013–14",
-    title: "Top Debater",
-    detail:
-      "World Universities Debating Championships in Malaysia and Chennai. Recognised as Top Debater across Latin America and the Caribbean. National Public Speaking Champion, JCDC 2014.",
-  },
+const globalVoice = [
   {
     year: "2015",
-    title: "Obama's Table",
+    title: "President Obama's Townhall in Kingston",
     detail:
-      "Selected for the Young Leaders of the Americas Initiative (YLAI), President Barack Obama's flagship program for the hemisphere's most promising emerging young leaders.",
+      "Selected to participate as one of Jamaica's most promising young leaders. His questions resulted in comprehensive exchanges between interested governments.",
   },
   {
-    year: "2019",
-    title: "The Vatican",
+    year: "2013–14",
+    title: "World Class Advocate",
     detail:
-      "Represented the Antilles Episcopal Conference at the International Youth Forum convened by Pope Francis. Jamaica's voice carried to the Holy See.",
+      "Recognised as the Top Debater in Latin America and the Caribbean at the World Universities Debating Championships.",
+  },
+  {
+    year: "National",
+    title: "National Representation",
+    detail:
+      "From Rome to Chennai, he has ensured that Jamaica is heard in the rooms where global decisions are made.",
   },
 ];
 
-const credentials = [
+const record = [
   {
     label: "Ministerial Advisor",
     detail:
-      "Five years advising Senator Kamina Johnson Smith at the highest levels of Jamaican government.",
+      "Five years advising Senator the Hon. Kamina Johnson Smith on foreign policy and parliamentary business.",
   },
   {
-    label: "Legal Administrator",
+    label: "Legal Frameworks",
     detail:
-      "Attorney-General's Chambers, where Jamaica's legal framework is built and defended.",
+      "Worked within the Attorney-General's Chambers to help build the structures that protect our legal interests.",
   },
   {
-    label: "Business Leader",
+    label: "Proven Management",
     detail:
-      "Managed the family hardware business and grew revenue by 25%.",
+      "Managed a commercial business to 25% revenue growth, proving his grasp of the practical economy.",
   },
-  {
-    label: "Campus Ministry Director",
-    detail:
-      "Shaped the next generation as Director of Campus Ministry at St. George's College.",
-  },
-  {
-    label: "LL.B. Law",
-    detail:
-      "University of Technology Jamaica. The academic credential to match the practical one.",
-  },
-  {
-    label: "releaf Project",
-    detail:
-      "Led a national reforestation and rebuilding initiative. Because leadership is stewardship.",
-  },
-];
-
-const g2kRecord = [
-  "Vice-President, International Relations (current)",
-  "Former Deputy Treasurer",
-  "Led National Forums at UTech 2025 and UWI 2026",
-  "Secured hundreds of hygiene kits and tarps for G2K relief activities",
 ];
 
 export default function TheCandidatePage() {
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Hero entrance
       gsap.fromTo(
         ".hero-label",
         { opacity: 0, y: 20 },
@@ -91,7 +68,6 @@ export default function TheCandidatePage() {
         { opacity: 1, y: 0, duration: 0.7, ease: "power3.out", delay: 0.65 }
       );
 
-      // Scroll reveals
       gsap.utils.toArray<HTMLElement>(".story-reveal").forEach((el) => {
         gsap.fromTo(
           el,
@@ -110,9 +86,8 @@ export default function TheCandidatePage() {
         );
       });
 
-      // Credential cards stagger
       gsap.fromTo(
-        ".cred-card",
+        ".record-card",
         { opacity: 0, y: 28 },
         {
           opacity: 1,
@@ -121,7 +96,7 @@ export default function TheCandidatePage() {
           stagger: 0.09,
           ease: "power3.out",
           scrollTrigger: {
-            trigger: ".creds-grid",
+            trigger: ".record-grid",
             start: "top 80%",
           },
         }
@@ -138,16 +113,14 @@ export default function TheCandidatePage() {
         className="relative overflow-hidden py-28 md:py-44"
         style={{ background: "var(--color-brand-950)" }}
       >
-        {/* Large arrow motif — top-right bleed */}
         <div className="absolute top-0 right-0 pointer-events-none select-none opacity-[0.09]" style={{ transform: "translateY(-15%) translateX(15%)" }}>
           <ArrowMotif size={780} color="var(--color-brand-vivid)" />
         </div>
-        {/* Secondary — bottom-left */}
         <div className="absolute bottom-0 left-0 pointer-events-none select-none opacity-[0.05]" style={{ transform: "translateY(25%) translateX(-25%)" }}>
           <ArrowMotif size={500} color="var(--color-gold-400)" />
         </div>
 
-        {/* Candidate portrait */}
+        {/* Portrait */}
         <div
           className="absolute bottom-0 right-0 pointer-events-none select-none hidden md:block"
           style={{
@@ -193,9 +166,9 @@ export default function TheCandidatePage() {
                 opacity: 0,
               }}
             >
-              A Life Built<br />
-              <span style={{ color: "var(--color-brand-vivid)" }}>For This</span>
-              <br />Moment.
+              A Legacy of<br />
+              <span style={{ color: "var(--color-brand-vivid)" }}>Service.</span>
+              <br />A Future of Action.
             </h1>
             <p
               className="hero-sub mt-8 max-w-xl"
@@ -208,13 +181,13 @@ export default function TheCandidatePage() {
                 opacity: 0,
               }}
             >
-              From a hardware store in Brown&apos;s Town to the Vatican. From the Bronx to Barack Obama&apos;s table. Newton Harris didn&apos;t stumble into leadership. He was forged by it.
+              Newton Harris did not find his leadership in a boardroom. It was formed on the floor of a rural hardware store, in the hospice wards of the Bronx, and through his years of service for the party. For Newton, leadership is not about the seat you hold. It is about the people you serve.
             </p>
           </div>
         </div>
       </section>
 
-      {/* ── BEAT 1: Hardware Store ──────────────────────────────── */}
+      {/* ── THE INSTINCT ─────────────────────────────────────────── */}
       <section className="py-20 md:py-32 bg-white overflow-hidden">
         <div className="container-site">
           <div className="story-reveal grid grid-cols-1 lg:grid-cols-[160px_1fr_340px] gap-10 items-center">
@@ -223,13 +196,13 @@ export default function TheCandidatePage() {
               style={{
                 fontFamily: "var(--font-display)",
                 fontWeight: 900,
-                fontSize: "clamp(4rem, 9vw, 7.5rem)",
+                fontSize: "clamp(2rem, 5vw, 4rem)",
                 color: "var(--color-brand-vivid)",
                 opacity: 0.12,
                 letterSpacing: "-0.04em",
               }}
             >
-              AGE<br />6
+              THE<br />INSTINCT
             </p>
             <div className="space-y-5">
               <h2
@@ -242,7 +215,7 @@ export default function TheCandidatePage() {
                   letterSpacing: "-0.02em",
                 }}
               >
-                He Chased a Customer<br />Down the Street.
+                Chasing the Need:<br />A Lesson in Representation.
               </h2>
               <p
                 style={{
@@ -254,23 +227,22 @@ export default function TheCandidatePage() {
                   maxWidth: "36rem",
                 }}
               >
-                Newton grew up behind the counter of his family&apos;s hardware store in Brown&apos;s Town. One day, a contractor named Mr. Joseph Brown walked out before being served. Newton didn&apos;t wait. He ran after him. That instinct, that refusal to let anyone walk away unserved, became the foundation of everything that followed.
+                Growing up in his family&apos;s hardware shop, a six-year-old Newton watched a regular customer turn to leave because the shop was too crowded to be seen. Without waiting for permission or a second thought, he sprinted out the door and into the street to bring that customer back.
               </p>
-              <blockquote
+              <p
                 style={{
-                  borderLeft: "3px solid var(--color-brand-vivid)",
-                  paddingLeft: "1.25rem",
-                  fontFamily: "var(--font-display)",
-                  fontWeight: 700,
-                  fontSize: "1.2rem",
-                  color: "var(--color-brand-vivid)",
-                  lineHeight: 1.3,
+                  fontFamily: "var(--font-sans)",
+                  fontWeight: 400,
+                  fontSize: "1.05rem",
+                  color: "var(--color-ink)",
+                  lineHeight: 1.85,
+                  maxWidth: "36rem",
                 }}
               >
-                &ldquo;Never let a constituent walk away.&rdquo;
-              </blockquote>
+                He understood even then that no one should walk away unheard. That same instinct drives him today. Whether he is navigating high-level national policy or addressing the individual concern of a G2K member, Newton&apos;s standard remains the same: No one is left unserved.
+              </p>
             </div>
-            {/* Photo — smiling, approachable */}
+            {/* Photo */}
             <div className="hidden lg:block relative h-[420px] rounded-3xl overflow-hidden" style={{ background: "var(--color-brand-vivid)" }}>
               <Image src="/images/newton-2.png" alt="Newton Harris" fill style={{ objectFit: "cover", objectPosition: "top center" }} sizes="340px" />
             </div>
@@ -278,7 +250,7 @@ export default function TheCandidatePage() {
         </div>
       </section>
 
-      {/* ── BEAT 2: Campion + Jesuit ────────────────────────────── */}
+      {/* ── THE DISCIPLINE ───────────────────────────────────────── */}
       <section
         className="py-20 md:py-32 overflow-hidden"
         style={{ background: "var(--color-brand-950)" }}
@@ -290,13 +262,13 @@ export default function TheCandidatePage() {
               style={{
                 fontFamily: "var(--font-display)",
                 fontWeight: 900,
-                fontSize: "clamp(2.5rem, 6vw, 5rem)",
+                fontSize: "clamp(1.8rem, 4vw, 3.5rem)",
                 color: "var(--color-brand-vivid)",
                 opacity: 0.12,
                 letterSpacing: "-0.04em",
               }}
             >
-              CAM<br />PION
+              THE<br />DISCIPLINE
             </p>
             <div className="space-y-5">
               <h2
@@ -309,7 +281,7 @@ export default function TheCandidatePage() {
                   letterSpacing: "-0.02em",
                 }}
               >
-                Where Rigour<br />Became a Reflex.
+                A Mind Focused<br />on Solutions.
               </h2>
               <p
                 style={{
@@ -321,31 +293,30 @@ export default function TheCandidatePage() {
                   maxWidth: "36rem",
                 }}
               >
-                Campion College sharpened Newton into a thinker. Then came something unexpected: a Jesuit novitiate in Upstate New York. Months of silence, study, and deep discernment. The Jesuit tradition of intellectual rigour pressed into his character. He emerged with a clarity of purpose that has never wavered.
+                Newton chose a path of discipline to sharpen his capacity for leadership. During a dedicated period of intensive formation and service with his church, he embraced a tradition of deep study and purposeful focus.
               </p>
-              <blockquote
+              <p
                 style={{
-                  borderLeft: "3px solid var(--color-brand-vivid)",
-                  paddingLeft: "1.25rem",
-                  fontFamily: "var(--font-display)",
-                  fontWeight: 700,
-                  fontSize: "1.2rem",
-                  color: "var(--color-brand-vivid)",
-                  lineHeight: 1.3,
+                  fontFamily: "var(--font-sans)",
+                  fontWeight: 300,
+                  fontSize: "1.05rem",
+                  color: "rgba(255,255,255,0.65)",
+                  lineHeight: 1.85,
+                  maxWidth: "36rem",
                 }}
               >
-                Intellectual discipline. Formed by the Jesuits.
-              </blockquote>
+                He did not do this for a title. He did it to ensure that when he speaks on behalf of the people, he does so with a mind that is sharp, prepared, and ready to act. Clear thinking is a tool for achieving real results.
+              </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ── BEAT 3: Calvary Hospital ─────────────────────────────── */}
+      {/* ── THE REALITY ──────────────────────────────────────────── */}
       <section className="py-20 md:py-32 bg-white overflow-hidden">
         <div className="container-site">
           <div className="story-reveal grid grid-cols-1 lg:grid-cols-[340px_160px_1fr] gap-10 items-center">
-            {/* Photo — close, reflective */}
+            {/* Photo */}
             <div className="hidden lg:block relative h-[420px] rounded-3xl overflow-hidden" style={{ background: "var(--color-gold-400)" }}>
               <Image src="/images/newton-3.png" alt="Newton Harris" fill style={{ objectFit: "cover", objectPosition: "top center" }} sizes="340px" />
             </div>
@@ -354,13 +325,13 @@ export default function TheCandidatePage() {
               style={{
                 fontFamily: "var(--font-display)",
                 fontWeight: 900,
-                fontSize: "clamp(2.5rem, 6vw, 5rem)",
+                fontSize: "clamp(1.8rem, 4vw, 3.5rem)",
                 color: "var(--color-brand-vivid)",
                 opacity: 0.12,
                 letterSpacing: "-0.04em",
               }}
             >
-              THE<br />BRONX
+              THE<br />REALITY
             </p>
             <div className="space-y-5">
               <h2
@@ -373,7 +344,7 @@ export default function TheCandidatePage() {
                   letterSpacing: "-0.02em",
                 }}
               >
-                Humbled in Ten<br />Million and One Ways.
+                Service Without<br />an Agenda.
               </h2>
               <p
                 style={{
@@ -385,7 +356,19 @@ export default function TheCandidatePage() {
                   maxWidth: "36rem",
                 }}
               >
-                At Calvary Hospital in the Bronx, America&apos;s largest palliative care hospital, Newton worked in hospice. He sat with the dying. He served without an agenda. Most people leave the comforts of home to climb. Newton went to learn how to kneel. That empathy is now embedded in how he leads.
+                At Calvary Hospital in the Bronx, Newton swapped a suit for scrubs. In a high-pressure palliative care environment, he provided the most basic, essential care for the terminally ill. He bathed, fed, and sat with those who could give him nothing in return.
+              </p>
+              <p
+                style={{
+                  fontFamily: "var(--font-sans)",
+                  fontWeight: 400,
+                  fontSize: "1.05rem",
+                  color: "var(--color-ink)",
+                  lineHeight: 1.85,
+                  maxWidth: "36rem",
+                }}
+              >
+                While many climb to avoid hard work, Newton went to the Bronx to find it. That experience taught him a vital truth: If you are not willing to perform the humblest tasks for another human being, you have no right to lead them.
               </p>
               <blockquote
                 style={{
@@ -393,19 +376,19 @@ export default function TheCandidatePage() {
                   paddingLeft: "1.25rem",
                   fontFamily: "var(--font-display)",
                   fontWeight: 700,
-                  fontSize: "1.2rem",
+                  fontSize: "1.1rem",
                   color: "var(--color-brand-vivid)",
-                  lineHeight: 1.3,
+                  lineHeight: 1.4,
                 }}
               >
-                &ldquo;Humbled in ten million and one ways.&rdquo;
+                &ldquo;True leadership happens when no one is watching. If you cannot wash the feet of those you lead, you cannot carry their burdens.&rdquo;
               </blockquote>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ── GLOBAL STAGE ─────────────────────────────────────────── */}
+      {/* ── THE GLOBAL VOICE ─────────────────────────────────────── */}
       <section
         className="py-20 md:py-32"
         style={{ background: "var(--color-brand-900)" }}
@@ -420,7 +403,7 @@ export default function TheCandidatePage() {
                 fontFamily: "var(--font-sans)",
               }}
             >
-              On the World Stage
+              The Global Voice
             </p>
             <h2
               style={{
@@ -432,11 +415,23 @@ export default function TheCandidatePage() {
                 letterSpacing: "-0.02em",
               }}
             >
-              From the Caribbean<br />to the World.
+              Jamaica&apos;s Voice<br />on the World Stage.
             </h2>
+            <p
+              className="mt-5 max-w-2xl"
+              style={{
+                fontFamily: "var(--font-sans)",
+                fontWeight: 300,
+                fontSize: "1.05rem",
+                color: "rgba(255,255,255,0.65)",
+                lineHeight: 1.85,
+              }}
+            >
+              Newton has represented Jamaica before presidents and international bodies, always maintaining his local roots and values. He travels as an ambassador, not a spectator.
+            </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-            {globalMoments.map((item) => (
+            {globalVoice.map((item) => (
               <div
                 key={item.year}
                 className="story-reveal rounded-2xl p-7 flex flex-col gap-4"
@@ -460,7 +455,7 @@ export default function TheCandidatePage() {
                   style={{
                     fontFamily: "var(--font-display)",
                     fontWeight: 800,
-                    fontSize: "1.5rem",
+                    fontSize: "1.35rem",
                     color: "#fff",
                     lineHeight: 1.1,
                   }}
@@ -484,7 +479,7 @@ export default function TheCandidatePage() {
         </div>
       </section>
 
-      {/* ── CREDENTIALS ──────────────────────────────────────────── */}
+      {/* ── THE RECORD ───────────────────────────────────────────── */}
       <section className="py-20 md:py-32 bg-white">
         <div className="container-site">
           <div className="story-reveal mb-12">
@@ -508,14 +503,26 @@ export default function TheCandidatePage() {
                 letterSpacing: "-0.02em",
               }}
             >
-              In the Room.<br />At the Table. On the Ground.
+              Prepared For Performance.
             </h2>
+            <p
+              className="mt-5 max-w-2xl"
+              style={{
+                fontFamily: "var(--font-sans)",
+                fontWeight: 400,
+                fontSize: "1.05rem",
+                color: "var(--color-ink)",
+                lineHeight: 1.85,
+              }}
+            >
+              Newton combines legal training with high-level government experience and a history of grassroots action.
+            </p>
           </div>
-          <div className="creds-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-            {credentials.map((cred, i) => (
+          <div className="record-grid grid grid-cols-1 md:grid-cols-3 gap-5">
+            {record.map((item, i) => (
               <div
                 key={i}
-                className="cred-card rounded-2xl p-6 space-y-2"
+                className="record-card rounded-2xl p-6 space-y-2"
                 style={{
                   background: "var(--color-surface)",
                   border: "1px solid var(--color-border)",
@@ -531,7 +538,7 @@ export default function TheCandidatePage() {
                     lineHeight: 1.2,
                   }}
                 >
-                  {cred.label}
+                  {item.label}
                 </p>
                 <p
                   style={{
@@ -542,7 +549,7 @@ export default function TheCandidatePage() {
                     lineHeight: 1.75,
                   }}
                 >
-                  {cred.detail}
+                  {item.detail}
                 </p>
               </div>
             ))}
@@ -550,7 +557,7 @@ export default function TheCandidatePage() {
         </div>
       </section>
 
-      {/* ── BROWN'S TOWN ─────────────────────────────────────────── */}
+      {/* ── ROOTS ────────────────────────────────────────────────── */}
       <section
         className="py-24 md:py-40 overflow-hidden relative"
         style={{ background: "var(--color-brand-950)" }}
@@ -558,7 +565,7 @@ export default function TheCandidatePage() {
         <div className="absolute right-0 top-1/2 -translate-y-1/2 opacity-[0.035] pointer-events-none">
           <ArrowMotif size={600} color="var(--color-brand-vivid)" />
         </div>
-        {/* Newton-4 — aspirational, looking up — right side of dark section */}
+        {/* Newton-4 — aspirational, looking up */}
         <div className="hidden lg:block absolute bottom-0 right-0 pointer-events-none select-none" style={{ width: "38vw", maxWidth: "580px", height: "100%", WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 30%)", maskImage: "linear-gradient(to right, transparent 0%, black 30%)", zIndex: 1 }}>
           <Image src="/images/newton-4.png" alt="" fill style={{ objectFit: "contain", objectPosition: "bottom right" }} sizes="38vw" />
         </div>
@@ -584,9 +591,9 @@ export default function TheCandidatePage() {
                 letterSpacing: "-0.03em",
               }}
             >
-              He Never Forgot<br />
+              Invested in the Town<br />
               <span style={{ color: "var(--color-brand-vivid)" }}>
-                Where He Came From.
+                That Shaped Him.
               </span>
             </h2>
             <p
@@ -600,7 +607,7 @@ export default function TheCandidatePage() {
                 maxWidth: "34rem",
               }}
             >
-              Newton is the current Chair of the Board of Management of Brown&apos;s Town Infant School, the same community that watched him grow up. He could be anywhere. He chooses to be exactly there, shaping the first chapter of a child&apos;s education, in the town that shaped him.
+              Newton is the current Chair of the Board of Management for Brown&apos;s Town Infant School, the same community that watched him grow up. He could be anywhere, yet he chooses to be exactly there, shaping the first chapter of a child&apos;s education in the town that shaped him.
             </p>
             <p
               className="mt-6"
@@ -611,7 +618,7 @@ export default function TheCandidatePage() {
                 color: "var(--color-brand-vivid)",
               }}
             >
-              That&apos;s not a credential. That&apos;s a character.
+              That is not a credential. That is character.
             </p>
           </div>
         </div>
@@ -641,32 +648,22 @@ export default function TheCandidatePage() {
                 letterSpacing: "-0.02em",
               }}
             >
-              Serving Before Asking.
+              A Record of Reliability.
             </h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="story-reveal space-y-4">
-              {g2kRecord.map((item, i) => (
-                <div key={i} className="flex items-start gap-3">
-                  <span
-                    className="mt-0.5 shrink-0 w-5 h-5 rounded-full flex items-center justify-center text-white text-xs font-bold"
-                    style={{ background: "var(--color-brand-vivid)", fontFamily: "var(--font-sans)" }}
-                  >
-                    {i + 1}
-                  </span>
-                  <p
-                    style={{
-                      fontFamily: "var(--font-sans)",
-                      fontWeight: 500,
-                      fontSize: "0.97rem",
-                      color: "var(--color-ink)",
-                      lineHeight: 1.65,
-                    }}
-                  >
-                    {item}
-                  </p>
-                </div>
-              ))}
+            <div className="story-reveal">
+              <p
+                style={{
+                  fontFamily: "var(--font-sans)",
+                  fontWeight: 400,
+                  fontSize: "1.05rem",
+                  color: "var(--color-ink)",
+                  lineHeight: 1.85,
+                }}
+              >
+                Newton joined G2K to work. As a former Deputy Treasurer and the current VP of International Relations, he has focused on results. He has secured relief kits for members and led major national forums at our universities. His stance is clear:
+              </p>
             </div>
             <div
               className="story-reveal rounded-2xl p-7 flex flex-col justify-between"
@@ -681,7 +678,7 @@ export default function TheCandidatePage() {
                   lineHeight: 1.5,
                 }}
               >
-                &ldquo;The G2K Presidency is an operational post. G2K deserves performance, not promises.&rdquo;
+                &ldquo;The G2K Presidency is an operational role. Our members deserve performance over promises. I am not asking for the job to start serving. I am asking because service is what I do.&rdquo;
               </p>
               <p
                 className="mt-6"
@@ -710,18 +707,12 @@ export default function TheCandidatePage() {
               className="text-white font-black text-xl md:text-2xl mb-1"
               style={{ fontFamily: "var(--font-display)" }}
             >
-              Convinced by the record?
-            </p>
-            <p
-              className="text-white/60 text-sm"
-              style={{ fontFamily: "var(--font-sans)" }}
-            >
-              Explore the mission and three-pillar plan.
+              Join a Movement Built on Substance.
             </p>
           </div>
           <div className="flex flex-col sm:flex-row gap-3">
             <Link
-              href="/mission"
+              href="/plan"
               className="inline-flex items-center gap-2 px-5 py-2.5 font-bold rounded-lg transition-colors text-sm"
               style={{
                 background: "var(--color-gold-400)",
@@ -729,14 +720,14 @@ export default function TheCandidatePage() {
                 fontFamily: "var(--font-sans)",
               }}
             >
-              Read the Mission <ArrowRight size={14} />
+              Explore the Plan <ArrowRight size={14} />
             </Link>
             <Link
-              href="/plan"
+              href="/reach-out"
               className="inline-flex items-center gap-2 px-5 py-2.5 border border-white/30 text-white font-bold rounded-lg hover:bg-white/5 transition-colors text-sm"
               style={{ fontFamily: "var(--font-sans)" }}
             >
-              Explore the Plan <ArrowRight size={14} />
+              Join the Movement <ArrowRight size={14} />
             </Link>
           </div>
         </div>

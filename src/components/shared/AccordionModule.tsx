@@ -1,15 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { ChevronDown, Target, Lightbulb } from "lucide-react";
+import { ChevronDown, Lightbulb } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface Tactic {
-  name: string;
-  detail: string;
-}
-
-interface Measurement {
   name: string;
   detail: string;
 }
@@ -18,7 +13,6 @@ interface AccordionModuleProps {
   title: string;
   promise: string;
   tactics: Tactic[];
-  measurements: Measurement[];
   summaryMode?: boolean;
   index: number;
 }
@@ -27,12 +21,10 @@ export default function AccordionModule({
   title,
   promise,
   tactics,
-  measurements,
   summaryMode = false,
   index,
 }: AccordionModuleProps) {
   const [tacticOpen, setTacticOpen] = useState(false);
-  const [measureOpen, setMeasureOpen] = useState(false);
 
   return (
     <div className="border border-[var(--color-border)] rounded-xl overflow-hidden bg-white transition-shadow hover:shadow-md">
@@ -53,10 +45,9 @@ export default function AccordionModule({
         </div>
       </div>
 
-      {/* Expand panels — hidden in summary mode */}
+      {/* Expand panel — hidden in summary mode */}
       {!summaryMode && (
-        <div className="divide-y divide-[var(--color-border)]">
-          {/* Tactical Strategy */}
+        <div>
           <AccordionPanel
             label="Tactical Strategy"
             sublabel="How to achieve"
@@ -74,29 +65,6 @@ export default function AccordionModule({
                     <p className="font-bold text-[var(--color-ink)] text-sm">{t.name}</p>
                     <p className="text-[var(--color-ink-muted)] text-sm leading-relaxed mt-0.5">
                       {t.detail}
-                    </p>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </AccordionPanel>
-
-          {/* Measurement */}
-          <AccordionPanel
-            label="Measurement"
-            sublabel="What they will be measured against"
-            icon={<Target size={15} className="text-[var(--color-gold-600)]" />}
-            open={measureOpen}
-            onToggle={() => setMeasureOpen(!measureOpen)}
-          >
-            <ul className="space-y-4">
-              {measurements.map((m, i) => (
-                <li key={i} className="flex gap-3">
-                  <span className="shrink-0 mt-1 w-2 h-2 rounded-full bg-[var(--color-gold-400)] mt-2" />
-                  <div>
-                    <p className="font-bold text-[var(--color-ink)] text-sm">{m.name}</p>
-                    <p className="text-[var(--color-ink-muted)] text-sm leading-relaxed mt-0.5">
-                      {m.detail}
                     </p>
                   </div>
                 </li>

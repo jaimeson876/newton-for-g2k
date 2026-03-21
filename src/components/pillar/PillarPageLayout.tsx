@@ -6,7 +6,6 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 import AccordionModule from "@/components/shared/AccordionModule";
 import StickyPillarNav from "@/components/shared/StickyPillarNav";
 import ReadingModeToggle from "@/components/shared/ReadingModeToggle";
-import MetricCard from "@/components/shared/MetricCard";
 import ImageGallery, { type GalleryImage } from "@/components/shared/ImageGallery";
 
 interface Module {
@@ -14,7 +13,6 @@ interface Module {
   title: string;
   promise: string;
   tactics: { name: string; detail: string }[];
-  measurements: { name: string; detail: string }[];
 }
 
 interface PillarPageLayoutProps {
@@ -22,7 +20,6 @@ interface PillarPageLayoutProps {
   heading: string;
   intro: string;
   boldStatement?: string;
-  keyTargets?: string[];
   modules: Module[];
   prevPillar?: { label: string; href: string };
   nextPillar?: { label: string; href: string };
@@ -34,7 +31,6 @@ export default function PillarPageLayout({
   heading,
   intro,
   boldStatement,
-  keyTargets,
   modules,
   prevPillar,
   nextPillar,
@@ -69,29 +65,6 @@ export default function PillarPageLayout({
         </div>
       </section>
 
-      {/* Key targets sidebar (Pillar 3) */}
-      {keyTargets && keyTargets.length > 0 && (
-        <section className="bg-[var(--color-brand-950)] py-8">
-          <div className="container-site">
-            <div className="flex flex-col md:flex-row md:items-center gap-4">
-              <p className="text-[var(--color-gold-400)] font-black text-sm uppercase tracking-widest shrink-0">
-                Key Targets:
-              </p>
-              <div className="flex flex-wrap gap-2">
-                {keyTargets.map((t, i) => (
-                  <span
-                    key={i}
-                    className="px-3 py-1.5 bg-white/10 border border-white/20 text-white text-sm rounded-lg font-medium"
-                  >
-                    {t}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
-      )}
-
       {/* Sticky section nav */}
       <StickyPillarNav items={navItems} />
 
@@ -114,7 +87,6 @@ export default function PillarPageLayout({
                 title={mod.title}
                 promise={mod.promise}
                 tactics={mod.tactics}
-                measurements={mod.measurements}
                 summaryMode={readingMode === "summary"}
                 index={i + 1}
               />

@@ -14,7 +14,6 @@ export default function Pillar3Page() {
       pillarNumber={3}
       heading={pillar3.heading}
       intro={`${pillar3.intro} ${pillar3.boldInline}${pillar3.introEnd}`}
-      keyTargets={pillar3.keyTargets}
       modules={pillar3.modules}
       prevPillar={{
         label: `Pillar 2: ${pillar2.heading}`,
