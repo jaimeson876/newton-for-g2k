@@ -264,16 +264,16 @@ export default function Home() {
           />
         </div>
 
-        {/* Portrait — mobile only: subtle right-edge peek, doesn't clash with text */}
+        {/* Portrait — mobile only: right-aligned, lower half of hero */}
         <div
           className="md:hidden absolute bottom-0 right-0 pointer-events-none select-none"
           style={{
-            width: "42vw",
+            width: "65vw",
             height: "100%",
-            WebkitMaskImage: "linear-gradient(to right, transparent 0%, rgba(0,0,0,0.6) 55%, black 80%)",
-            maskImage: "linear-gradient(to right, transparent 0%, rgba(0,0,0,0.6) 55%, black 80%)",
+            WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 18%)",
+            maskImage: "linear-gradient(to right, transparent 0%, black 18%)",
             zIndex: 1,
-            opacity: 0.55,
+            opacity: 0.85,
           }}
         >
           <Image
@@ -282,7 +282,7 @@ export default function Home() {
             fill
             priority
             style={{ objectFit: "contain", objectPosition: "bottom right" }}
-            sizes="42vw"
+            sizes="65vw"
           />
         </div>
 
