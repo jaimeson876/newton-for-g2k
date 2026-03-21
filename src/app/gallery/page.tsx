@@ -70,27 +70,25 @@ const PHOTOS = [
 
 const DRIVE = (id: string) => `https://drive.google.com/file/d/${id}/preview`;
 
-// Short clips / social content
-const CLIPS = [
-  { title: "The Youth Perspective", driveId: "1Fn4S_qIEbAClb-q9Z0U5k79twNRjtqPT" },
-  { title: "Young People See The Change", driveId: "138IrnX6kRP20Ut3-5WUM8AsxwLqssnPS" },
-  { title: "Youth Opportunities", driveId: "1mwe3aJECXN56WVaMp7YY_t4icbsXIm6T" },
-  { title: "The Youth Understand", driveId: "1c41Yq_RJcb802pj_eDquwyN3NE7qKn6U" },
-  { title: "Passing Grade For Minister", driveId: "1mRJ2EChkSFNi4HkW6lgj8oZF1fQjZx2X" },
-  { title: "The Youth Perspective (Alt)", driveId: "1-dCFUIDaHiP9pIleCGgmr1TSf0uBMSd0" },
-];
-
-// CVM TV appearances
+// All media appearances — portrait = vertical phone clips, landscape = TV broadcast
 const APPEARANCES = [
-  { id: 0, outlet: "CVM TV", title: "NHT Role in the Budget", driveId: "1zcClE-qr2GJ8VNYvWzMCEqmGo6bDRClT" },
-  { id: 1, outlet: "CVM TV", title: "PM Budget Review", driveId: "1_LJJ7GXs23oia1a-LtToIKoTo-miThTl" },
-  { id: 2, outlet: "CVM TV", title: "National Housing Trust", driveId: "1u2pJ8caKu8V5bsBZMsuxSdqnXrAJoihS" },
-  { id: 3, outlet: "CVM TV", title: "Budget Presentation Response", driveId: "1PqIIf7bD63atXz-lM3B8bANQdF88F508" },
-  { id: 4, outlet: "CVM TV", title: "NaRRA Discussion", driveId: "1OSlp-4lh-sUfkphPwuyPZvEL1e0tGp7L" },
-  { id: 5, outlet: "CVM TV", title: "Housing Supply", driveId: "1kDypcCmkuxlM2XoA8PiA8GGq5aiNY1le" },
-  { id: 6, outlet: "CVM TV", title: "Strong Economy", driveId: "1cqR2EuZ76WxfYgGNKLhAb3ahSSzmWuIT" },
-  { id: 7, outlet: "CVM TV", title: "NHT Policy Analysis", driveId: "1UNyX8uXk4EW6WPWRAcf7Bwc8yeH1t8Iy" },
-  { id: 8, outlet: "CVM TV", title: "Cuba Relations", driveId: "1R2zmUJNGOVw8Os6Vi44BWtfj9Y-_QRRT" },
+  // CVM TV — landscape (16:9 broadcast)
+  { id: 0, outlet: "CVM TV", title: "NHT Role in the Budget", driveId: "1zcClE-qr2GJ8VNYvWzMCEqmGo6bDRClT", orientation: "landscape" as const },
+  { id: 1, outlet: "CVM TV", title: "PM Budget Review", driveId: "1_LJJ7GXs23oia1a-LtToIKoTo-miThTl", orientation: "landscape" as const },
+  { id: 2, outlet: "CVM TV", title: "National Housing Trust", driveId: "1u2pJ8caKu8V5bsBZMsuxSdqnXrAJoihS", orientation: "landscape" as const },
+  { id: 3, outlet: "CVM TV", title: "Budget Presentation Response", driveId: "1PqIIf7bD63atXz-lM3B8bANQdF88F508", orientation: "landscape" as const },
+  { id: 4, outlet: "CVM TV", title: "NaRRA Discussion", driveId: "1OSlp-4lh-sUfkphPwuyPZvEL1e0tGp7L", orientation: "landscape" as const },
+  { id: 5, outlet: "CVM TV", title: "Housing Supply", driveId: "1kDypcCmkuxlM2XoA8PiA8GGq5aiNY1le", orientation: "landscape" as const },
+  { id: 6, outlet: "CVM TV", title: "Strong Economy", driveId: "1cqR2EuZ76WxfYgGNKLhAb3ahSSzmWuIT", orientation: "landscape" as const },
+  { id: 7, outlet: "CVM TV", title: "NHT Policy Analysis", driveId: "1UNyX8uXk4EW6WPWRAcf7Bwc8yeH1t8Iy", orientation: "landscape" as const },
+  { id: 8, outlet: "CVM TV", title: "Cuba Relations", driveId: "1R2zmUJNGOVw8Os6Vi44BWtfj9Y-_QRRT", orientation: "landscape" as const },
+  // Nationwide News — portrait (vertical clips)
+  { id: 9,  outlet: "Nationwide", title: "The Youth Perspective", driveId: "1Fn4S_qIEbAClb-q9Z0U5k79twNRjtqPT", orientation: "portrait" as const },
+  { id: 10, outlet: "Nationwide", title: "Young People See The Change", driveId: "138IrnX6kRP20Ut3-5WUM8AsxwLqssnPS", orientation: "portrait" as const },
+  { id: 11, outlet: "Nationwide", title: "Youth Opportunities", driveId: "1mwe3aJECXN56WVaMp7YY_t4icbsXIm6T", orientation: "portrait" as const },
+  { id: 12, outlet: "Nationwide", title: "The Youth Understand", driveId: "1c41Yq_RJcb802pj_eDquwyN3NE7qKn6U", orientation: "portrait" as const },
+  { id: 13, outlet: "Nationwide", title: "Passing Grade For Minister", driveId: "1mRJ2EChkSFNi4HkW6lgj8oZF1fQjZx2X", orientation: "portrait" as const },
+  { id: 14, outlet: "Nationwide", title: "The Youth Perspective II", driveId: "1-dCFUIDaHiP9pIleCGgmr1TSf0uBMSd0", orientation: "portrait" as const },
 ];
 
 const WRITING_PLACEHOLDERS = [
@@ -194,7 +192,7 @@ function Lightbox({ index, onClose, onPrev, onNext }: { index: number; onClose: 
 }
 
 // ─── Video lightbox ───────────────────────────────────────────────
-type VideoItem = { driveId: string; title: string; outlet?: string };
+type VideoItem = { driveId: string; title: string; outlet?: string; orientation?: "portrait" | "landscape" };
 
 function VideoLightbox({
   item,
@@ -211,6 +209,7 @@ function VideoLightbox({
 }) {
   const panelRef = useRef<HTMLDivElement>(null);
   const currentIndex = allItems.findIndex((v) => v.driveId === item.driveId);
+  const isPortrait = item.orientation === "portrait";
 
   useEffect(() => {
     if (panelRef.current) gsap.fromTo(panelRef.current, { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.3, ease: "power3.out" });
@@ -248,8 +247,8 @@ function VideoLightbox({
 
       <div
         ref={panelRef}
-        className="w-full px-4"
-        style={{ maxWidth: "900px", opacity: 0 }}
+        className="px-4"
+        style={{ width: "100%", maxWidth: isPortrait ? "380px" : "900px", opacity: 0 }}
         onClick={(e) => e.stopPropagation()}
       >
         {/* Title bar */}
@@ -285,35 +284,54 @@ function VideoLightbox({
           </div>
         </div>
 
-        {/* Video — Drive header clipped with overflow trick */}
-        <div
-          style={{
-            position: "relative",
-            width: "100%",
-            paddingTop: "56.25%", /* 16:9 */
-            overflow: "hidden",
-            background: "#000",
-            borderRadius: "0 0 16px 16px",
-            border: "1px solid rgba(29,184,75,0.12)",
-            borderTop: "none",
-            boxShadow: "0 32px 96px rgba(0,0,0,0.8)",
-          }}
-        >
-          <iframe
-            key={item.driveId}
-            src={DRIVE(item.driveId)}
-            allow="autoplay"
-            allowFullScreen
+        {/* Video — Drive header clipped, aspect ratio determined by orientation */}
+        {isPortrait ? (
+          // Portrait: fixed height, let width follow the 9:16 ratio
+          <div
             style={{
-              position: "absolute",
-              top: "-56px",  /* clip Drive header bar */
-              left: 0,
+              position: "relative",
               width: "100%",
-              height: "calc(100% + 56px)",
-              border: "none",
+              height: "clamp(480px, 72vh, 700px)",
+              overflow: "hidden",
+              background: "#000",
+              borderRadius: "0 0 16px 16px",
+              border: "1px solid rgba(29,184,75,0.12)",
+              borderTop: "none",
+              boxShadow: "0 32px 96px rgba(0,0,0,0.8)",
             }}
-          />
-        </div>
+          >
+            <iframe
+              key={item.driveId}
+              src={DRIVE(item.driveId)}
+              allow="autoplay"
+              allowFullScreen
+              style={{ position: "absolute", top: "-56px", left: 0, width: "100%", height: "calc(100% + 56px)", border: "none" }}
+            />
+          </div>
+        ) : (
+          // Landscape: padding-top 16:9 ratio
+          <div
+            style={{
+              position: "relative",
+              width: "100%",
+              paddingTop: "56.25%",
+              overflow: "hidden",
+              background: "#000",
+              borderRadius: "0 0 16px 16px",
+              border: "1px solid rgba(29,184,75,0.12)",
+              borderTop: "none",
+              boxShadow: "0 32px 96px rgba(0,0,0,0.8)",
+            }}
+          >
+            <iframe
+              key={item.driveId}
+              src={DRIVE(item.driveId)}
+              allow="autoplay"
+              allowFullScreen
+              style={{ position: "absolute", top: "-56px", left: 0, width: "100%", height: "calc(100% + 56px)", border: "none" }}
+            />
+          </div>
+        )}
       </div>
     </div>
   );
@@ -441,8 +459,8 @@ export default function GalleryPage() {
             const launch: VideoItem = { driveId: "1rJkMvqsJLf_cLbfjLBMbQJCRjTDv2Cla", title: "Campaign Launch — March 18, 2026" };
             return (
               <button
-                className="video-card rounded-2xl overflow-hidden relative mb-6 w-full cursor-pointer group text-left"
-                style={{ border: "1px solid rgba(245,197,24,0.14)", background: "linear-gradient(148deg, #0e2212, #030C05)", maxWidth: "860px" }}
+                className="video-card rounded-2xl overflow-hidden relative mb-6 cursor-pointer group text-left"
+                style={{ border: "1px solid rgba(245,197,24,0.14)", background: "linear-gradient(148deg, #0e2212, #030C05)", maxWidth: "420px" }}
                 onClick={() => setVideoIndex({ list: [launch], idx: 0 })}
               >
                 <div className="relative" style={{ aspectRatio: "16/9" }}>
@@ -453,32 +471,12 @@ export default function GalleryPage() {
                     </span>
                   </div>
                 </div>
-                <div className="px-5 py-3">
-                  <p style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: "1rem", color: "rgba(255,255,255,0.85)" }}>Campaign Launch — March 18, 2026</p>
+                <div className="px-4 py-2.5">
+                  <p style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: "0.88rem", color: "rgba(255,255,255,0.85)" }}>Campaign Launch — March 18, 2026</p>
                 </div>
               </button>
             );
           })()}
-
-          {/* Short clips grid */}
-          <p style={{ fontFamily: "var(--font-sans)", fontWeight: 700, fontSize: "0.68rem", letterSpacing: "0.15em", textTransform: "uppercase", color: "rgba(255,255,255,0.3)", marginBottom: "1rem" }}>
-            Short Clips
-          </p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {CLIPS.map((clip, i) => (
-              <button
-                key={i}
-                className="video-card rounded-xl overflow-hidden cursor-pointer group text-left"
-                style={{ background: "linear-gradient(148deg, #0e2212, #030C05)", border: "1px solid rgba(245,197,24,0.08)" }}
-                onClick={() => setVideoIndex({ list: CLIPS, idx: i })}
-              >
-                <VideoThumbnail />
-                <div className="px-3 py-2.5">
-                  <p style={{ fontFamily: "var(--font-sans)", fontWeight: 600, fontSize: "0.78rem", color: "rgba(255,255,255,0.7)" }}>{clip.title}</p>
-                </div>
-              </button>
-            ))}
-          </div>
         </div>
       </section>
 

@@ -9,6 +9,29 @@ interface Message {
   content: string;
 }
 
+// Parse [label](/path) markdown links in assistant messages — internal paths only
+function renderLinks(text: string): React.ReactNode {
+  const pattern = /\[([^\]]+)\]\((\/[^)]*)\)/g;
+  const nodes: React.ReactNode[] = [];
+  let last = 0;
+  let match;
+  while ((match = pattern.exec(text)) !== null) {
+    if (match.index > last) nodes.push(text.slice(last, match.index));
+    nodes.push(
+      <a
+        key={match.index}
+        href={match[2]}
+        style={{ color: "var(--color-brand-vivid)", textDecoration: "underline", textUnderlineOffset: "2px" }}
+      >
+        {match[1]}
+      </a>
+    );
+    last = match.index + match[0].length;
+  }
+  if (last < text.length) nodes.push(text.slice(last));
+  return nodes.length ? nodes : text;
+}
+
 const SUGGESTED_QUESTIONS = [
   "What is Newton's key commitment to members?",
   "What are the three pillars of Newton's plan?",
@@ -331,7 +354,7 @@ export default function ManifestoChat() {
                         }
                   }
                 >
-                  {m.content}
+                  {m.role === "assistant" ? renderLinks(m.content) : m.content}
                 </div>
               </div>
             ))}
