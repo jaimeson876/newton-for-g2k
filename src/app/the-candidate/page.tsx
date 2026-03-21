@@ -160,7 +160,7 @@ export default function TheCandidatePage() {
           }}
         >
           <Image
-            src="/images/newton-hero.png"
+            src="/images/newton-1.png"
             alt="Newton Harris"
             fill
             priority
@@ -217,7 +217,7 @@ export default function TheCandidatePage() {
       {/* ── BEAT 1: Hardware Store ──────────────────────────────── */}
       <section className="py-20 md:py-32 bg-white overflow-hidden">
         <div className="container-site">
-          <div className="story-reveal grid grid-cols-1 lg:grid-cols-[160px_1fr] gap-10 items-center">
+          <div className="story-reveal grid grid-cols-1 lg:grid-cols-[160px_1fr_340px] gap-10 items-center">
             <p
               className="hidden lg:block leading-none"
               style={{
@@ -269,6 +269,10 @@ export default function TheCandidatePage() {
               >
                 &ldquo;Never let a constituent walk away.&rdquo;
               </blockquote>
+            </div>
+            {/* Photo — smiling, approachable */}
+            <div className="hidden lg:block relative h-[420px] rounded-3xl overflow-hidden" style={{ background: "var(--color-brand-950)" }}>
+              <Image src="/images/newton-2.png" alt="Newton Harris" fill style={{ objectFit: "cover", objectPosition: "top center" }} sizes="340px" />
             </div>
           </div>
         </div>
@@ -340,7 +344,11 @@ export default function TheCandidatePage() {
       {/* ── BEAT 3: Calvary Hospital ─────────────────────────────── */}
       <section className="py-20 md:py-32 bg-white overflow-hidden">
         <div className="container-site">
-          <div className="story-reveal grid grid-cols-1 lg:grid-cols-[160px_1fr] gap-10 items-center">
+          <div className="story-reveal grid grid-cols-1 lg:grid-cols-[340px_160px_1fr] gap-10 items-center">
+            {/* Photo — close, reflective */}
+            <div className="hidden lg:block relative h-[420px] rounded-3xl overflow-hidden" style={{ background: "var(--color-brand-950)" }}>
+              <Image src="/images/newton-3.png" alt="Newton Harris" fill style={{ objectFit: "cover", objectPosition: "top center" }} sizes="340px" />
+            </div>
             <p
               className="hidden lg:block leading-none"
               style={{
@@ -549,6 +557,10 @@ export default function TheCandidatePage() {
       >
         <div className="absolute right-0 top-1/2 -translate-y-1/2 opacity-[0.035] pointer-events-none">
           <ArrowMotif size={600} color="var(--color-brand-vivid)" />
+        </div>
+        {/* Newton-4 — aspirational, looking up — right side of dark section */}
+        <div className="hidden lg:block absolute bottom-0 right-0 pointer-events-none select-none" style={{ width: "38vw", maxWidth: "580px", height: "100%", WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 30%)", maskImage: "linear-gradient(to right, transparent 0%, black 30%)", zIndex: 1 }}>
+          <Image src="/images/newton-4.png" alt="" fill style={{ objectFit: "contain", objectPosition: "bottom right" }} sizes="38vw" />
         </div>
         <div className="container-site relative z-10">
           <div className="story-reveal max-w-3xl">
