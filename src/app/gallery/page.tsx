@@ -18,10 +18,7 @@ const SECTION_NAV = [
 // span: 2 = tall cell, 1 = standard cell
 const PHOTOS = [
   { src: "1B5F4013-1047-4732-AEF8-E83189C7BFEF.jpg", span: 2 },
-  { src: "2c280ccf-1535-4f5d-92c0-56727e2206b9.jpg", span: 1 },
-  { src: "350cd2f2-1807-4dd4-ab23-3c8497856304.jpg", span: 1 },
   { src: "IMG_0023.jpg", span: 2 },
-  { src: "IMG_0767.jpg", span: 1 },
   { src: "IMG_0830.jpg", span: 1 },
   { src: "IMG_1690.jpg", span: 2 },
   { src: "IMG_2304.jpg", span: 1 },
@@ -63,9 +60,6 @@ const PHOTOS = [
   { src: "IMG_8973.jpg", span: 1 },
   { src: "IMG_8995.JPG", span: 1 },
   { src: "b94f35f6-724c-4a86-8a61-53dd22b66a47.jpg", span: 2 },
-  { src: "d3ca7042-f6a7-4323-a93c-473798d04bbe.jpg", span: 1 },
-  { src: "f00e465f-ec89-4807-9879-cd4d353ccba6.jpg", span: 1 },
-  { src: "f2eb6b68-d8e1-4c0d-8f41-4b95277eed96.jpg", span: 2 },
 ];
 
 const DRIVE = (id: string) => `https://drive.google.com/file/d/${id}/preview`;
@@ -475,29 +469,30 @@ export default function GalleryPage() {
         <div className="container-site">
           <SectionLabel icon={Video} label="Videos" color="var(--color-gold-400)" />
 
-          {/* Campaign launch — featured */}
-          {(() => {
-            const launch: VideoItem = { driveId: "1rJkMvqsJLf_cLbfjLBMbQJCRjTDv2Cla", title: "Campaign Launch — March 18, 2026" };
-            return (
-              <button
-                className="video-card rounded-2xl overflow-hidden relative mb-6 cursor-pointer group text-left"
-                style={{ border: "1px solid rgba(245,197,24,0.14)", background: "linear-gradient(148deg, #0e2212, #030C05)", maxWidth: "420px" }}
-                onClick={() => setVideoIndex({ list: [launch], idx: 0 })}
-              >
-                <div className="relative" style={{ aspectRatio: "16/9" }}>
-                  <VideoThumbnail />
-                  <div className="absolute top-3 left-3">
-                    <span className="px-2 py-0.5 rounded font-bold" style={{ background: "var(--color-gold-400)", color: "var(--color-brand-900)", fontFamily: "var(--font-sans)", fontSize: "0.55rem", letterSpacing: "0.1em", textTransform: "uppercase" }}>
-                      Launch
-                    </span>
-                  </div>
-                </div>
-                <div className="px-4 py-2.5">
-                  <p style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: "0.88rem", color: "rgba(255,255,255,0.85)" }}>Campaign Launch — March 18, 2026</p>
-                </div>
-              </button>
-            );
-          })()}
+          {/* Campaign launch — coming soon */}
+          <div
+            className="video-card rounded-2xl overflow-hidden relative mb-6"
+            style={{ border: "1px solid rgba(245,197,24,0.14)", background: "linear-gradient(148deg, #0e2212, #030C05)", maxWidth: "420px" }}
+          >
+            <div className="relative flex flex-col items-center justify-center gap-3" style={{ aspectRatio: "16/9" }}>
+              <div className="w-12 h-12 rounded-full flex items-center justify-center" style={{ background: "rgba(3,12,5,0.65)", border: "1.5px solid rgba(245,197,24,0.35)", boxShadow: "0 0 24px rgba(245,197,24,0.12)" }}>
+                <svg viewBox="0 0 24 24" fill="none" className="w-5 h-5" style={{ marginLeft: "2px" }}>
+                  <path d="M5 3l14 9-14 9V3z" fill="rgba(245,197,24,0.5)" />
+                </svg>
+              </div>
+              <p style={{ fontFamily: "var(--font-condensed)", fontWeight: 700, fontSize: "0.6rem", letterSpacing: "0.2em", textTransform: "uppercase", color: "rgba(245,197,24,0.6)" }}>
+                Coming Soon
+              </p>
+              <div className="absolute top-3 left-3">
+                <span className="px-2 py-0.5 rounded font-bold" style={{ background: "rgba(245,197,24,0.15)", color: "rgba(245,197,24,0.7)", border: "1px solid rgba(245,197,24,0.2)", fontFamily: "var(--font-sans)", fontSize: "0.55rem", letterSpacing: "0.1em", textTransform: "uppercase" }}>
+                  Launch
+                </span>
+              </div>
+            </div>
+            <div className="px-4 py-2.5">
+              <p style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: "0.88rem", color: "rgba(255,255,255,0.4)" }}>Campaign Launch — March 18, 2026</p>
+            </div>
+          </div>
         </div>
       </section>
 
