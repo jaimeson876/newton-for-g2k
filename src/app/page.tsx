@@ -840,7 +840,7 @@ export default function Home() {
       {/* ── PRESENCE ───────────────────────────────────────────── */}
       <section
         className="relative py-20 md:py-28 overflow-hidden"
-        style={{ background: "white" }}
+        style={{ background: "var(--color-brand-950)" }}
       >
         <div className="absolute top-0 right-0 pointer-events-none select-none opacity-[0.05]" style={{ transform: "translateY(-30%) translateX(30%)" }}>
           <ArrowMotif size={680} color="var(--color-brand-vivid)" />
@@ -854,7 +854,7 @@ export default function Home() {
                 fontFamily: "var(--font-display)",
                 fontWeight: 900,
                 fontSize: "clamp(1.8rem, 4vw, 3rem)",
-                color: "var(--color-brand-900)",
+                color: "#fff",
                 letterSpacing: "-0.03em",
               }}
             >
@@ -866,7 +866,7 @@ export default function Home() {
                 fontFamily: "var(--font-sans)",
                 fontWeight: 300,
                 fontSize: "0.95rem",
-                color: "var(--color-ink-muted)",
+                color: "rgba(255,255,255,0.5)",
               }}
             >
               Real-time updates from Newton Harris.

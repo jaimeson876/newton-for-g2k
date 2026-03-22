@@ -35,6 +35,7 @@
   [headers.values]
     Content-Disposition = "inline; filename=\"Newton-Harris-G2K-Manifesto-2026.pdf\""
     Cache-Control = "public, max-age=86400"
+    X-Frame-Options = "SAMEORIGIN"
 
 [[headers]]
   for = "/_next/static/*"

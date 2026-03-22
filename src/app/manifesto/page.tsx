@@ -159,7 +159,7 @@ export default function ManifestoPage() {
                 </div>
               </div>
               <iframe
-                src="/manifesto.pdf#toolbar=1"
+                src="/manifesto.pdf"
                 className="w-full h-[70vh] min-h-[500px]"
                 title="Newton Harris G2K Manifesto PDF"
               />
