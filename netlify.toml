@@ -31,7 +31,7 @@
     Permissions-Policy = "camera=(), microphone=(), geolocation=()"
 
 [[headers]]
-  for = "/manifesto.pdf"
+  for = "/manifesto-2026-official.pdf"
   [headers.values]
     Content-Type = "application/pdf"
     Content-Disposition = "inline; filename=\"Newton-Harris-G2K-Manifesto-2026-Official.pdf\""

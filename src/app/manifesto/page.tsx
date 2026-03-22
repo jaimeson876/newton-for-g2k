@@ -34,14 +34,14 @@ export default function ManifestoPage() {
             </p>
             <div className="flex flex-col sm:flex-row gap-3 pt-2">
               <a
-                href="/manifesto.pdf"
+                href="/manifesto-2026-official.pdf"
                 download
                 className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-[var(--color-gold-400)] text-[var(--color-brand-900)] font-bold rounded-lg hover:bg-[var(--color-gold-300)] transition-colors text-sm"
               >
                 <Download size={15} /> Download PDF
               </a>
               <a
-                href="/manifesto.pdf"
+                href="/manifesto-2026-official.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-2 px-5 py-2.5 border border-white/30 text-white font-bold rounded-lg hover:bg-white/5 transition-colors text-sm"
@@ -141,14 +141,14 @@ export default function ManifestoPage() {
                 </div>
                 <div className="flex gap-2">
                   <a
-                    href="/manifesto.pdf"
+                    href="/manifesto-2026-official.pdf"
                     download
                     className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[var(--color-brand-700)] text-white font-bold text-xs rounded-lg hover:bg-[var(--color-brand-800)] transition-colors"
                   >
                     <Download size={12} /> Download
                   </a>
                   <a
-                    href="/manifesto.pdf"
+                    href="/manifesto-2026-official.pdf"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-1.5 px-3 py-1.5 border border-[var(--color-border)] text-[var(--color-ink-muted)] font-bold text-xs rounded-lg hover:bg-[var(--color-surface)] transition-colors"
@@ -157,11 +157,18 @@ export default function ManifestoPage() {
                   </a>
                 </div>
               </div>
-              <iframe
-                src="/manifesto.pdf"
+              <object
+                data="/manifesto-2026-official.pdf"
+                type="application/pdf"
                 className="w-full h-[70vh] min-h-[500px]"
-                title="Newton Harris G2K Manifesto PDF"
-              />
+              >
+                <p className="p-8 text-sm text-[var(--color-ink-muted)]">
+                  Your browser does not support inline PDF viewing.{" "}
+                  <a href="/manifesto-2026-official.pdf" target="_blank" rel="noopener noreferrer" className="underline text-[var(--color-brand-700)]">
+                    Open the PDF directly.
+                  </a>
+                </p>
+              </object>
             </div>
           </article>
         </div>
