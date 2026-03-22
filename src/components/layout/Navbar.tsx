@@ -139,15 +139,28 @@ export default function Navbar() {
             )}
           </nav>
 
-          {/* Mobile hamburger */}
-          <button
-            className="md:hidden p-2 text-white rounded hover:bg-white/10 transition-colors"
-            onClick={() => setMenuOpen(!menuOpen)}
-            aria-label={menuOpen ? "Close menu" : "Open menu"}
-            aria-expanded={menuOpen}
-          >
-            {menuOpen ? <X size={22} /> : <Menu size={22} />}
-          </button>
+          {/* Mobile: manifesto CTA + hamburger */}
+          <div className="md:hidden flex items-center gap-2">
+            <Link
+              href="/manifesto"
+              className="px-3 py-1.5 text-[var(--color-brand-900)] font-black text-xs rounded-lg"
+              style={{
+                background: "var(--color-gold-400)",
+                boxShadow: "0 0 10px rgba(245,197,24,0.4)",
+                letterSpacing: "0.01em",
+              }}
+            >
+              Manifesto
+            </Link>
+            <button
+              className="p-2 text-white rounded hover:bg-white/10 transition-colors"
+              onClick={() => setMenuOpen(!menuOpen)}
+              aria-label={menuOpen ? "Close menu" : "Open menu"}
+              aria-expanded={menuOpen}
+            >
+              {menuOpen ? <X size={22} /> : <Menu size={22} />}
+            </button>
+          </div>
         </div>
       </div>
 

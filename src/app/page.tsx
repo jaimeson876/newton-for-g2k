@@ -206,7 +206,7 @@ export default function Home() {
       {/* ── HERO ────────────────────────────────────────────────── */}
       <section
         ref={heroRef}
-        className="relative min-h-screen flex items-center overflow-hidden"
+        className="relative min-h-screen flex items-start md:items-center overflow-hidden"
         style={{
           background: "linear-gradient(150deg, #c8f0d4 0%, #e4f8ea 28%, #f5fdf7 58%, #ffffff 100%)",
         }}
@@ -270,27 +270,6 @@ export default function Home() {
           />
         </div>
 
-        {/* Portrait — mobile only: right-aligned, lower half of hero */}
-        <div
-          className="md:hidden absolute bottom-0 right-0 pointer-events-none select-none"
-          style={{
-            width: "65vw",
-            height: "100%",
-            WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 18%)",
-            maskImage: "linear-gradient(to right, transparent 0%, black 18%)",
-            zIndex: 1,
-            opacity: 0.85,
-          }}
-        >
-          <Image
-            src="/images/newton-2.png"
-            alt=""
-            fill
-            priority
-            style={{ objectFit: "contain", objectPosition: "bottom right" }}
-            sizes="65vw"
-          />
-        </div>
 
         {/* Portrait — desktop */}
         <div
@@ -321,8 +300,8 @@ export default function Home() {
           />
         </div>
 
-        <div className="container-site relative z-10 py-28 md:py-36">
-          <div ref={heroTextRef} className="max-w-[60vw] sm:max-w-[55vw] md:max-w-[48%]">
+        <div className="container-site relative z-10 pt-14 pb-0 md:py-36">
+          <div ref={heroTextRef} className="max-w-full md:max-w-[48%]">
             <div className="hero-badge mb-6 opacity-0">
               <span className="badge-green">G2K Presidential Candidate 2026</span>
             </div>
@@ -437,6 +416,21 @@ export default function Home() {
               >
                 <FileText size={16} /> Read the Manifesto
               </Link>
+            </div>
+
+            {/* Portrait — mobile only: stacked below CTAs, no text overlap */}
+            <div
+              className="md:hidden relative w-full mt-6"
+              style={{ height: "70vw" }}
+            >
+              <Image
+                src="/images/newton-2.png"
+                alt="Newton Harris, G2K Presidential Candidate 2026"
+                fill
+                priority
+                style={{ objectFit: "contain", objectPosition: "center bottom" }}
+                sizes="100vw"
+              />
             </div>
           </div>
         </div>
