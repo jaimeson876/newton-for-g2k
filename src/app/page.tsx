@@ -869,11 +869,11 @@ export default function Home() {
                 color: "var(--color-ink-muted)",
               }}
             >
-              Real-time updates from Newton Harris on X.
+              Real-time updates from Newton Harris.
             </p>
           </div>
 
-          <div className="max-w-lg mx-auto scroll-reveal">
+          <div className="max-w-2xl mx-auto scroll-reveal">
             <TwitterFeed />
           </div>
 
