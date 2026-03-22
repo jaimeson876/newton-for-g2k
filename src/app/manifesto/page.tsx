@@ -79,7 +79,7 @@ export default function ManifestoPage() {
 
             {/* I. My Mission */}
             <ManifestoSection id="my-mission">
-              <ManifestoHeading roman="I." text={mission.heading} />
+              <ManifestoHeading text={mission.heading} />
               <BodyText>{mission.body}</BodyText>
               <KeyCommitment>{mission.keyCommitment}</KeyCommitment>
             </ManifestoSection>
@@ -87,7 +87,7 @@ export default function ManifestoPage() {
             {/* II. Pillar 1 */}
             <ManifestoSection id="pillar-1">
               <PillarBadge number={1} />
-              <ManifestoHeading roman="II." text={pillar1.heading} />
+              <ManifestoHeading text={pillar1.heading} />
               <BodyText>{pillar1.intro}</BodyText>
               <KeyCommitment>{pillar1.promise}</KeyCommitment>
               <ManifestoPillarModules modules={pillar1.modules} />
@@ -96,7 +96,7 @@ export default function ManifestoPage() {
             {/* III. Pillar 2 */}
             <ManifestoSection id="pillar-2">
               <PillarBadge number={2} />
-              <ManifestoHeading roman="III." text={pillar2.heading} />
+              <ManifestoHeading text={pillar2.heading} />
               <BodyText>{pillar2.intro}</BodyText>
               <BoldStatement>{pillar2.boldStatement}</BoldStatement>
               <ManifestoPillarModules modules={pillar2.modules} />
@@ -105,7 +105,7 @@ export default function ManifestoPage() {
             {/* IV. Pillar 3 */}
             <ManifestoSection id="pillar-3">
               <PillarBadge number={3} />
-              <ManifestoHeading roman="IV." text={pillar3.heading} />
+              <ManifestoHeading text={pillar3.heading} />
               <BodyText>
                 {pillar3.intro} <strong>{pillar3.boldInline}</strong>
                 {pillar3.introEnd}
@@ -115,7 +115,7 @@ export default function ManifestoPage() {
 
             {/* V. Message to G2K */}
             <ManifestoSection id="message-to-g2k">
-              <ManifestoHeading roman="V." text={messageToG2K.heading} />
+              <ManifestoHeading text={messageToG2K.heading} />
               <div className="space-y-4">
                 {messageToG2K.paragraphs.map((p, i) => (
                   <BodyText key={i}>{p}</BodyText>
@@ -221,12 +221,9 @@ function PillarBadge({ number }: { number: number }) {
   );
 }
 
-function ManifestoHeading({ roman, text }: { roman: string; text: string }) {
+function ManifestoHeading({ text }: { text: string }) {
   return (
-    <div className="space-y-1 pb-4 border-b-2 border-[var(--color-border)]">
-      <p className="text-[var(--color-ink-muted)] text-xs font-bold uppercase tracking-widest">
-        {roman}
-      </p>
+    <div className="pb-4 border-b-2 border-[var(--color-border)]">
       <h2 className="text-2xl md:text-3xl font-black text-[var(--color-brand-900)] leading-tight">
         {text}
       </h2>
