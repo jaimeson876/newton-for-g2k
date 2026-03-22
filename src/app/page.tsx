@@ -495,6 +495,59 @@ export default function Home() {
         </div>
       </div>
 
+      {/* ── G2K HIGHLIGHTS ──────────────────────────────────────── */}
+      <section style={{ background: "var(--color-brand-950)", borderBottom: "1px solid rgba(29,184,75,0.12)" }}>
+        <div className="container-site py-10 md:py-14">
+          <div className="flex flex-col md:flex-row md:items-center gap-6 md:gap-10">
+            {/* Tab label */}
+            <div className="shrink-0">
+              <span
+                className="inline-block px-4 py-1.5 rounded-full"
+                style={{
+                  fontFamily: "var(--font-condensed)",
+                  fontWeight: 700,
+                  fontSize: "0.65rem",
+                  letterSpacing: "0.18em",
+                  textTransform: "uppercase",
+                  color: "var(--color-brand-950)",
+                  background: "var(--color-gold-400)",
+                }}
+              >
+                G2K Highlights
+              </span>
+            </div>
+
+            {/* Divider — desktop */}
+            <div className="hidden md:block w-px h-10 shrink-0" style={{ background: "rgba(29,184,75,0.2)" }} />
+
+            {/* Highlight items */}
+            <div className="flex flex-col sm:flex-row gap-4 sm:gap-8 flex-1">
+              {[
+                "Secured scholarships, international partnerships and funding opportunities",
+              ].map((item, i) => (
+                <div key={i} className="flex items-start gap-3">
+                  <span
+                    className="mt-1 shrink-0 w-1.5 h-1.5 rounded-full"
+                    style={{ background: "var(--color-gold-400)" }}
+                  />
+                  <p
+                    style={{
+                      fontFamily: "var(--font-sans)",
+                      fontWeight: 400,
+                      fontSize: "clamp(0.85rem, 1.8vw, 1rem)",
+                      color: "rgba(255,255,255,0.75)",
+                      lineHeight: 1.55,
+                    }}
+                  >
+                    {item}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ── STATS ───────────────────────────────────────────────── */}
       <section className="relative py-20 md:py-28 overflow-hidden" style={{ background: "var(--color-brand-50)" }}>
         <div className="absolute bottom-0 left-0 pointer-events-none select-none opacity-[0.06]" style={{ transform: "translateY(25%) translateX(-25%)" }}>
