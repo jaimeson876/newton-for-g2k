@@ -25,7 +25,7 @@
 [[headers]]
   for = "/*"
   [headers.values]
-    X-Frame-Options = "DENY"
+    X-Frame-Options = "SAMEORIGIN"
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
     Permissions-Policy = "camera=(), microphone=(), geolocation=()"
@@ -33,9 +33,9 @@
 [[headers]]
   for = "/manifesto.pdf"
   [headers.values]
-    Content-Disposition = "inline; filename=\"Newton-Harris-G2K-Manifesto-2026.pdf\""
-    Cache-Control = "public, max-age=86400"
-    X-Frame-Options = "SAMEORIGIN"
+    Content-Type = "application/pdf"
+    Content-Disposition = "inline; filename=\"Newton-Harris-G2K-Manifesto-2026-Official.pdf\""
+    Cache-Control = "public, max-age=0, must-revalidate"
 
 [[headers]]
   for = "/_next/static/*"
