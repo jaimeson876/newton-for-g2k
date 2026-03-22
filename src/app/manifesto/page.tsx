@@ -32,6 +32,7 @@ export default function ManifestoPage() {
               The complete, unabridged manifesto for the Newton Harris G2K Presidential campaign.
               Every tactic, every commitment.
             </p>
+            {/* PDF_READY: uncomment when manifesto.pdf is added to public/
             <div className="flex flex-col sm:flex-row gap-3 pt-2">
               <a
                 href="/manifesto.pdf"
@@ -49,6 +50,7 @@ export default function ManifestoPage() {
                 <ExternalLink size={15} /> Open PDF in new tab
               </a>
             </div>
+            */}
           </div>
         </div>
       </section>
@@ -131,7 +133,7 @@ export default function ManifestoPage() {
               </div>
             </ManifestoSection>
 
-            {/* PDF embed */}
+            {/* PDF_READY: uncomment when manifesto.pdf is added to public/
             <div className="border border-[var(--color-border)] rounded-2xl overflow-hidden">
               <div className="p-5 bg-[var(--color-surface)] border-b border-[var(--color-border)] flex items-center justify-between flex-wrap gap-3">
                 <div className="flex items-center gap-2">
@@ -164,6 +166,7 @@ export default function ManifestoPage() {
                 title="Newton Harris G2K Manifesto PDF"
               />
             </div>
+            */}
           </article>
         </div>
       </div>
