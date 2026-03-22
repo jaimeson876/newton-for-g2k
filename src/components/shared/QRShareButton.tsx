@@ -4,116 +4,166 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { Share2, X, Download, Copy, Check } from "lucide-react";
 import QRCode from "qrcode";
 
+// Arrow motif SVG (matches ArrowMotif.tsx viewBox 0 0 988.06 988.06)
+const ARROW_SVG = (color: string) => `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 988.06 988.06" fill="${color}"><polygon points="864.55 123.51 864.55 119.41 984.21 0 988.06 0 988.06 4.11 868.42 123.51 864.55 123.51"/><polygon points="741.04 123.51 741.04 119.41 860.7 0 864.55 0 864.55 4.11 744.91 123.51 741.04 123.51"/><polygon points="617.54 123.51 617.54 119.41 737.19 0 741.04 0 741.04 4.11 621.41 123.51 617.54 123.51"/><polygon points="494.03 123.51 494.03 119.41 613.69 0 617.54 0 617.54 4.11 497.9 123.51 494.03 123.51"/><polygon points="370.52 123.51 370.52 119.41 490.18 0 494.03 0 494.03 4.11 374.39 123.51 370.52 123.51"/><polygon points="247.02 123.51 247.02 119.41 366.67 0 370.52 0 370.52 4.11 250.88 123.51 247.02 123.51"/><polygon points="123.51 123.51 123.51 119.41 243.16 0 247.02 0 247.02 4.11 127.38 123.51 123.51 123.51"/><polygon points="0 123.51 0 119.41 119.66 0 123.51 0 123.51 4.11 3.87 123.51 0 123.51"/><polygon points="864.55 247.02 864.55 242.92 984.21 123.51 988.06 123.51 988.06 127.62 868.42 247.02 864.55 247.02"/><polygon points="864.55 370.52 864.55 366.43 984.21 247.02 988.06 247.02 988.06 251.13 868.42 370.52 864.55 370.52"/><polygon points="864.55 494.03 864.55 489.94 984.21 370.52 988.06 370.52 988.06 374.63 868.42 494.03 864.55 494.03"/><polygon points="864.55 617.54 864.55 613.44 984.21 494.03 988.06 494.03 988.06 498.14 868.42 617.54 864.55 617.54"/><polygon points="864.55 741.05 864.55 736.95 984.21 617.54 988.06 617.54 988.06 621.65 868.42 741.05 864.55 741.05"/><polygon points="864.55 864.55 864.55 860.46 984.21 741.04 988.06 741.04 988.06 745.16 868.42 864.55 864.55 864.55"/><polygon points="864.55 988.06 864.55 983.97 984.21 864.55 988.06 864.55 988.06 868.66 868.42 988.06 864.55 988.06"/><polygon points="123.51 123.51 123.51 133.54 10.04 247.02 0 247.02 0 236.98 113.47 123.51 123.51 123.51"/><polygon points="247.02 123.51 247.02 132.77 132.77 247.02 123.51 247.02 123.51 237.75 237.75 123.51 247.02 123.51"/><polygon points="370.52 123.51 370.52 132 255.51 247.02 247.02 247.02 247.02 238.52 362.03 123.51 370.52 123.51"/><polygon points="494.03 123.51 494.03 131.23 378.24 247.02 370.52 247.02 370.52 239.29 486.31 123.51 494.03 123.51"/><polygon points="617.54 123.51 617.54 130.46 500.98 247.02 494.03 247.02 494.03 240.07 610.59 123.51 617.54 123.51"/><polygon points="741.04 123.51 741.05 129.68 623.71 247.02 617.54 247.02 617.54 240.84 734.87 123.51 741.04 123.51"/><polygon points="864.55 123.51 864.55 128.91 746.45 247.02 741.05 247.02 741.05 241.61 859.15 123.51 864.55 123.51"/><polygon points="123.51 247.02 123.51 262.46 15.44 370.52 0 370.52 0 355.08 108.07 247.02 123.51 247.02"/><polygon points="247.02 247.02 247.02 260.91 137.4 370.52 123.51 370.52 123.51 356.63 233.12 247.02 247.02 247.02"/><polygon points="370.52 247.02 370.52 259.37 259.37 370.52 247.02 370.52 247.02 358.17 358.17 247.02 370.52 247.02"/><polygon points="494.03 247.02 494.03 257.82 381.33 370.52 370.52 370.52 370.52 359.71 483.22 247.02 494.03 247.02"/><polygon points="617.54 247.02 617.54 256.28 503.29 370.52 494.03 370.52 494.03 361.26 608.27 247.02 617.54 247.02"/><polygon points="741.05 247.02 741.05 254.74 625.26 370.52 617.54 370.52 617.54 362.8 733.32 247.02 741.05 247.02"/><polygon points="864.55 247.02 864.55 253.19 747.22 370.52 741.05 370.52 741.05 364.35 858.38 247.02 864.55 247.02"/><polygon points="494.03 370.52 494.03 384.42 384.42 494.03 370.52 494.03 370.52 480.13 480.13 370.52 494.03 370.52"/><polygon points="617.54 370.52 617.54 382.1 505.61 494.03 494.03 494.03 494.03 482.45 605.96 370.52 617.54 370.52"/><polygon points="741.05 370.52 741.05 379.79 626.8 494.03 617.54 494.03 617.54 484.77 731.78 370.52 741.05 370.52"/><polygon points="864.55 370.52 864.55 377.47 747.99 494.03 741.05 494.03 741.05 487.08 857.6 370.52 864.55 370.52"/><polygon points="370.52 494.03 370.52 514.1 267.09 617.54 247.02 617.54 247.02 597.47 350.45 494.03 370.52 494.03"/><polygon points="494.03 494.03 494.03 511.01 387.51 617.54 370.52 617.54 370.52 600.55 477.05 494.03 494.03 494.03"/><polygon points="617.54 494.03 617.54 507.93 507.93 617.54 494.03 617.54 494.03 603.64 603.64 494.03 617.54 494.03"/><polygon points="741.05 494.03 741.05 504.84 628.35 617.54 617.54 617.54 617.54 606.73 730.24 494.03 741.05 494.03"/><polygon points="864.55 494.03 864.55 501.75 748.77 617.54 741.05 617.54 741.05 609.82 856.83 494.03 864.55 494.03"/><polygon points="247.02 617.54 247.02 645.33 151.3 741.05 123.51 741.05 123.51 713.25 219.22 617.54 247.02 617.54"/><polygon points="370.52 617.54 370.52 641.47 270.95 741.05 247.02 741.05 247.02 717.11 346.59 617.54 370.52 617.54"/><polygon points="494.03 617.54 494.03 637.61 390.59 741.05 370.52 741.05 370.52 720.97 473.96 617.54 494.03 617.54"/><polygon points="741.05 617.54 741.05 629.89 629.89 741.05 617.54 741.05 617.54 728.69 728.69 617.54 741.05 617.54"/><polygon points="864.55 617.54 864.55 626.03 749.54 741.05 741.05 741.05 741.05 732.55 856.06 617.54 864.55 617.54"/><polygon points="123.51 741.05 123.51 778.1 37.05 864.55 0 864.55 0 827.5 86.45 741.05 123.51 741.05"/><polygon points="247.02 741.05 247.02 773.47 155.93 864.55 123.51 864.55 123.51 832.13 214.59 741.05 247.02 741.05"/><polygon points="370.52 741.05 370.52 768.84 274.81 864.55 247.02 864.55 247.02 836.76 342.73 741.05 370.52 741.05"/><polygon points="741.05 741.05 741.05 754.94 631.43 864.55 617.54 864.55 617.54 850.66 727.15 741.05 741.05 741.05"/><polygon points="864.55 741.04 864.55 750.31 750.31 864.55 741.05 864.55 741.05 855.29 855.29 741.04 864.55 741.04"/><polygon points="864.55 864.55 864.55 874.59 751.08 988.06 741.05 988.06 741.05 978.02 854.52 864.55 864.55 864.55"/><polygon points="741.05 864.55 741.05 879.99 632.98 988.06 617.54 988.06 617.54 972.62 725.61 864.55 741.05 864.55"/><polygon points="247.02 864.55 247.02 901.61 160.56 988.06 123.51 988.06 123.51 951.01 209.96 864.55 247.02 864.55"/><polygon points="123.51 864.55 123.51 907.01 42.46 988.06 0 988.06 0 945.6 81.05 864.55 123.51 864.55"/></svg>`;
+
 const SITE_URL = "https://newtonforg2k.info";
 const GRAPHIC_SIZE = 1080;
+const PAD = 70;
 
-// ── Canvas graphic generator ───────────────────────────────────────────────
+async function loadFontFace(family: string, url: string, weight = "400") {
+  if (document.fonts.check(`${weight} 12px '${family}'`)) return;
+  const f = new FontFace(family, `url(${url})`, { weight });
+  await f.load();
+  document.fonts.add(f);
+}
+
+function roundRect(ctx: CanvasRenderingContext2D, x: number, y: number, w: number, h: number, r: number) {
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.lineTo(x + w - r, y);
+  ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+  ctx.lineTo(x + w, y + h - r);
+  ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+  ctx.lineTo(x + r, y + h);
+  ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+  ctx.lineTo(x, y + r);
+  ctx.quadraticCurveTo(x, y, x + r, y);
+  ctx.closePath();
+}
+
+async function loadSvgImage(svgStr: string): Promise<HTMLImageElement> {
+  return new Promise((resolve, reject) => {
+    const blob = new Blob([svgStr], { type: "image/svg+xml" });
+    const url = URL.createObjectURL(blob);
+    const img = new Image();
+    img.onload = () => { URL.revokeObjectURL(url); resolve(img); };
+    img.onerror = reject;
+    img.src = url;
+  });
+}
+
 async function generateShareGraphic(): Promise<Blob> {
+  // Load site fonts into canvas context
+  await Promise.all([
+    loadFontFace("Nersans", "/fonts/NersansOne.ttf", "900"),
+    loadFontFace("Aloevera", "/fonts/AloeveraDisplay-Medium.otf", "500"),
+    loadFontFace("AloeveraCondensed", "/fonts/Aloeveradisplaycondensed-Bold.otf", "700"),
+  ]);
+
   const canvas = document.createElement("canvas");
   canvas.width = GRAPHIC_SIZE;
   canvas.height = GRAPHIC_SIZE;
   const ctx = canvas.getContext("2d")!;
+  const cx = GRAPHIC_SIZE / 2;
 
-  // Background
+  // ── Background ────────────────────────────────────────────────────────
   ctx.fillStyle = "#030C05";
   ctx.fillRect(0, 0, GRAPHIC_SIZE, GRAPHIC_SIZE);
 
-  // Green aurora — top-left
-  const glow1 = ctx.createRadialGradient(0, 0, 0, 0, 0, 700);
-  glow1.addColorStop(0, "rgba(29,184,75,0.18)");
-  glow1.addColorStop(1, "transparent");
-  ctx.fillStyle = glow1;
+  // Green aurora top-left
+  const g1 = ctx.createRadialGradient(0, 0, 0, 0, 0, 750);
+  g1.addColorStop(0, "rgba(29,184,75,0.22)");
+  g1.addColorStop(1, "transparent");
+  ctx.fillStyle = g1;
   ctx.fillRect(0, 0, GRAPHIC_SIZE, GRAPHIC_SIZE);
 
-  // Gold aurora — bottom-right
-  const glow2 = ctx.createRadialGradient(GRAPHIC_SIZE, GRAPHIC_SIZE, 0, GRAPHIC_SIZE, GRAPHIC_SIZE, 600);
-  glow2.addColorStop(0, "rgba(245,197,24,0.10)");
-  glow2.addColorStop(1, "transparent");
-  ctx.fillStyle = glow2;
+  // Gold aurora bottom-right
+  const g2 = ctx.createRadialGradient(GRAPHIC_SIZE, GRAPHIC_SIZE, 0, GRAPHIC_SIZE, GRAPHIC_SIZE, 650);
+  g2.addColorStop(0, "rgba(245,197,24,0.12)");
+  g2.addColorStop(1, "transparent");
+  ctx.fillStyle = g2;
   ctx.fillRect(0, 0, GRAPHIC_SIZE, GRAPHIC_SIZE);
 
-  // Gold top bar
+  // ── Arrow motif watermark (bottom-right, clipped) ─────────────────────
+  const arrowImg = await loadSvgImage(ARROW_SVG("rgba(29,184,75,1)"));
+  ctx.save();
+  ctx.globalAlpha = 0.055;
+  ctx.drawImage(arrowImg, GRAPHIC_SIZE - 720, GRAPHIC_SIZE - 720, 800, 800);
+  ctx.restore();
+
+  // ── Top gold bar ──────────────────────────────────────────────────────
   ctx.fillStyle = "#F5C518";
-  ctx.fillRect(0, 0, GRAPHIC_SIZE, 10);
+  ctx.fillRect(0, 0, GRAPHIC_SIZE, 9);
 
-  // Green bottom bar
-  ctx.fillStyle = "#1DB84B";
-  ctx.fillRect(0, GRAPHIC_SIZE - 10, GRAPHIC_SIZE, 10);
-
-  // ── Name ──────────────────────────────────────────────────────────────
+  // ── Header: name ──────────────────────────────────────────────────────
   ctx.textAlign = "center";
+  ctx.textBaseline = "alphabetic";
   ctx.fillStyle = "#ffffff";
-  ctx.font = "bold 96px 'Arial Black', 'Arial Bold', sans-serif";
-  ctx.fillText("NEWTON HARRIS", GRAPHIC_SIZE / 2, 150);
+  ctx.font = "900 92px 'Nersans', sans-serif";
+  ctx.fillText("NEWTON HARRIS", cx, 145);
 
-  // Gold sub-label
+  // Sub-label: role
   ctx.fillStyle = "#F5C518";
-  ctx.font = "bold 36px Arial, sans-serif";
-  ctx.letterSpacing = "8px";
-  ctx.fillText("FOR G2K PRESIDENT 2026", GRAPHIC_SIZE / 2, 215);
+  ctx.font = "700 28px 'AloeveraCondensed', sans-serif";
+  ctx.letterSpacing = "6px";
+  ctx.fillText("FOR G2K PRESIDENT 2026", cx, 195);
+  ctx.letterSpacing = "0px";
 
   // Divider
-  ctx.fillStyle = "rgba(29,184,75,0.35)";
-  ctx.fillRect(GRAPHIC_SIZE / 2 - 200, 245, 400, 2);
+  ctx.fillStyle = "rgba(29,184,75,0.3)";
+  ctx.fillRect(cx - 220, 220, 440, 1.5);
 
-  // ── QR Code ───────────────────────────────────────────────────────────
+  // ── QR code ───────────────────────────────────────────────────────────
   const qrCanvas = document.createElement("canvas");
+  const qrSize = 360;
   await QRCode.toCanvas(qrCanvas, SITE_URL, {
-    width: 380,
-    margin: 2,
+    width: qrSize,
+    margin: 1,
     color: { dark: "#030C05", light: "#ffffff" },
   });
-  const qrSize = 380;
-  const qrX = (GRAPHIC_SIZE - qrSize) / 2;
-  const qrY = 285;
 
-  // QR background rounded rect
-  const radius = 24;
+  // White card behind QR
+  const cardPad = 28;
+  const cardSize = qrSize + cardPad * 2;
+  const cardX = cx - cardSize / 2;
+  const cardY = 240;
   ctx.fillStyle = "#ffffff";
-  ctx.beginPath();
-  ctx.moveTo(qrX - 20 + radius, qrY - 20);
-  ctx.lineTo(qrX - 20 + qrSize + 40 - radius, qrY - 20);
-  ctx.quadraticCurveTo(qrX - 20 + qrSize + 40, qrY - 20, qrX - 20 + qrSize + 40, qrY - 20 + radius);
-  ctx.lineTo(qrX - 20 + qrSize + 40, qrY - 20 + qrSize + 40 - radius);
-  ctx.quadraticCurveTo(qrX - 20 + qrSize + 40, qrY - 20 + qrSize + 40, qrX - 20 + qrSize + 40 - radius, qrY - 20 + qrSize + 40);
-  ctx.lineTo(qrX - 20 + radius, qrY - 20 + qrSize + 40);
-  ctx.quadraticCurveTo(qrX - 20, qrY - 20 + qrSize + 40, qrX - 20, qrY - 20 + qrSize + 40 - radius);
-  ctx.lineTo(qrX - 20, qrY - 20 + radius);
-  ctx.quadraticCurveTo(qrX - 20, qrY - 20, qrX - 20 + radius, qrY - 20);
-  ctx.closePath();
+  roundRect(ctx, cardX, cardY, cardSize, cardSize, 22);
   ctx.fill();
 
-  ctx.drawImage(qrCanvas, qrX, qrY, qrSize, qrSize);
+  // QR code inside card
+  ctx.drawImage(qrCanvas, cardX + cardPad, cardY + cardPad, qrSize, qrSize);
 
   // ── URL ───────────────────────────────────────────────────────────────
+  const urlY = cardY + cardSize + 58;
   ctx.fillStyle = "#1DB84B";
-  ctx.font = "bold 38px Arial, sans-serif";
-  ctx.fillText("newtonforg2k.info", GRAPHIC_SIZE / 2, 750);
+  ctx.font = "500 38px 'Aloevera', sans-serif";
+  ctx.fillText("newtonforg2k.info", cx, urlY);
 
   // ── Tagline ───────────────────────────────────────────────────────────
-  ctx.fillStyle = "rgba(255,255,255,0.85)";
-  ctx.font = "300 32px Arial, sans-serif";
-  ctx.fillText("Tested. Proven. Ready to Lead on Day One.", GRAPHIC_SIZE / 2, 815);
+  ctx.fillStyle = "rgba(255,255,255,0.9)";
+  ctx.font = "900 54px 'Nersans', sans-serif";
+  ctx.fillText("NEWTON IS YOUR SOLUTION", cx, urlY + 80);
+
+  ctx.fillStyle = "rgba(255,255,255,0.55)";
+  ctx.font = "500 26px 'Aloevera', sans-serif";
+  ctx.fillText("Tested. Proven. Ready to Lead on Day One.", cx, urlY + 130);
 
   // ── Bottom CTA strip ──────────────────────────────────────────────────
-  const stripY = 880;
-  const stripH = 130;
-  ctx.fillStyle = "rgba(29,184,75,0.12)";
-  ctx.strokeStyle = "rgba(29,184,75,0.3)";
-  ctx.lineWidth = 1.5;
-  ctx.beginPath();
-  ctx.rect(60, stripY, GRAPHIC_SIZE - 120, stripH);
+  const stripY = GRAPHIC_SIZE - 175;
+  const stripH = 110;
+  ctx.fillStyle = "rgba(29,184,75,0.1)";
+  roundRect(ctx, PAD, stripY, GRAPHIC_SIZE - PAD * 2, stripH, 16);
   ctx.fill();
+  ctx.strokeStyle = "rgba(29,184,75,0.25)";
+  ctx.lineWidth = 1.5;
+  roundRect(ctx, PAD, stripY, GRAPHIC_SIZE - PAD * 2, stripH, 16);
   ctx.stroke();
 
   ctx.fillStyle = "#ffffff";
-  ctx.font = "bold 30px Arial, sans-serif";
-  ctx.fillText("Vote Newton Harris · G2K Presidential Election 2026", GRAPHIC_SIZE / 2, stripY + 46);
-  ctx.fillStyle = "rgba(245,197,24,0.8)";
-  ctx.font = "bold 22px Arial, sans-serif";
-  ctx.fillText("Jamaica Labour Party Youth Arm · Generation 2000", GRAPHIC_SIZE / 2, stripY + 86);
+  ctx.font = "700 27px 'AloeveraCondensed', sans-serif";
+  ctx.fillText("Vote Newton Harris · G2K Presidential Election 2026", cx, stripY + 44);
 
-  return new Promise((resolve) => canvas.toBlob((b) => resolve(b!), "image/png"));
+  ctx.fillStyle = "rgba(245,197,24,0.75)";
+  ctx.font = "700 21px 'AloeveraCondensed', sans-serif";
+  ctx.fillText("Jamaica Labour Party Youth Arm · Generation 2000", cx, stripY + 80);
+
+  // ── Bottom green bar ──────────────────────────────────────────────────
+  ctx.fillStyle = "#1DB84B";
+  ctx.fillRect(0, GRAPHIC_SIZE - 9, GRAPHIC_SIZE, 9);
+
+  return new Promise((res) => canvas.toBlob((b) => res(b!), "image/png"));
 }
 
 // ── Platform share helpers ─────────────────────────────────────────────────
@@ -201,7 +251,7 @@ export default function QRShareButton() {
     });
   }, [open, graphicBlob]);
 
-  const handlePlatform = useCallback(async (id: string, url?: string) => {
+  const handlePlatform = useCallback(async (id: string) => {
     if (id === "native") {
       if (graphicBlob && navigator.canShare?.({ files: [new File([graphicBlob], "newton-harris-2026.png", { type: "image/png" })] })) {
         const file = new File([graphicBlob], "newton-harris-2026.png", { type: "image/png" });
@@ -213,9 +263,7 @@ export default function QRShareButton() {
       } else if (navigator.share) {
         await navigator.share({ title: "Newton Harris for G2K President 2026", text: "Tested. Proven. Ready to Lead on Day One.", url: SITE_URL }).catch(() => undefined);
       }
-      return;
     }
-    if (url) window.open(url, "_blank", "noopener,noreferrer");
   }, [graphicBlob]);
 
   const handleDownload = useCallback(() => {
@@ -270,18 +318,32 @@ export default function QRShareButton() {
 
             {/* Social platform buttons */}
             <div className="grid grid-cols-2 gap-2">
-              {platforms.map((p) => (
-                <button
-                  key={p.id}
-                  onClick={() => handlePlatform(p.id, p.url)}
-                  disabled={generating}
-                  className="flex items-center gap-2 px-3 py-2.5 rounded-xl text-xs font-bold transition-all hover:opacity-90 active:scale-95 disabled:opacity-40"
-                  style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", color: p.color, fontFamily: "var(--font-sans)" }}
-                >
-                  {p.icon}
-                  {p.label}
-                </button>
-              ))}
+              {platforms.map((p) =>
+                p.url ? (
+                  <a
+                    key={p.id}
+                    href={p.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 px-3 py-2.5 rounded-xl text-xs font-bold transition-all hover:opacity-90 active:scale-95"
+                    style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", color: p.color, fontFamily: "var(--font-sans)" }}
+                  >
+                    {p.icon}
+                    {p.label}
+                  </a>
+                ) : (
+                  <button
+                    key={p.id}
+                    onClick={() => handlePlatform(p.id)}
+                    disabled={generating}
+                    className="flex items-center gap-2 px-3 py-2.5 rounded-xl text-xs font-bold transition-all hover:opacity-90 active:scale-95 disabled:opacity-40"
+                    style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", color: p.color, fontFamily: "var(--font-sans)" }}
+                  >
+                    {p.icon}
+                    {p.label}
+                  </button>
+                )
+              )}
             </div>
 
             {/* Download + Copy row */}
