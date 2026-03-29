@@ -185,6 +185,39 @@ function Lightbox({ index, onClose, onPrev, onNext }: { index: number; onClose: 
   );
 }
 
+// ─── Campaign video lightbox (local file) ────────────────────────
+function CampaignVideoLightbox({ onClose }: { onClose: () => void }) {
+  const panelRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (panelRef.current) gsap.fromTo(panelRef.current, { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.3, ease: "power3.out" });
+    document.body.style.overflow = "hidden";
+    return () => { document.body.style.overflow = ""; };
+  }, []);
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [onClose]);
+  return (
+    <div className="fixed inset-0 z-[9999] flex flex-col items-center justify-center px-4" style={{ background: "rgba(3,12,5,0.97)", backdropFilter: "blur(14px)" }} onClick={onClose}>
+      <button onClick={onClose} className="absolute top-5 right-5 w-10 h-10 rounded-full flex items-center justify-center transition-colors hover:bg-white/10" style={{ color: "rgba(255,255,255,0.6)" }} aria-label="Close">
+        <X size={20} />
+      </button>
+      <div ref={panelRef} style={{ width: "100%", maxWidth: "360px", opacity: 0 }} onClick={(e) => e.stopPropagation()}>
+        <div className="flex items-center justify-between px-4 py-3 rounded-t-2xl" style={{ background: "rgba(13,31,16,0.9)", border: "1px solid rgba(245,197,24,0.15)", borderBottom: "none" }}>
+          <div className="flex items-center gap-2.5">
+            <span className="px-2 py-0.5 rounded font-bold" style={{ background: "rgba(245,197,24,0.18)", color: "rgba(245,197,24,0.9)", border: "1px solid rgba(245,197,24,0.25)", fontFamily: "var(--font-sans)", fontSize: "0.52rem", letterSpacing: "0.1em", textTransform: "uppercase" }}>Launch</span>
+            <p style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: "0.95rem", color: "#fff" }}>Campaign Launch</p>
+          </div>
+        </div>
+        <div style={{ position: "relative", width: "100%", paddingTop: "177.78%", background: "#000", borderRadius: "0 0 16px 16px", border: "1px solid rgba(245,197,24,0.15)", borderTop: "none", boxShadow: "0 32px 96px rgba(0,0,0,0.8)", overflow: "hidden" }}>
+          <video src="/videos/campaign-launch.mp4" controls autoPlay playsInline style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "contain", background: "#000" }} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // ─── Video lightbox ───────────────────────────────────────────────
 type VideoItem = { driveId: string; title: string; outlet?: string; orientation?: "portrait" | "landscape" };
 
@@ -353,6 +386,7 @@ export default function GalleryPage() {
 
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   const [videoIndex, setVideoIndex] = useState<{ list: VideoItem[]; idx: number } | null>(null);
+  const [campaignVideoOpen, setCampaignVideoOpen] = useState(false);
   const [writings, setWritings] = useState(WRITING_PLACEHOLDERS as { slug: string | null; title: string; excerpt: string; date: string | null }[]);
 
   useEffect(() => {
@@ -395,6 +429,8 @@ export default function GalleryPage() {
       {lightboxIndex !== null && (
         <Lightbox index={lightboxIndex} onClose={closeLightbox} onPrev={prevPhoto} onNext={nextPhoto} />
       )}
+
+      {campaignVideoOpen && <CampaignVideoLightbox onClose={() => setCampaignVideoOpen(false)} />}
 
       {videoIndex && (
         <VideoLightbox
@@ -469,19 +505,23 @@ export default function GalleryPage() {
         <div className="container-site">
           <SectionLabel icon={Video} label="Videos" color="var(--color-gold-400)" />
 
-          {/* Campaign launch video */}
-          <div
-            className="video-card rounded-2xl overflow-hidden relative mb-6"
-            style={{ border: "1px solid rgba(245,197,24,0.14)", background: "#030C05", maxWidth: "420px" }}
+          {/* Campaign launch video — portrait thumbnail */}
+          <button
+            className="video-card rounded-2xl overflow-hidden relative mb-6 cursor-pointer group text-left"
+            style={{ border: "1px solid rgba(245,197,24,0.14)", background: "#030C05", maxWidth: "220px", display: "block", width: "100%" }}
+            onClick={() => setCampaignVideoOpen(true)}
+            aria-label="Play Campaign Launch video"
           >
-            <div className="relative" style={{ aspectRatio: "16/9" }}>
-              <video
-                src="/videos/campaign-launch.mp4"
-                controls
-                playsInline
-                className="w-full h-full object-cover"
-                style={{ display: "block" }}
-              />
+            <div className="relative" style={{ aspectRatio: "9/16" }}>
+              <video src="/videos/campaign-launch.mp4" muted playsInline preload="metadata" className="w-full h-full" style={{ objectFit: "cover", display: "block" }} />
+              {/* Play overlay */}
+              <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 transition-all duration-300" style={{ background: "rgba(3,12,5,0.45)" }}>
+                <div className="w-14 h-14 rounded-full flex items-center justify-center transition-transform duration-300 group-hover:scale-110" style={{ background: "rgba(3,12,5,0.7)", border: "1.5px solid rgba(245,197,24,0.5)", boxShadow: "0 0 28px rgba(245,197,24,0.18)" }}>
+                  <svg viewBox="0 0 24 24" fill="none" className="w-6 h-6" style={{ marginLeft: "3px" }}>
+                    <path d="M5 3l14 9-14 9V3z" fill="rgba(245,197,24,0.85)" />
+                  </svg>
+                </div>
+              </div>
               <div className="absolute top-3 left-3">
                 <span className="px-2 py-0.5 rounded font-bold" style={{ background: "rgba(245,197,24,0.15)", color: "rgba(245,197,24,0.7)", border: "1px solid rgba(245,197,24,0.2)", fontFamily: "var(--font-sans)", fontSize: "0.55rem", letterSpacing: "0.1em", textTransform: "uppercase" }}>
                   Launch
@@ -491,7 +531,7 @@ export default function GalleryPage() {
             <div className="px-4 py-2.5">
               <p style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: "0.88rem", color: "rgba(255,255,255,0.75)" }}>Campaign Launch</p>
             </div>
-          </div>
+          </button>
         </div>
       </section>
 
