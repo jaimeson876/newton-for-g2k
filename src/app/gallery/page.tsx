@@ -469,20 +469,19 @@ export default function GalleryPage() {
         <div className="container-site">
           <SectionLabel icon={Video} label="Videos" color="var(--color-gold-400)" />
 
-          {/* Campaign launch — coming soon */}
+          {/* Campaign launch video */}
           <div
             className="video-card rounded-2xl overflow-hidden relative mb-6"
-            style={{ border: "1px solid rgba(245,197,24,0.14)", background: "linear-gradient(148deg, #0e2212, #030C05)", maxWidth: "420px" }}
+            style={{ border: "1px solid rgba(245,197,24,0.14)", background: "#030C05", maxWidth: "420px" }}
           >
-            <div className="relative flex flex-col items-center justify-center gap-3" style={{ aspectRatio: "16/9" }}>
-              <div className="w-12 h-12 rounded-full flex items-center justify-center" style={{ background: "rgba(3,12,5,0.65)", border: "1.5px solid rgba(245,197,24,0.35)", boxShadow: "0 0 24px rgba(245,197,24,0.12)" }}>
-                <svg viewBox="0 0 24 24" fill="none" className="w-5 h-5" style={{ marginLeft: "2px" }}>
-                  <path d="M5 3l14 9-14 9V3z" fill="rgba(245,197,24,0.5)" />
-                </svg>
-              </div>
-              <p style={{ fontFamily: "var(--font-condensed)", fontWeight: 700, fontSize: "0.6rem", letterSpacing: "0.2em", textTransform: "uppercase", color: "rgba(245,197,24,0.6)" }}>
-                Coming Soon
-              </p>
+            <div className="relative" style={{ aspectRatio: "16/9" }}>
+              <video
+                src="/videos/campaign-launch.mp4"
+                controls
+                playsInline
+                className="w-full h-full object-cover"
+                style={{ display: "block" }}
+              />
               <div className="absolute top-3 left-3">
                 <span className="px-2 py-0.5 rounded font-bold" style={{ background: "rgba(245,197,24,0.15)", color: "rgba(245,197,24,0.7)", border: "1px solid rgba(245,197,24,0.2)", fontFamily: "var(--font-sans)", fontSize: "0.55rem", letterSpacing: "0.1em", textTransform: "uppercase" }}>
                   Launch
@@ -490,7 +489,7 @@ export default function GalleryPage() {
               </div>
             </div>
             <div className="px-4 py-2.5">
-              <p style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: "0.88rem", color: "rgba(255,255,255,0.4)" }}>Campaign Launch — March 18, 2026</p>
+              <p style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: "0.88rem", color: "rgba(255,255,255,0.75)" }}>Campaign Launch</p>
             </div>
           </div>
         </div>
